@@ -6,12 +6,12 @@
  */
 
 // Constantes Generales de Ubicación y Precios (Hardeman, Santa Cruz)
-const BASE_LAT = -16.672908;
-const BASE_LNG = -63.611963;
+const BASE_LAT = -16.672448;
+const BASE_LNG = -63.612058;
 const PRECIO_M2 = 7; // Precio Oficial: $7 USD / m²
 const TC_BOLIVIANO = 6.96; // Tipo de cambio oficial referencial (USD a Bs)
 const PHONE_NUMBER = "59170832781"; // Teléfono oficial de contacto y WhatsApp
-const MAPS_LOCATION_URL = "https://maps.app.goo.gl/duiobcqmixL66bNM6"; // Enlace oficial Google Maps
+const MAPS_LOCATION_URL = "https://maps.app.goo.gl/KaPB19dWuAUJXgaH8"; // Enlace oficial Google Maps exacto (16°40'20.8"S 63°36'43.4"W)
 
 /**
  * Dataset Oficial de Lotes por Manzanas (M-1, M-2, M-3)

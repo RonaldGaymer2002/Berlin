@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-  <title>Plano Oficial Interactivo | Proyecto Berlín - Hardeman, Santa Cruz</title>
+  <title>Visor y Calibrador del Plano Oficial | Proyecto Berlín - Hardeman</title>
   <meta name="description"
-    content="Visor interactivo oficial del plano de lotes de Proyecto Berlín en Hardeman. Modos Solo Plano, Satelital y Mixto con zoom fluido y consulta directa." />
+    content="Visor WebGIS interactivo del Proyecto Berlín en Hardeman (Santa Cruz) con herramienta de calibración manual en vivo sobre imagen satelital Esri y OpenStreetMap." />
 
   <!-- Favicon SVG -->
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -139,21 +139,48 @@
       }
     }
 
-    /* Bottom Sheet / Ficha Técnica */
-    .lot-sheet-card {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    /* Panel de Calibración Flotante */
+    .calib-panel {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      border-radius: 20px;
+      color: #f8fafc;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .lot-sheet-card.hidden-sheet {
-      transform: translateY(120%);
-      opacity: 0;
-      pointer-events: none;
+    /* Iconos Personalizados de las Esquinas Arrastrables */
+    .custom-corner-icon {
+      background-color: #22c55e;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(34, 197, 94, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 11px;
+      cursor: grab;
+      transition: transform 0.15s ease;
+    }
+
+    .custom-corner-icon:active {
+      cursor: grabbing;
+      transform: scale(1.2);
+    }
+
+    .custom-corner-icon.se {
+      background-color: #ea580c;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(234, 88, 12, 0.4);
     }
 
     /* Controles de Zoom Leaflet */
     .leaflet-control-zoom {
       border: none !important;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
       border-radius: 14px !important;
       overflow: hidden;
       margin-top: 70px !important;
@@ -171,7 +198,7 @@
 
     .leaflet-control-zoom a:hover {
       background-color: #f8fafc !important;
-      color: #ea580c !important;
+      color: #15803d !important;
     }
   </style>
 </head>
@@ -187,15 +214,15 @@
   <!-- 2. SELECTOR FLOTANTE DE 3 MODOS (SUPERIOR CENTRADO) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 left-1/2 -translate-x-1/2 mode-selector">
-    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver únicamente el plano oficial con manzanas y lotes">
+    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano oficial encuadrado">
       <span>📐</span>
       <span>Solo Plano</span>
     </button>
-    <button id="btn-satelital" class="btn-modo" onclick="cambiarModo('satelital')" title="Ver imagen satelital real de alta resolución">
+    <button id="btn-satelital" class="btn-modo" onclick="cambiarModo('satelital')" title="Ver foto satelital real">
       <span>🛰️</span>
       <span>Satelital</span>
     </button>
-    <button id="btn-mixto" class="btn-modo" onclick="cambiarModo('mixto')" title="Ver plano sobrepuesto con transparencia sobre el terreno satelital">
+    <button id="btn-mixto" class="btn-modo" onclick="cambiarModo('mixto')" title="Ver plano sobrepuesto con transparencia sobre el terreno">
       <span>🗺️</span>
       <span>Mixto</span>
     </button>
@@ -216,22 +243,29 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 4. BOTONES FLOTANTES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
+  <!-- 4. BOTONES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 right-4 flex flex-col gap-2">
-    <!-- Botón Google Maps -->
-    <a href="https://maps.app.goo.gl/duiobcqmixL66bNM6" target="_blank" rel="noopener noreferrer"
+    <!-- Botón Google Maps con el pin exacto -->
+    <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-red-600 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Ver Ubicación en Google Maps">
+      title="Ver Pin Oficial en Google Maps">
       <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
       </svg>
     </a>
 
-    <!-- Botón Centrar Plano -->
+    <!-- Botón Alternar Panel de Calibración -->
+    <button id="btn-toggle-calib"
+      class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-emerald-700 hover:text-emerald-800 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+      title="Herramienta de Calibración Manual">
+      <span class="text-base">🎯</span>
+    </button>
+
+    <!-- Botón Centrar Mapa -->
     <button id="btn-recenter"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Centrar Plano">
+      title="Centrar en el Terreno Oficial">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
       </svg>
@@ -239,94 +273,59 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 5. CUADRO DE LEYENDA COLAPSABLE (INFERIOR IZQUIERDA) -->
+  <!-- 5. PANEL FLOTANTE DE CALIBRACIÓN MANUAL EN TIEMPO REAL -->
   <!-- ====================================================================== -->
-  <div id="plano-legend"
-    class="floating-ui absolute bottom-6 left-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-2xl border border-slate-200 text-slate-800 max-w-[240px] transition-all">
-    <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
-      <span class="font-display font-extrabold text-[11px] uppercase tracking-wider text-slate-900">
-        Leyenda del Plano
-      </span>
-      <button id="btn-toggle-legend" class="text-slate-400 hover:text-slate-700 text-xs font-bold px-1 focus:outline-none">
-        −
-      </button>
-    </div>
+  <div id="panel-calibracion"
+    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[460px] p-5 shadow-2xl">
     
-    <div id="legend-content" class="space-y-2 font-medium text-xs">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-700/80 mb-3">
       <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rounded-md bg-emerald-500 border border-emerald-700 shadow-sm shrink-0"></span>
-        <span class="text-slate-700">Lote Disponible ($7/m²)</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rounded-md bg-orange-500 border border-orange-700 shadow-sm shrink-0"></span>
-        <span class="text-slate-700">Lote Ocupado / Vendido</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rounded-md bg-amber-700 border border-amber-900 shadow-sm shrink-0"></span>
-        <span class="text-slate-700">Avenida Central (400m)</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rounded-md bg-green-700 border border-green-900 shadow-sm shrink-0"></span>
-        <span class="text-slate-700">Área Verde Protegida</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====================================================================== -->
-  <!-- 6. FICHA TÉCNICA / BOTTOM SHEET DEL LOTE SELECCIONADO -->
-  <!-- ====================================================================== -->
-  <div id="lot-sheet"
-    class="floating-ui lot-sheet-card hidden-sheet absolute bottom-6 right-4 left-4 sm:left-auto sm:w-96 bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200">
-    
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-      <div>
-        <span id="sheet-manzana" class="text-[10px] font-black uppercase tracking-widest text-coral-600 block">
-          MANZANA M-2
-        </span>
-        <h3 id="sheet-lote" class="font-display font-extrabold text-xl text-slate-900">
-          LOTE 04
+        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+        <h3 class="font-display font-extrabold text-sm sm:text-base text-white tracking-wide">
+          🎯 Calibrador Manual de Plano en Vivo
         </h3>
       </div>
-      <button id="btn-close-sheet" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-sm transition-colors">
+      <button id="btn-close-calib" class="text-slate-400 hover:text-white font-bold text-sm px-1.5 py-0.5 rounded-lg hover:bg-slate-800">
         ✕
       </button>
     </div>
 
-    <div class="py-4 space-y-2 text-xs sm:text-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-slate-500">Estado:</span>
-        <span id="sheet-estado" class="font-bold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 border border-emerald-300">
-          DISPONIBLE
-        </span>
+    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+      Arrastra las dos esquinas (<span class="text-emerald-400 font-bold">🟢 NW Noroeste</span> y <span class="text-orange-400 font-bold">🟠 SE Sureste</span>) para encuadrar la imagen exactamente sobre la parcela satelital de Hardeman.
+    </p>
+
+    <!-- Control de Opacidad en Vivo -->
+    <div class="space-y-1.5 mb-3 bg-slate-800/70 p-3 rounded-xl border border-slate-700/50">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-slate-300 font-semibold">Opacidad del Plano:</span>
+        <span id="label-opacidad" class="font-extrabold text-emerald-400">80%</span>
       </div>
-      <div class="flex items-center justify-between">
-        <span class="text-slate-500">Superficie:</span>
-        <span id="sheet-superficie" class="font-bold text-slate-800">504.49 m²</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-slate-500">Precio Oficial:</span>
-        <span id="sheet-precio-usd" class="font-bold text-emerald-700 text-base">$3,531.43 USD</span>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-slate-500">Equivalente en Bs:</span>
-        <span id="sheet-precio-bs" class="font-semibold text-slate-600">Bs. 24,578.75</span>
-      </div>
-      <div class="flex items-center justify-between pt-1 border-t border-slate-100">
-        <span class="text-slate-500">Cuota Directa (120m):</span>
-        <span id="sheet-cuota" class="font-bold text-coral-600">Desde $29.43 USD/mes</span>
-      </div>
+      <input type="range" id="range-opacidad" min="10" max="100" value="80"
+        class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500" />
     </div>
 
-    <!-- Botón CTA WhatsApp Directo -->
-    <a id="sheet-whatsapp-btn"
-      href="https://wa.me/59170832781"
-      target="_blank" rel="noopener noreferrer"
-      class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-sm shadow-md transition-all text-center">
-      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z"/>
-      </svg>
-      <span>Solicitar Reserva de Este Lote</span>
-    </a>
+    <!-- Código Resultante en Tiempo Real -->
+    <div class="space-y-1.5 mb-3">
+      <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+        Coordenadas Resultantes:
+      </span>
+      <pre id="code-bounds" class="bg-slate-950 p-2.5 rounded-xl text-[11px] font-mono text-emerald-400 overflow-x-auto border border-slate-800 select-all leading-tight"></pre>
+    </div>
+
+    <!-- Botones de Acción del Calibrador -->
+    <div class="flex items-center gap-2">
+      <button id="btn-copy-bounds"
+        class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-xs shadow-md transition-all active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+        <span id="btn-copy-text">Copiar Coordenadas</span>
+      </button>
+
+      <button id="btn-reset-bounds"
+        class="py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-colors"
+        title="Restablecer posición inicial">
+        🔄 Restablecer
+      </button>
+    </div>
 
   </div>
 
@@ -334,50 +333,44 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
   <!-- ====================================================================== -->
-  <!-- 7. SCRIPT AUTOCONTENIDO CON IMAGEOVERLAY Y OPENSTREETMAP -->
+  <!-- 6. SCRIPT DE CONTROL WEBGIS CON CALIBRACIÓN EN VIVO -->
   <!-- ====================================================================== -->
   <script>
-    // Variables Globales de Leaflet
+    // Variables Globales
     let map = null;
     let satLayer = null;
     let osmLayer = null;
     let planoLayer = null;
-    let interactiveLayerGroup = null;
+    let pinOficialMarker = null;
+    let markerNW = null;
+    let markerSE = null;
+    let calibMarkersGroup = null;
     let currentModo = 'plano';
 
-    // 1. Coordenadas y Límites Geográficos Oficiales de Hardeman
-    const centerCoords = [-16.9850, -63.5780];
-    const defaultZoom = 16;
+    // Coordenadas Exactas extraídas del enlace oficial de Google Maps:
+    // https://maps.app.goo.gl/KaPB19dWuAUJXgaH8 -> 16°40'20.8"S 63°36'43.4"W
+    const COORDS_OFICIALES = [-16.672448, -63.612058];
+    const DEFAULT_ZOOM = 18;
 
-    const bounds = [
-      [-16.9820, -63.5820], // Esquina noroeste
-      [-16.9880, -63.5740]  // Esquina sureste
+    // Límites Iniciales calibrados alrededor del pin oficial
+    const DEFAULT_BOUNDS = [
+      [-16.671000, -63.613800], // Noroeste (NW)
+      [-16.673900, -63.610300]  // Sureste (SE)
     ];
 
-    const TC_BOLIVIANO = 6.96;
-
-    // Dataset de Lotes Interactivos sobre el Plano
-    const LOTES_INFO = [
-      { manzana: "M-1", lote: "01", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9835, -63.5805] },
-      { manzana: "M-1", lote: "02", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9842, -63.5805] },
-      { manzana: "M-1", lote: "03", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9849, -63.5805] },
-      { manzana: "M-1", lote: "04", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9856, -63.5805] },
-      { manzana: "M-1", lote: "05", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9863, -63.5805] },
-      { manzana: "M-2", lote: "06", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9843, -63.5786] },
-      { manzana: "M-2", lote: "07", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9857, -63.5786] },
-      { manzana: "M-2", lote: "08", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9850, -63.5786] },
-      { manzana: "M-2", lote: "10", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9864, -63.5786] },
-      { manzana: "M-3", lote: "11", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5765] },
-      { manzana: "M-3", lote: "12", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5756] },
-      { manzana: "M-3", lote: "13", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5747] }
+    let currentBounds = [
+      [DEFAULT_BOUNDS[0][0], DEFAULT_BOUNDS[0][1]],
+      [DEFAULT_BOUNDS[1][0], DEFAULT_BOUNDS[1][1]]
     ];
 
-    function initPlano() {
-      // 1. Instanciar Mapa Leaflet Fullscreen
+    let currentOpacity = 0.80;
+
+    function initWebGIS() {
+      // 1. Inicializar Mapa Centrado en el Pin Oficial
       map = L.map('map', {
-        center: centerCoords,
-        zoom: defaultZoom,
-        minZoom: 13,
+        center: COORDS_OFICIALES,
+        zoom: DEFAULT_ZOOM,
+        minZoom: 14,
         maxZoom: 21,
         zoomControl: true,
         scrollWheelZoom: true,
@@ -389,162 +382,224 @@
         tap: true
       });
 
-      // 2. Capa OpenStreetMap Gratuita (SIN API KEY NI MARCAS DE AGUA)
+      // 2. Capa OpenStreetMap Gratuita
       osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
         maxZoom: 21
       });
 
-      // 3. Capa Esri World Imagery Satelital
+      // 3. Capa Esri World Imagery Satelital (Alta Definición)
       satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '&copy; Esri World Imagery &bull; Proyecto Berlín',
+        attribution: '&copy; Esri World Imagery &bull; Proyecto Berlín (Hardeman)',
         maxNativeZoom: 17,
         maxZoom: 21
       });
 
-      // 4. Capa del Plano Oficial (L.imageOverlay con ruta relativa img/plano-berlin.jpg)
-      planoLayer = L.imageOverlay('img/plano-berlin.jpg', bounds, {
+      // 4. Capa de la Imagen Oficial del Plano (L.imageOverlay)
+      planoLayer = L.imageOverlay('img/plano-berlin.jpg', currentBounds, {
         opacity: 1.0,
-        interactive: true,
+        interactive: false,
         alt: 'Plano Oficial Proyecto Berlín Hardeman'
       });
 
-      // 5. Capa de Marcadores Interactivos para Consulta Rápida
-      interactiveLayerGroup = L.layerGroup();
-      const lotSheet = document.getElementById('lot-sheet');
-
-      LOTES_INFO.forEach(lote => {
-        const isDisp = lote.estado === 'disponible';
-        const marker = L.circleMarker(lote.coords, {
-          radius: 11,
-          color: isDisp ? '#15803d' : '#c2410c',
-          fillColor: isDisp ? '#22c55e' : '#ea580c',
-          fillOpacity: 0.92,
-          weight: 2.5
-        }).addTo(interactiveLayerGroup);
-
-        marker.bindTooltip(`<b>Manzana ${lote.manzana} &bull; Lote ${lote.lote}</b><br><span style="color:${isDisp ? '#15803d' : '#c2410c'};font-weight:bold;">${isDisp ? 'DISPONIBLE ($7/m²)' : 'OCUPADO'}</span>`, {
-          permanent: false,
-          direction: 'top'
-        });
-
-        marker.on('click', function(e) {
-          L.DomEvent.stopPropagation(e);
-
-          document.getElementById('sheet-manzana').textContent = `MANZANA ${lote.manzana}`;
-          document.getElementById('sheet-lote').textContent = `LOTE ${lote.lote}`;
-          
-          const estadoBadge = document.getElementById('sheet-estado');
-          if (isDisp) {
-            estadoBadge.textContent = 'DISPONIBLE';
-            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 border border-emerald-300';
-          } else {
-            estadoBadge.textContent = 'VENDIDO / OCUPADO';
-            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-orange-100 text-orange-800 border border-orange-300';
-          }
-
-          document.getElementById('sheet-superficie').textContent = `${lote.sup.toFixed(2)} m²`;
-          document.getElementById('sheet-precio-usd').textContent = `$${lote.precio.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
-          
-          const precioBs = (lote.precio * TC_BOLIVIANO).toLocaleString('es-BO', { minimumFractionDigits: 2 });
-          document.getElementById('sheet-precio-bs').textContent = `Bs. ${precioBs}`;
-
-          const cuotaDirecta = (lote.precio / 120).toFixed(2);
-          document.getElementById('sheet-cuota').textContent = `Desde $${cuotaDirecta} USD/mes (120 meses)`;
-
-          const whatsappUrl = `https://wa.me/59170832781?text=Hola,%20estoy%20viendo%20el%20Plano%20Oficial%20del%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20(Ubicaci%C3%B3n:%20https://maps.app.goo.gl/duiobcqmixL66bNM6)%20y%20deseo%20consultar%20por%20el%20*Lote%20${lote.lote}%20de%20la%20Manzana%20${lote.manzana}*%20con%20superficie%20de%20*${lote.sup.toFixed(2)}%20m%C2%B2*%20(Precio:%20*$${lote.precio.toFixed(2)}%20USD*).`;
-          document.getElementById('sheet-whatsapp-btn').href = whatsappUrl;
-
-          lotSheet.classList.remove('hidden-sheet');
-        });
+      // 5. Pin Oficial Inamovible de Referencia
+      const pinIcon = L.divIcon({
+        className: 'custom-pin-marker',
+        html: `
+          <div style="background-color:#dc2626;color:white;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(220,38,38,0.8);border:2.5px solid white;font-weight:900;font-size:16px;">
+            📍
+          </div>
+        `,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
       });
 
-      // Cerrar Ficha
-      document.getElementById('btn-close-sheet').addEventListener('click', () => {
-        lotSheet.classList.add('hidden-sheet');
+      pinOficialMarker = L.marker(COORDS_OFICIALES, {
+        icon: pinIcon,
+        zIndexOffset: 1000
+      }).addTo(map);
+
+      pinOficialMarker.bindTooltip("<b>Proyecto Berlín • Pin Oficial</b><br>Hardeman (A 400m Carretera)", {
+        permanent: false,
+        direction: 'top'
       });
 
-      map.on('click', () => {
-        lotSheet.classList.add('hidden-sheet');
+      // 6. Grupo de Marcadores Arrastrables para Calibración Manual
+      calibMarkersGroup = L.layerGroup().addTo(map);
+
+      const nwIcon = L.divIcon({
+        className: 'custom-corner-icon',
+        html: 'NW',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
       });
 
-      // Botón Recentrar al Plano
-      document.getElementById('btn-recenter').addEventListener('click', () => {
-        map.flyToBounds(bounds, { duration: 1 });
+      const seIcon = L.divIcon({
+        className: 'custom-corner-icon se',
+        html: 'SE',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
       });
 
-      // Toggle Leyenda
-      const toggleLegendBtn = document.getElementById('btn-toggle-legend');
-      const legendContent = document.getElementById('legend-content');
-      toggleLegendBtn.addEventListener('click', () => {
-        if (legendContent.classList.contains('hidden')) {
-          legendContent.classList.remove('hidden');
-          toggleLegendBtn.textContent = '−';
-        } else {
-          legendContent.classList.add('hidden');
-          toggleLegendBtn.textContent = '+';
-        }
-      });
+      markerNW = L.marker(currentBounds[0], {
+        draggable: true,
+        icon: nwIcon,
+        zIndexOffset: 1200
+      }).addTo(calibMarkersGroup);
 
-      // Iniciar en Modo 1: Solo Plano (por defecto)
+      markerSE = L.marker(currentBounds[1], {
+        draggable: true,
+        icon: seIcon,
+        zIndexOffset: 1200
+      }).addTo(calibMarkersGroup);
+
+      // Evento de Arrastre en Vivo
+      function onMarkerDrag() {
+        const nw = markerNW.getLatLng();
+        const se = markerSE.getLatLng();
+
+        currentBounds = [
+          [nw.lat, nw.lng],
+          [se.lat, se.lng]
+        ];
+
+        const latLngBounds = L.latLngBounds(nw, se);
+        planoLayer.setBounds(latLngBounds);
+        actualizarCodigoBounds();
+      }
+
+      markerNW.on('drag', onMarkerDrag);
+      markerSE.on('drag', onMarkerDrag);
+
+      // Iniciar en Modo 1: Solo Plano
       cambiarModo('plano');
+      actualizarCodigoBounds();
+
+      // Configurar Controles de la Interfaz
+      setupUIControls();
 
       setTimeout(() => {
         map.invalidateSize();
       }, 200);
     }
 
+    // Actualizar Texto del Código en el Panel
+    function actualizarCodigoBounds() {
+      const codeBlock = document.getElementById('code-bounds');
+      const nwLat = currentBounds[0][0].toFixed(6);
+      const nwLng = currentBounds[0][1].toFixed(6);
+      const seLat = currentBounds[1][0].toFixed(6);
+      const seLng = currentBounds[1][1].toFixed(6);
+
+      const codigo = `const planoBounds = [\n  [${nwLat}, ${nwLng}], // Noroeste (NW)\n  [${seLat}, ${seLng}]  // Sureste (SE)\n];`;
+      codeBlock.textContent = codigo;
+    }
+
     // ========================================================================
-    // FUNCIÓN DE CONTROL DE LOS 3 MODOS (CAMBIO INSTANTÁNEO SIN RECARGA)
+    // CONTROL DE LOS 3 MODOS
     // ========================================================================
     window.cambiarModo = function(modo) {
       currentModo = modo;
 
-      // 1. Actualizar estado visual de los botones
       document.querySelectorAll('.btn-modo').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById(`btn-${modo}`);
       if (activeBtn) activeBtn.classList.add('active');
 
       if (!map) return;
 
-      // 2. Aplicar lógica de capas según el modo seleccionado
       if (modo === 'plano') {
-        // MODO 1: SOLO PLANO (OpenStreetMap + Plano Oficial al 100%)
+        // MODO 1: SOLO PLANO
         if (map.hasLayer(satLayer)) map.removeLayer(satLayer);
         if (!map.hasLayer(osmLayer)) osmLayer.addTo(map);
         if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
-        if (!map.hasLayer(interactiveLayerGroup)) interactiveLayerGroup.addTo(map);
-
         planoLayer.setOpacity(1.0);
 
       } else if (modo === 'satelital') {
-        // MODO 2: SOLO SATELITAL (Capa Esri sin overlay)
+        // MODO 2: SOLO SATELITAL
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (map.hasLayer(planoLayer)) map.removeLayer(planoLayer);
-        if (map.hasLayer(interactiveLayerGroup)) map.removeLayer(interactiveLayerGroup);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
 
-        const sheet = document.getElementById('lot-sheet');
-        if (sheet) sheet.classList.add('hidden-sheet');
-
       } else if (modo === 'mixto') {
-        // MODO 3: MIXTO / HÍBRIDO (Satelital + Plano Oficial con opacidad 0.80)
+        // MODO 3: MIXTO / HÍBRIDO
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
         if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
-        if (!map.hasLayer(interactiveLayerGroup)) interactiveLayerGroup.addTo(map);
-
-        planoLayer.setOpacity(0.80);
+        planoLayer.setOpacity(currentOpacity);
       }
 
       map.invalidateSize();
     };
 
-    // Inicialización al cargar la ventana o DOM
+    // Configurar Eventos de la UI
+    function setupUIControls() {
+      // 1. Recentrar en el Pin Oficial
+      document.getElementById('btn-recenter').addEventListener('click', () => {
+        map.flyTo(COORDS_OFICIALES, DEFAULT_ZOOM, { duration: 1 });
+      });
+
+      // 2. Toggle Panel de Calibración
+      const panel = document.getElementById('panel-calibracion');
+      document.getElementById('btn-toggle-calib').addEventListener('click', () => {
+        panel.classList.toggle('hidden');
+        if (calibMarkersGroup) {
+          if (panel.classList.contains('hidden')) {
+            map.removeLayer(calibMarkersGroup);
+          } else {
+            map.addLayer(calibMarkersGroup);
+          }
+        }
+      });
+
+      document.getElementById('btn-close-calib').addEventListener('click', () => {
+        panel.classList.add('hidden');
+        if (calibMarkersGroup) map.removeLayer(calibMarkersGroup);
+      });
+
+      // 3. Slider de Opacidad en Vivo
+      const rangeOpacidad = document.getElementById('range-opacidad');
+      const labelOpacidad = document.getElementById('label-opacidad');
+      rangeOpacidad.addEventListener('input', (e) => {
+        currentOpacity = parseFloat(e.target.value) / 100;
+        labelOpacidad.textContent = `${e.target.value}%`;
+        if (currentModo === 'mixto' && planoLayer) {
+          planoLayer.setOpacity(currentOpacity);
+        }
+      });
+
+      // 4. Copiar Coordenadas al Portapapeles
+      const btnCopy = document.getElementById('btn-copy-bounds');
+      const btnCopyText = document.getElementById('btn-copy-text');
+      btnCopy.addEventListener('click', () => {
+        const codeText = document.getElementById('code-bounds').textContent;
+        navigator.clipboard.writeText(codeText).then(() => {
+          btnCopyText.textContent = "¡Copiado al Portapapeles! ✅";
+          btnCopy.classList.replace('bg-emerald-600', 'bg-emerald-700');
+          setTimeout(() => {
+            btnCopyText.textContent = "Copiar Coordenadas";
+            btnCopy.classList.replace('bg-emerald-700', 'bg-emerald-600');
+          }, 2500);
+        });
+      });
+
+      // 5. Restablecer Posición Inicial
+      document.getElementById('btn-reset-bounds').addEventListener('click', () => {
+        currentBounds = [
+          [DEFAULT_BOUNDS[0][0], DEFAULT_BOUNDS[0][1]],
+          [DEFAULT_BOUNDS[1][0], DEFAULT_BOUNDS[1][1]]
+        ];
+        markerNW.setLatLng(currentBounds[0]);
+        markerSE.setLatLng(currentBounds[1]);
+        planoLayer.setBounds(L.latLngBounds(currentBounds[0], currentBounds[1]));
+        actualizarCodigoBounds();
+      });
+    }
+
+    // Inicialización al cargar el DOM
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initPlano);
+      document.addEventListener('DOMContentLoaded', initWebGIS);
     } else {
-      initPlano();
+      initWebGIS();
     }
 
     window.addEventListener('resize', () => {
