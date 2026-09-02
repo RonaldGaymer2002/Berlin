@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-  <title>Visor y Calibrador del Plano Oficial | Proyecto Berlín - Hardeman</title>
+  <title>Plano Técnico y Calibrador Geodésico | Proyecto Berlín - Hardeman</title>
   <meta name="description"
-    content="Visor WebGIS interactivo del Proyecto Berlín en Hardeman (Santa Cruz) con herramienta de calibración manual en vivo sobre imagen satelital Esri y OpenStreetMap." />
+    content="Visor y calibrador geodésico del plano topográfico oficial de Proyecto Berlín (Hardeman, Santa Cruz) con soporte de coordenadas WGS84, rotación angular y satélite Esri." />
 
   <!-- Favicon SVG -->
   <link rel="icon"
@@ -141,22 +141,22 @@
 
     /* Panel de Calibración Flotante */
     .calib-panel {
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(51, 65, 85, 0.8);
-      border-radius: 20px;
+      border-radius: 22px;
       color: #f8fafc;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Iconos Personalizados de las Esquinas Arrastrables */
     .custom-corner-icon {
-      background-color: #22c55e;
-      border: 3px solid #ffffff;
+      background-color: #16a34a;
+      border: 2.5px solid #ffffff;
       border-radius: 50%;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(34, 197, 94, 0.4);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.6), 0 0 0 4px rgba(22, 163, 74, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -169,12 +169,25 @@
 
     .custom-corner-icon:active {
       cursor: grabbing;
-      transform: scale(1.2);
+      transform: scale(1.25);
     }
 
     .custom-corner-icon.se {
       background-color: #ea580c;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(234, 88, 12, 0.4);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.6), 0 0 0 4px rgba(234, 88, 12, 0.4);
+    }
+
+    /* Vértices Perimetrales */
+    .vertex-label {
+      background: #e11d48;
+      color: white;
+      font-weight: 800;
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 6px;
+      border: 1.5px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      white-space: nowrap;
     }
 
     /* Controles de Zoom Leaflet */
@@ -214,7 +227,7 @@
   <!-- 2. SELECTOR FLOTANTE DE 3 MODOS (SUPERIOR CENTRADO) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 left-1/2 -translate-x-1/2 mode-selector">
-    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano oficial encuadrado">
+    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano técnico encuadrado">
       <span>📐</span>
       <span>Solo Plano</span>
     </button>
@@ -222,7 +235,7 @@
       <span>🛰️</span>
       <span>Satelital</span>
     </button>
-    <button id="btn-mixto" class="btn-modo" onclick="cambiarModo('mixto')" title="Ver plano sobrepuesto con transparencia sobre el terreno">
+    <button id="btn-mixto" class="btn-modo" onclick="cambiarModo('mixto')" title="Ver plano sobrepuesto con transparencia sobre el satélite">
       <span>🗺️</span>
       <span>Mixto</span>
     </button>
@@ -246,10 +259,10 @@
   <!-- 4. BOTONES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 right-4 flex flex-col gap-2">
-    <!-- Botón Google Maps con el pin exacto -->
+    <!-- Botón Google Maps con Pin Oficial -->
     <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-red-600 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Ver Pin Oficial en Google Maps">
+      title="Ver Ubicación Oficial en Google Maps">
       <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
       </svg>
@@ -258,14 +271,21 @@
     <!-- Botón Alternar Panel de Calibración -->
     <button id="btn-toggle-calib"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-emerald-700 hover:text-emerald-800 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Herramienta de Calibración Manual">
+      title="Herramienta de Calibración y Rotación Geodésica">
       <span class="text-base">🎯</span>
+    </button>
+
+    <!-- Botón Alternar Guía Perimetral -->
+    <button id="btn-toggle-perimetro"
+      class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-rose-600 hover:text-rose-700 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95 font-bold text-xs"
+      title="Alternar Guía Perimetral WGS84">
+      📐
     </button>
 
     <!-- Botón Centrar Mapa -->
     <button id="btn-recenter"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Centrar en el Terreno Oficial">
+      title="Centrar en el Vértice Central">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
       </svg>
@@ -273,16 +293,16 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 5. PANEL FLOTANTE DE CALIBRACIÓN MANUAL EN TIEMPO REAL -->
+  <!-- 5. PANEL FLOTANTE DE CALIBRACIÓN Y ROTACIÓN ANGULAR EN VIVO -->
   <!-- ====================================================================== -->
   <div id="panel-calibracion"
-    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[460px] p-5 shadow-2xl">
+    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[480px] p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
     
     <div class="flex items-center justify-between pb-3 border-b border-slate-700/80 mb-3">
       <div class="flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
         <h3 class="font-display font-extrabold text-sm sm:text-base text-white tracking-wide">
-          🎯 Calibrador Manual de Plano en Vivo
+          🎯 Calibrador y Rotación Angular WGS84
         </h3>
       </div>
       <button id="btn-close-calib" class="text-slate-400 hover:text-white font-bold text-sm px-1.5 py-0.5 rounded-lg hover:bg-slate-800">
@@ -291,11 +311,38 @@
     </div>
 
     <p class="text-xs text-slate-300 leading-relaxed mb-3">
-      Arrastra las dos esquinas (<span class="text-emerald-400 font-bold">🟢 NW Noroeste</span> y <span class="text-orange-400 font-bold">🟠 SE Sureste</span>) para encuadrar la imagen exactamente sobre la parcela satelital de Hardeman.
+      Arrastra las esquinas (<span class="text-emerald-400 font-bold">🟢 NW</span> y <span class="text-orange-400 font-bold">🟠 SE</span>) y ajusta la rotación angular para calzar la imagen <code class="text-amber-300">img/plano-tecnico-berlin.jpg</code> sobre el polígono perimetral rojo (V1 a V9).
     </p>
 
-    <!-- Control de Opacidad en Vivo -->
-    <div class="space-y-1.5 mb-3 bg-slate-800/70 p-3 rounded-xl border border-slate-700/50">
+    <!-- Controles de Rotación Angular Fina -->
+    <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60 mb-3 space-y-2">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-slate-300 font-bold">🔄 Rotación Angular:</span>
+        <span id="label-rotacion" class="font-extrabold text-amber-400 text-sm font-mono">0.0°</span>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <input type="range" id="range-rotacion" min="0" max="360" step="0.5" value="0"
+          class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500" />
+      </div>
+
+      <div class="flex items-center justify-between gap-1.5 pt-1">
+        <div class="flex items-center gap-1">
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="-5">-5°</button>
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="-1">-1°</button>
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="-0.5">-0.5°</button>
+        </div>
+        <button type="button" id="btn-rot-zero" class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700">0°</button>
+        <div class="flex items-center gap-1">
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="0.5">+0.5°</button>
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="1">+1°</button>
+          <button type="button" class="btn-rot-step text-[11px] font-bold px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-white" data-deg="5">+5°</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Control de Opacidad -->
+    <div class="space-y-1 mb-3 bg-slate-800/80 p-3 rounded-xl border border-slate-700/60">
       <div class="flex items-center justify-between text-xs">
         <span class="text-slate-300 font-semibold">Opacidad del Plano:</span>
         <span id="label-opacidad" class="font-extrabold text-emerald-400">80%</span>
@@ -307,7 +354,7 @@
     <!-- Código Resultante en Tiempo Real -->
     <div class="space-y-1.5 mb-3">
       <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-        Coordenadas Resultantes:
+        Configuración Geodésica Resultante:
       </span>
       <pre id="code-bounds" class="bg-slate-950 p-2.5 rounded-xl text-[11px] font-mono text-emerald-400 overflow-x-auto border border-slate-800 select-all leading-tight"></pre>
     </div>
@@ -317,12 +364,12 @@
       <button id="btn-copy-bounds"
         class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-xs shadow-md transition-all active:scale-95">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-        <span id="btn-copy-text">Copiar Coordenadas</span>
+        <span id="btn-copy-text">Copiar Configuración</span>
       </button>
 
       <button id="btn-reset-bounds"
         class="py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-colors"
-        title="Restablecer posición inicial">
+        title="Restablecer posición y rotación">
         🔄 Restablecer
       </button>
     </div>
@@ -333,29 +380,41 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
   <!-- ====================================================================== -->
-  <!-- 6. SCRIPT DE CONTROL WEBGIS CON CALIBRACIÓN EN VIVO -->
+  <!-- 6. SCRIPT WEBGIS CON ROTACIÓN Y LECTURA WGS84 -->
   <!-- ====================================================================== -->
   <script>
-    // Variables Globales
+    // Variables de Leaflet
     let map = null;
     let satLayer = null;
     let osmLayer = null;
-    let planoLayer = null;
-    let pinOficialMarker = null;
+    let planoOverlay = null;
+    let perimetroPolygon = null;
+    let vertexMarkersGroup = null;
     let markerNW = null;
     let markerSE = null;
     let calibMarkersGroup = null;
     let currentModo = 'plano';
 
-    // Coordenadas Exactas extraídas del enlace oficial de Google Maps:
-    // https://maps.app.goo.gl/KaPB19dWuAUJXgaH8 -> 16°40'20.8"S 63°36'43.4"W
-    const COORDS_OFICIALES = [-16.672448, -63.612058];
-    const DEFAULT_ZOOM = 18;
+    // 1. Coordenadas Perimetrales Oficiales WGS84 - Zona 20S (UTM)
+    const VERTICES_WGS84 = [
+      { id: "V1", coords: [-16.67134, -63.61205] },
+      { id: "V2", coords: [-16.67068, -63.61252] },
+      { id: "V3", coords: [-16.67061, -63.61258] },
+      { id: "V4", coords: [-16.67054, -63.61259] },
+      { id: "V5", coords: [-16.66991, -63.61315] },
+      { id: "V6", coords: [-16.66928, -63.61254] },
+      { id: "V7", coords: [-16.66995, -63.61190] },
+      { id: "V8", coords: [-16.67008, -63.61204] },
+      { id: "V9", coords: [-16.67076, -63.61146] }
+    ];
 
-    // Límites Iniciales calibrados alrededor del pin oficial
+    // Centro Oficial y Bounds Envolventes
+    const CENTER_COORDS = [-16.6705, -63.6122];
+    const DEFAULT_ZOOM = 17;
+
     const DEFAULT_BOUNDS = [
-      [-16.671000, -63.613800], // Noroeste (NW)
-      [-16.673900, -63.610300]  // Sureste (SE)
+      [-16.66928, -63.61315], // Noroeste (NW)
+      [-16.67134, -63.61146]  // Sureste (SE)
     ];
 
     let currentBounds = [
@@ -363,12 +422,14 @@
       [DEFAULT_BOUNDS[1][0], DEFAULT_BOUNDS[1][1]]
     ];
 
+    let currentRotation = 0; // Grados de rotación angular
     let currentOpacity = 0.80;
+    let perimetroVisible = true;
 
     function initWebGIS() {
-      // 1. Inicializar Mapa Centrado en el Pin Oficial
+      // 1. Instanciar Mapa
       map = L.map('map', {
-        center: COORDS_OFICIALES,
+        center: CENTER_COORDS,
         zoom: DEFAULT_ZOOM,
         minZoom: 14,
         maxZoom: 21,
@@ -388,43 +449,43 @@
         maxZoom: 21
       });
 
-      // 3. Capa Esri World Imagery Satelital (Alta Definición)
+      // 3. Capa Esri World Imagery Satelital
       satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '&copy; Esri World Imagery &bull; Proyecto Berlín (Hardeman)',
         maxNativeZoom: 17,
         maxZoom: 21
       });
 
-      // 4. Capa de la Imagen Oficial del Plano (L.imageOverlay)
-      planoLayer = L.imageOverlay('img/plano-berlin.jpg', currentBounds, {
+      // 4. Capa de Imagen Oficial Local (L.imageOverlay)
+      planoOverlay = L.imageOverlay('img/plano-tecnico-berlin.jpg', currentBounds, {
         opacity: 1.0,
-        interactive: false,
-        alt: 'Plano Oficial Proyecto Berlín Hardeman'
+        interactive: true,
+        alt: 'Plano Técnico Topográfico Oficial Proyecto Berlín'
       });
 
-      // 5. Pin Oficial Inamovible de Referencia
-      const pinIcon = L.divIcon({
-        className: 'custom-pin-marker',
-        html: `
-          <div style="background-color:#dc2626;color:white;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(220,38,38,0.8);border:2.5px solid white;font-weight:900;font-size:16px;">
-            📍
-          </div>
-        `,
-        iconSize: [34, 34],
-        iconAnchor: [17, 17]
-      });
-
-      pinOficialMarker = L.marker(COORDS_OFICIALES, {
-        icon: pinIcon,
-        zIndexOffset: 1000
+      // 5. Guía Perimetral Vectorial WGS84 (Polígono Rojo)
+      const latlngs = VERTICES_WGS84.map(v => v.coords);
+      perimetroPolygon = L.polygon(latlngs, {
+        color: '#e11d48',
+        weight: 2.5,
+        fillColor: '#e11d48',
+        fillOpacity: 0.08,
+        dashArray: '6, 6'
       }).addTo(map);
 
-      pinOficialMarker.bindTooltip("<b>Proyecto Berlín • Pin Oficial</b><br>Hardeman (A 400m Carretera)", {
-        permanent: false,
-        direction: 'top'
+      // 6. Etiquetas de los Vértices V1 a V9
+      vertexMarkersGroup = L.layerGroup().addTo(map);
+      VERTICES_WGS84.forEach(v => {
+        const vertexIcon = L.divIcon({
+          className: 'vertex-label',
+          html: v.id,
+          iconSize: [22, 16],
+          iconAnchor: [11, 8]
+        });
+        L.marker(v.coords, { icon: vertexIcon }).addTo(vertexMarkersGroup);
       });
 
-      // 6. Grupo de Marcadores Arrastrables para Calibración Manual
+      // 7. Manillas Arrastrables en las Esquinas NW y SE
       calibMarkersGroup = L.layerGroup().addTo(map);
 
       const nwIcon = L.divIcon({
@@ -453,7 +514,7 @@
         zIndexOffset: 1200
       }).addTo(calibMarkersGroup);
 
-      // Evento de Arrastre en Vivo
+      // Eventos de Arrastre de Esquinas
       function onMarkerDrag() {
         const nw = markerNW.getLatLng();
         const se = markerSE.getLatLng();
@@ -464,23 +525,40 @@
         ];
 
         const latLngBounds = L.latLngBounds(nw, se);
-        planoLayer.setBounds(latLngBounds);
+        planoOverlay.setBounds(latLngBounds);
+        aplicarTransformacionRotacion();
         actualizarCodigoBounds();
       }
 
       markerNW.on('drag', onMarkerDrag);
       markerSE.on('drag', onMarkerDrag);
 
+      // Mantener la rotación CSS activa durante eventos de zoom y paneo de Leaflet
+      map.on('zoom move zoomend moveend viewreset layeradd', () => {
+        aplicarTransformacionRotacion();
+      });
+
       // Iniciar en Modo 1: Solo Plano
       cambiarModo('plano');
       actualizarCodigoBounds();
-
-      // Configurar Controles de la Interfaz
       setupUIControls();
 
       setTimeout(() => {
         map.invalidateSize();
+        aplicarTransformacionRotacion();
       }, 200);
+    }
+
+    // Aplicar Rotación CSS sobre el contenedor DOM de la imagen
+    function aplicarTransformacionRotacion() {
+      if (!planoOverlay) return;
+      const el = planoOverlay.getElement();
+      if (el) {
+        el.style.transformOrigin = 'center center';
+        if (currentRotation !== 0) {
+          el.style.transform += ` rotate(${currentRotation}deg)`;
+        }
+      }
     }
 
     // Actualizar Texto del Código en el Panel
@@ -491,7 +569,7 @@
       const seLat = currentBounds[1][0].toFixed(6);
       const seLng = currentBounds[1][1].toFixed(6);
 
-      const codigo = `const planoBounds = [\n  [${nwLat}, ${nwLng}], // Noroeste (NW)\n  [${seLat}, ${seLng}]  // Sureste (SE)\n];`;
+      const codigo = `const planoBounds = [\n  [${nwLat}, ${nwLng}], // NW\n  [${seLat}, ${seLng}]  // SE\n];\nconst rotation = ${currentRotation.toFixed(1)}; // Grados`;
       codeBlock.textContent = codigo;
     }
 
@@ -511,31 +589,36 @@
         // MODO 1: SOLO PLANO
         if (map.hasLayer(satLayer)) map.removeLayer(satLayer);
         if (!map.hasLayer(osmLayer)) osmLayer.addTo(map);
-        if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
-        planoLayer.setOpacity(1.0);
+        if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
+        if (perimetroVisible && !map.hasLayer(perimetroPolygon)) perimetroPolygon.addTo(map);
+        if (perimetroVisible && !map.hasLayer(vertexMarkersGroup)) vertexMarkersGroup.addTo(map);
+        planoOverlay.setOpacity(1.0);
 
       } else if (modo === 'satelital') {
         // MODO 2: SOLO SATELITAL
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
-        if (map.hasLayer(planoLayer)) map.removeLayer(planoLayer);
+        if (map.hasLayer(planoOverlay)) map.removeLayer(planoOverlay);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
 
       } else if (modo === 'mixto') {
         // MODO 3: MIXTO / HÍBRIDO
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
-        if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
-        planoLayer.setOpacity(currentOpacity);
+        if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
+        if (perimetroVisible && !map.hasLayer(perimetroPolygon)) perimetroPolygon.addTo(map);
+        if (perimetroVisible && !map.hasLayer(vertexMarkersGroup)) vertexMarkersGroup.addTo(map);
+        planoOverlay.setOpacity(currentOpacity);
       }
 
       map.invalidateSize();
+      setTimeout(aplicarTransformacionRotacion, 50);
     };
 
     // Configurar Eventos de la UI
     function setupUIControls() {
-      // 1. Recentrar en el Pin Oficial
+      // 1. Recentrar
       document.getElementById('btn-recenter').addEventListener('click', () => {
-        map.flyTo(COORDS_OFICIALES, DEFAULT_ZOOM, { duration: 1 });
+        map.flyTo(CENTER_COORDS, DEFAULT_ZOOM, { duration: 1 });
       });
 
       // 2. Toggle Panel de Calibración
@@ -556,33 +639,72 @@
         if (calibMarkersGroup) map.removeLayer(calibMarkersGroup);
       });
 
-      // 3. Slider de Opacidad en Vivo
+      // 3. Toggle Guía Perimetral WGS84
+      document.getElementById('btn-toggle-perimetro').addEventListener('click', () => {
+        perimetroVisible = !perimetroVisible;
+        if (perimetroVisible) {
+          perimetroPolygon.addTo(map);
+          vertexMarkersGroup.addTo(map);
+        } else {
+          map.removeLayer(perimetroPolygon);
+          map.removeLayer(vertexMarkersGroup);
+        }
+      });
+
+      // 4. Slider y Botones de Rotación Angular
+      const rangeRotacion = document.getElementById('range-rotacion');
+      const labelRotacion = document.getElementById('label-rotacion');
+
+      function setRotacion(val) {
+        currentRotation = (val + 360) % 360;
+        rangeRotacion.value = currentRotation;
+        labelRotacion.textContent = `${currentRotation.toFixed(1)}°`;
+        aplicarTransformacionRotacion();
+        actualizarCodigoBounds();
+      }
+
+      rangeRotacion.addEventListener('input', (e) => {
+        setRotacion(parseFloat(e.target.value));
+      });
+
+      document.querySelectorAll('.btn-rot-step').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const delta = parseFloat(btn.getAttribute('data-deg'));
+          setRotacion(currentRotation + delta);
+        });
+      });
+
+      document.getElementById('btn-rot-zero').addEventListener('click', () => {
+        setRotacion(0);
+      });
+
+      // 5. Slider de Opacidad
       const rangeOpacidad = document.getElementById('range-opacidad');
       const labelOpacidad = document.getElementById('label-opacidad');
       rangeOpacidad.addEventListener('input', (e) => {
         currentOpacity = parseFloat(e.target.value) / 100;
         labelOpacidad.textContent = `${e.target.value}%`;
-        if (currentModo === 'mixto' && planoLayer) {
-          planoLayer.setOpacity(currentOpacity);
+        if (currentModo === 'mixto' && planoOverlay) {
+          planoOverlay.setOpacity(currentOpacity);
         }
       });
 
-      // 4. Copiar Coordenadas al Portapapeles
+      // 6. Copiar Configuración
       const btnCopy = document.getElementById('btn-copy-bounds');
       const btnCopyText = document.getElementById('btn-copy-text');
       btnCopy.addEventListener('click', () => {
         const codeText = document.getElementById('code-bounds').textContent;
         navigator.clipboard.writeText(codeText).then(() => {
-          btnCopyText.textContent = "¡Copiado al Portapapeles! ✅";
+          btnCopyText.textContent = "¡Configuración Copiada! ✅";
           btnCopy.classList.replace('bg-emerald-600', 'bg-emerald-700');
           setTimeout(() => {
-            btnCopyText.textContent = "Copiar Coordenadas";
+            btnCopyText.textContent = "Copiar Configuración";
             btnCopy.classList.replace('bg-emerald-700', 'bg-emerald-600');
           }, 2500);
         });
       });
 
-      // 5. Restablecer Posición Inicial
+      // 7. Restablecer Posición y Rotación Inicial
       document.getElementById('btn-reset-bounds').addEventListener('click', () => {
         currentBounds = [
           [DEFAULT_BOUNDS[0][0], DEFAULT_BOUNDS[0][1]],
@@ -590,8 +712,8 @@
         ];
         markerNW.setLatLng(currentBounds[0]);
         markerSE.setLatLng(currentBounds[1]);
-        planoLayer.setBounds(L.latLngBounds(currentBounds[0], currentBounds[1]));
-        actualizarCodigoBounds();
+        planoOverlay.setBounds(L.latLngBounds(currentBounds[0], currentBounds[1]));
+        setRotacion(0);
       });
     }
 
@@ -603,7 +725,10 @@
     }
 
     window.addEventListener('resize', () => {
-      if (map) map.invalidateSize();
+      if (map) {
+        map.invalidateSize();
+        aplicarTransformacionRotacion();
+      }
     });
   </script>
 
