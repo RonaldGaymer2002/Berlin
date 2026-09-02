@@ -590,28 +590,32 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 /* ========================================================================== */
-/* BLOQUE DE CIERRE DE MARCA / BRAND CLOSING BANNER */
+/* BLOQUE DE CIERRE DE MARCA FULL WIDTH / BRAND CLOSING BANNER */
 /* ========================================================================== */
+.seccion-banner-cta,
 .brand-closing-banner {
-  background: linear-gradient(135deg, #072a1d 0%, #0f392b 40%, #1b5e20 80%, #052e16 100%);
-  border: 1.5px solid rgba(34, 197, 94, 0.35);
-  border-radius: 28px;
-  box-shadow: 0 25px 50px -12px rgba(7, 42, 29, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  width: 100%;
   position: relative;
+  background: linear-gradient(135deg, #072a1d 0%, #0d3829 35%, #155724 75%, #052e16 100%);
+  border-top: 1px solid rgba(34, 197, 94, 0.25);
+  border-bottom: 1px solid rgba(34, 197, 94, 0.25);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.3) inset;
   overflow: hidden;
 }
 
+.seccion-banner-cta::before,
 .brand-closing-banner::before {
   content: '';
   position: absolute;
-  top: -50%;
+  top: -40%;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, transparent 70%);
+  width: 900px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.22) 0%, transparent 70%);
   pointer-events: none;
 }
+
 
 .btn-closing-primary {
   background: #22c55e;
