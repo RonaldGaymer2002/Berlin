@@ -16,13 +16,15 @@ let activePolygon = null;
 // Capas de Mapa (Vectorial y Satelital)
 const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap &copy; CARTO',
-  maxZoom: 20,
+  maxNativeZoom: 19,
+  maxZoom: 21,
   subdomains: 'abcd'
 });
 
 const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: '&copy; Esri World Imagery',
-  maxZoom: 19
+  maxNativeZoom: 17,
+  maxZoom: 21
 });
 
 /**
@@ -32,8 +34,8 @@ function initMap() {
   map = L.map('map', {
     center: [BASE_LAT + 0.0005, BASE_LNG - 0.0004],
     zoom: 17,
-    minZoom: 15,
-    maxZoom: 19,
+    minZoom: 14,
+    maxZoom: 21,
     zoomControl: false,
     tap: true
   });
