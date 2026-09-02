@@ -262,7 +262,7 @@
         <span class="text-slate-700">Lote Ocupado / Vendido</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="w-3.5 h-3.5 rounded-md bg-slate-500 border border-slate-700 shadow-sm shrink-0"></span>
+        <span class="w-3.5 h-3.5 rounded-md bg-amber-700 border border-amber-900 shadow-sm shrink-0"></span>
         <span class="text-slate-700">Avenida Central (400m)</span>
       </div>
       <div class="flex items-center gap-2">
@@ -341,35 +341,35 @@
     let map = null;
     let satLayer = null;
     let osmLayer = null;
-    let planoOverlay = null;
+    let planoLayer = null;
     let interactiveLayerGroup = null;
     let currentModo = 'plano';
 
-    // Coordenadas Oficiales de Hardeman (Proyecto Berlín)
-    const centerCoords = [-16.9942, -63.5828];
-    const defaultZoom = 17;
+    // 1. Coordenadas y Límites Geográficos Oficiales de Hardeman
+    const centerCoords = [-16.9850, -63.5780];
+    const defaultZoom = 16;
 
-    // Bounds Geográficos Oficiales para el Plano Oficial (L.imageOverlay)
-    const planoBounds = [
-      [-16.9920, -63.5850],
-      [-16.9965, -63.5805]
+    const bounds = [
+      [-16.9820, -63.5820], // Esquina noroeste
+      [-16.9880, -63.5740]  // Esquina sureste
     ];
 
     const TC_BOLIVIANO = 6.96;
 
     // Dataset de Lotes Interactivos sobre el Plano
     const LOTES_INFO = [
-      { manzana: "M-1", lote: "09", sup: 437.77, precio: 3064.39, estado: "disponible", coords: [-16.9928, -63.5810] },
-      { manzana: "M-2", lote: "04", sup: 504.49, precio: 3531.43, estado: "disponible", coords: [-16.9938, -63.5835] },
-      { manzana: "M-2", lote: "09", sup: 961.57, precio: 6730.99, estado: "disponible", coords: [-16.9938, -63.5810] },
-      { manzana: "M-2", lote: "10", sup: 290.71, precio: 2034.97, estado: "disponible", coords: [-16.9945, -63.5845] },
-      { manzana: "M-2", lote: "11", sup: 324.72, precio: 2273.04, estado: "disponible", coords: [-16.9945, -63.5838] },
-      { manzana: "M-2", lote: "12", sup: 319.61, precio: 2237.27, estado: "disponible", coords: [-16.9945, -63.5830] },
-      { manzana: "M-2", lote: "13", sup: 314.50, precio: 2201.50, estado: "disponible", coords: [-16.9945, -63.5822] },
-      { manzana: "M-3", lote: "02", sup: 362.64, precio: 2538.48, estado: "disponible", coords: [-16.9958, -63.5840] },
-      { manzana: "M-3", lote: "03", sup: 362.64, precio: 2538.48, estado: "disponible", coords: [-16.9958, -63.5832] },
-      { manzana: "M-3", lote: "04", sup: 362.64, precio: 2538.48, estado: "disponible", coords: [-16.9958, -63.5824] },
-      { manzana: "M-3", lote: "05", sup: 365.31, precio: 2557.17, estado: "disponible", coords: [-16.9958, -63.5816] }
+      { manzana: "M-1", lote: "01", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9835, -63.5805] },
+      { manzana: "M-1", lote: "02", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9842, -63.5805] },
+      { manzana: "M-1", lote: "03", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9849, -63.5805] },
+      { manzana: "M-1", lote: "04", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9856, -63.5805] },
+      { manzana: "M-1", lote: "05", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9863, -63.5805] },
+      { manzana: "M-2", lote: "06", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9843, -63.5786] },
+      { manzana: "M-2", lote: "07", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9857, -63.5786] },
+      { manzana: "M-2", lote: "08", sup: 300.00, precio: 2100.00, estado: "ocupado", coords: [-16.9850, -63.5786] },
+      { manzana: "M-2", lote: "10", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9864, -63.5786] },
+      { manzana: "M-3", lote: "11", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5765] },
+      { manzana: "M-3", lote: "12", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5756] },
+      { manzana: "M-3", lote: "13", sup: 300.00, precio: 2100.00, estado: "disponible", coords: [-16.9832, -63.5747] }
     ];
 
     function initPlano() {
@@ -377,7 +377,7 @@
       map = L.map('map', {
         center: centerCoords,
         zoom: defaultZoom,
-        minZoom: 14,
+        minZoom: 13,
         maxZoom: 21,
         zoomControl: true,
         scrollWheelZoom: true,
@@ -389,40 +389,41 @@
         tap: true
       });
 
-      // 2. Capa OpenStreetMap Gratuita (SIN MARCAS DE AGUA NI API KEY)
+      // 2. Capa OpenStreetMap Gratuita (SIN API KEY NI MARCAS DE AGUA)
       osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
         maxZoom: 21
       });
 
-      // 3. Capa Esri World Imagery Satelital (Alta Resolución)
+      // 3. Capa Esri World Imagery Satelital
       satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '&copy; Esri World Imagery &bull; Proyecto Berlín',
         maxNativeZoom: 17,
         maxZoom: 21
       });
 
-      // 4. Imagen Oficial del Plano Superpuesta (L.imageOverlay)
-      planoOverlay = L.imageOverlay('img/plano-oficial.svg', planoBounds, {
+      // 4. Capa del Plano Oficial (L.imageOverlay con ruta relativa img/plano-berlin.jpg)
+      planoLayer = L.imageOverlay('img/plano-berlin.jpg', bounds, {
         opacity: 1.0,
         interactive: true,
         alt: 'Plano Oficial Proyecto Berlín Hardeman'
       });
 
-      // 5. Capa de Marcadores / Hotspots Interactivos para Lotes Disponibles
+      // 5. Capa de Marcadores Interactivos para Consulta Rápida
       interactiveLayerGroup = L.layerGroup();
       const lotSheet = document.getElementById('lot-sheet');
 
       LOTES_INFO.forEach(lote => {
+        const isDisp = lote.estado === 'disponible';
         const marker = L.circleMarker(lote.coords, {
-          radius: 12,
-          color: '#15803d',
-          fillColor: '#22c55e',
-          fillOpacity: 0.9,
-          weight: 3
+          radius: 11,
+          color: isDisp ? '#15803d' : '#c2410c',
+          fillColor: isDisp ? '#22c55e' : '#ea580c',
+          fillOpacity: 0.92,
+          weight: 2.5
         }).addTo(interactiveLayerGroup);
 
-        marker.bindTooltip(`<b>M-${lote.manzana.replace('M-','')} LT ${lote.lote}</b><br><span style="color:#15803d;font-weight:bold">$${lote.precio.toFixed(2)} USD</span>`, {
+        marker.bindTooltip(`<b>Manzana ${lote.manzana} &bull; Lote ${lote.lote}</b><br><span style="color:${isDisp ? '#15803d' : '#c2410c'};font-weight:bold;">${isDisp ? 'DISPONIBLE ($7/m²)' : 'OCUPADO'}</span>`, {
           permanent: false,
           direction: 'top'
         });
@@ -432,6 +433,16 @@
 
           document.getElementById('sheet-manzana').textContent = `MANZANA ${lote.manzana}`;
           document.getElementById('sheet-lote').textContent = `LOTE ${lote.lote}`;
+          
+          const estadoBadge = document.getElementById('sheet-estado');
+          if (isDisp) {
+            estadoBadge.textContent = 'DISPONIBLE';
+            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 border border-emerald-300';
+          } else {
+            estadoBadge.textContent = 'VENDIDO / OCUPADO';
+            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-orange-100 text-orange-800 border border-orange-300';
+          }
+
           document.getElementById('sheet-superficie').textContent = `${lote.sup.toFixed(2)} m²`;
           document.getElementById('sheet-precio-usd').textContent = `$${lote.precio.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
           
@@ -457,9 +468,9 @@
         lotSheet.classList.add('hidden-sheet');
       });
 
-      // Botón Recentrar
+      // Botón Recentrar al Plano
       document.getElementById('btn-recenter').addEventListener('click', () => {
-        map.flyToBounds(planoBounds, { duration: 1 });
+        map.flyToBounds(bounds, { duration: 1 });
       });
 
       // Toggle Leyenda
@@ -501,15 +512,15 @@
         // MODO 1: SOLO PLANO (OpenStreetMap + Plano Oficial al 100%)
         if (map.hasLayer(satLayer)) map.removeLayer(satLayer);
         if (!map.hasLayer(osmLayer)) osmLayer.addTo(map);
-        if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
+        if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
         if (!map.hasLayer(interactiveLayerGroup)) interactiveLayerGroup.addTo(map);
 
-        planoOverlay.setOpacity(1.0);
+        planoLayer.setOpacity(1.0);
 
       } else if (modo === 'satelital') {
-        // MODO 2: SOLO SATELITAL (Capa Esri sin plano ni líneas)
+        // MODO 2: SOLO SATELITAL (Capa Esri sin overlay)
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
-        if (map.hasLayer(planoOverlay)) map.removeLayer(planoOverlay);
+        if (map.hasLayer(planoLayer)) map.removeLayer(planoLayer);
         if (map.hasLayer(interactiveLayerGroup)) map.removeLayer(interactiveLayerGroup);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
 
@@ -517,13 +528,13 @@
         if (sheet) sheet.classList.add('hidden-sheet');
 
       } else if (modo === 'mixto') {
-        // MODO 3: MIXTO / HÍBRIDO (Satelital + Plano Oficial superpuesto con opacidad 0.80)
+        // MODO 3: MIXTO / HÍBRIDO (Satelital + Plano Oficial con opacidad 0.80)
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
-        if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
+        if (!map.hasLayer(planoLayer)) planoLayer.addTo(map);
         if (!map.hasLayer(interactiveLayerGroup)) interactiveLayerGroup.addTo(map);
 
-        planoOverlay.setOpacity(0.80);
+        planoLayer.setOpacity(0.80);
       }
 
       map.invalidateSize();
