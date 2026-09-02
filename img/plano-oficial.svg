@@ -1,0 +1,370 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1800" width="2400" height="1800">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap');
+      .title { font-family: 'Outfit', sans-serif; font-weight: 900; fill: #0f172a; }
+      .subtitle { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; fill: #475569; }
+      .badge-text { font-family: 'Outfit', sans-serif; font-weight: 800; fill: #ffffff; }
+      .mz-title { font-family: 'Outfit', sans-serif; font-weight: 900; fill: #1e293b; font-size: 32px; letter-spacing: 2px; }
+      .lot-num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 26px; }
+      .lot-sup { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; }
+      .lot-price { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; }
+      .street-text { font-family: 'Outfit', sans-serif; font-weight: 800; fill: #ffffff; font-size: 24px; letter-spacing: 3px; }
+      .disp-bg { fill: #dcfce7; stroke: #15803d; stroke-width: 3.5; }
+      .disp-text { fill: #14532d; }
+      .disp-price-text { fill: #166534; }
+      .sold-bg { fill: #ffedd5; stroke: #c2410c; stroke-width: 2.5; }
+      .sold-text { fill: #9a3412; }
+      .sold-sub { fill: #c2410c; }
+    </style>
+    
+    <!-- Filtro de Sombra Suave -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.15" flood-color="#0f172a" />
+    </filter>
+    <filter id="card-shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.10" flood-color="#0f172a" />
+    </filter>
+
+    <!-- Patrón de Cuadrícula Técnica CAD -->
+    <pattern id="cadGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#e2e8f0" stroke-width="1.2" stroke-dasharray="2,2"/>
+    </pattern>
+  </defs>
+
+  <!-- Fondo General con Cuadrícula Técnica -->
+  <rect width="2400" height="1800" fill="#f8fafc" />
+  <rect width="2400" height="1800" fill="url(#cadGrid)" opacity="0.75" />
+
+  <!-- Marco Perimetral del Plano -->
+  <rect x="40" y="40" width="2320" height="1720" fill="none" stroke="#0f172a" stroke-width="4" rx="16" />
+  <rect x="48" y="48" width="2304" height="1704" fill="none" stroke="#cbd5e1" stroke-width="1.5" rx="12" />
+
+  <!-- ====================================================================== -->
+  <!-- ENCABEZADO TÉCNICO Y COMERCIAL -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 80)">
+    <rect x="0" y="0" width="720" height="130" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" filter="url(#card-shadow)" />
+    
+    <circle cx="55" cy="65" r="32" fill="#15803d" />
+    <text x="55" y="76" font-size="34" text-anchor="middle" fill="#ffffff">🌲</text>
+    
+    <text x="105" y="55" class="title" font-size="32" letter-spacing="1">PROYECTO BERLÍN</text>
+    <text x="105" y="85" class="subtitle" font-size="18">PLANO OFICIAL DE LOTES • HARDEMAN, SANTA CRUZ</text>
+    <text x="105" y="110" font-family="'Plus Jakarta Sans'" font-weight="800" font-size="14" fill="#ea580c">
+      PRECIO OFICIAL: $7 USD / m² • 100% ZONA ALTA NO INUNDABLE
+    </text>
+  </g>
+
+  <!-- Norte Geográfico y Escala -->
+  <g transform="translate(2160, 90)">
+    <circle cx="60" cy="60" r="50" fill="#ffffff" stroke="#0f172a" stroke-width="3" filter="url(#card-shadow)" />
+    <polygon points="60,20 72,60 60,52 48,60" fill="#dc2626" />
+    <polygon points="60,100 72,60 60,52 48,60" fill="#0f172a" />
+    <text x="60" y="45" font-family="'Outfit'" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle">N</text>
+    <text x="60" y="135" font-family="'Outfit'" font-weight="800" font-size="15" fill="#475569" text-anchor="middle">NORTE</text>
+  </g>
+
+  <!-- Acceso Carretera (Indicador Superior) -->
+  <g transform="translate(1050, 75)">
+    <rect x="0" y="0" width="520" height="50" rx="25" fill="#1e293b" filter="url(#card-shadow)" />
+    <text x="260" y="32" font-family="'Outfit'" font-weight="800" font-size="16" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+      🛣️ ACCESO A 400m DE LA CARRETERA HARDEMAN - PIRAÍ ➔
+    </text>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- MANZANA M-1 (SUPERIOR) -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 240)">
+    <!-- Cabecera M-1 -->
+    <rect x="0" y="0" width="2220" height="50" rx="8" fill="#334155" />
+    <text x="1110" y="34" class="mz-title" fill="#ffffff" text-anchor="middle">MANZANA M-1</text>
+
+    <!-- LOTES M-1 (LT 01 al LT 09) -->
+    <!-- LT 01 al 08: Vendidos / Ocupados -->
+    <g transform="translate(0, 60)">
+      <!-- LT 01 -->
+      <rect x="0" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="117" y="50" class="lot-num sold-text" text-anchor="middle">LT 01</text>
+      <text x="117" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="35" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="117" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 02 -->
+      <rect x="248" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="365" y="50" class="lot-num sold-text" text-anchor="middle">LT 02</text>
+      <text x="365" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="283" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="365" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 03 -->
+      <rect x="496" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="613" y="50" class="lot-num sold-text" text-anchor="middle">LT 03</text>
+      <text x="613" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="531" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="613" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 04 -->
+      <rect x="744" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="861" y="50" class="lot-num sold-text" text-anchor="middle">LT 04</text>
+      <text x="861" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="779" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="861" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 05 -->
+      <rect x="992" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="1109" y="50" class="lot-num sold-text" text-anchor="middle">LT 05</text>
+      <text x="1109" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1027" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="1109" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 06 -->
+      <rect x="1240" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="1357" y="50" class="lot-num sold-text" text-anchor="middle">LT 06</text>
+      <text x="1357" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1275" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="1357" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 07 -->
+      <rect x="1488" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="1605" y="50" class="lot-num sold-text" text-anchor="middle">LT 07</text>
+      <text x="1605" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1523" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="1605" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 08 -->
+      <rect x="1736" y="0" width="235" height="240" class="sold-bg" rx="8" />
+      <text x="1853" y="50" class="lot-num sold-text" text-anchor="middle">LT 08</text>
+      <text x="1853" y="120" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1771" y="160" width="165" height="36" rx="18" fill="#ea580c" />
+      <text x="1853" y="184" class="badge-text" font-size="14" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 09: DISPONIBLE -->
+      <rect x="1984" y="0" width="236" height="240" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="2102" y="50" class="lot-num disp-text" text-anchor="middle">LT 09</text>
+      <text x="2102" y="90" class="lot-sup disp-text" text-anchor="middle">437.77 m²</text>
+      <text x="2102" y="125" class="lot-price disp-price-text" text-anchor="middle">$3,064.39 USD</text>
+      <rect x="2014" y="160" width="176" height="36" rx="18" fill="#15803d" />
+      <text x="2102" y="184" class="badge-text" font-size="14" text-anchor="middle">★ DISPONIBLE</text>
+    </g>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- AVENIDA CENTRAL DE TIERRA (CORREDOR PRINCIPAL) -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 565)">
+    <rect x="0" y="0" width="2220" height="90" rx="10" fill="#475569" stroke="#334155" stroke-width="2" filter="url(#shadow)" />
+    <!-- Línea Punteada Central -->
+    <line x1="20" y1="45" x2="2200" y2="45" stroke="#f1f5f9" stroke-width="3.5" stroke-dasharray="25,20" />
+    <text x="1110" y="53" class="street-text" text-anchor="middle">
+      AVENIDA CENTRAL DE TIERRA (ACCESO DIRECTO 400m A LA CARRETERA PRINCIPAL)
+    </text>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- MANZANA M-2 (CENTRAL) -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 680)">
+    <!-- Cabecera M-2 -->
+    <rect x="0" y="0" width="2220" height="50" rx="8" fill="#334155" />
+    <text x="1110" y="34" class="mz-title" fill="#ffffff" text-anchor="middle">MANZANA M-2</text>
+
+    <!-- Fila Superior M-2 (LT 01 al LT 09) -->
+    <g transform="translate(0, 60)">
+      <!-- LT 01 (Ocupado) -->
+      <rect x="0" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="117" y="45" class="lot-num sold-text" text-anchor="middle">LT 01</text>
+      <text x="117" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="35" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="117" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 02 (Ocupado) -->
+      <rect x="248" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="365" y="45" class="lot-num sold-text" text-anchor="middle">LT 02</text>
+      <text x="365" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="283" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="365" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 03 (Ocupado) -->
+      <rect x="496" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="613" y="45" class="lot-num sold-text" text-anchor="middle">LT 03</text>
+      <text x="613" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="531" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="613" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 04 (DISPONIBLE) -->
+      <rect x="744" y="0" width="235" height="230" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="861" y="45" class="lot-num disp-text" text-anchor="middle">LT 04</text>
+      <text x="861" y="85" class="lot-sup disp-text" text-anchor="middle">504.49 m²</text>
+      <text x="861" y="120" class="lot-price disp-price-text" text-anchor="middle">$3,531.43 USD</text>
+      <rect x="774" y="150" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="861" y="173" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 05 (Ocupado) -->
+      <rect x="992" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="1109" y="45" class="lot-num sold-text" text-anchor="middle">LT 05</text>
+      <text x="1109" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1027" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="1109" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 06 (Ocupado) -->
+      <rect x="1240" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="1357" y="45" class="lot-num sold-text" text-anchor="middle">LT 06</text>
+      <text x="1357" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1275" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="1357" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 07 (Ocupado) -->
+      <rect x="1488" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="1605" y="45" class="lot-num sold-text" text-anchor="middle">LT 07</text>
+      <text x="1605" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1523" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="1605" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 08 (Ocupado) -->
+      <rect x="1736" y="0" width="235" height="230" class="sold-bg" rx="8" />
+      <text x="1853" y="45" class="lot-num sold-text" text-anchor="middle">LT 08</text>
+      <text x="1853" y="110" class="lot-sup sold-sub" text-anchor="middle">350.00 m²</text>
+      <rect x="1771" y="150" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="1853" y="173" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 09 (DISPONIBLE - Esquina Grande) -->
+      <rect x="1984" y="0" width="236" height="230" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="2102" y="45" class="lot-num disp-text" text-anchor="middle">LT 09</text>
+      <text x="2102" y="85" class="lot-sup disp-text" text-anchor="middle">961.57 m²</text>
+      <text x="2102" y="120" class="lot-price disp-price-text" text-anchor="middle">$6,730.99 USD</text>
+      <rect x="2014" y="150" width="176" height="34" rx="17" fill="#15803d" />
+      <text x="2102" y="173" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+    </g>
+
+    <!-- Fila Inferior M-2 (Lotes Disponibles LT 10 al LT 13) -->
+    <g transform="translate(0, 305)">
+      <!-- LT 10 -->
+      <rect x="0" y="0" width="235" height="220" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="117" y="45" class="lot-num disp-text" text-anchor="middle">LT 10</text>
+      <text x="117" y="85" class="lot-sup disp-text" text-anchor="middle">290.71 m²</text>
+      <text x="117" y="120" class="lot-price disp-price-text" text-anchor="middle">$2,034.97 USD</text>
+      <rect x="30" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="117" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 11 -->
+      <rect x="248" y="0" width="235" height="220" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="365" y="45" class="lot-num disp-text" text-anchor="middle">LT 11</text>
+      <text x="365" y="85" class="lot-sup disp-text" text-anchor="middle">324.72 m²</text>
+      <text x="365" y="120" class="lot-price disp-price-text" text-anchor="middle">$2,273.04 USD</text>
+      <rect x="278" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="365" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 12 -->
+      <rect x="496" y="0" width="235" height="220" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="613" y="45" class="lot-num disp-text" text-anchor="middle">LT 12</text>
+      <text x="613" y="85" class="lot-sup disp-text" text-anchor="middle">319.61 m²</text>
+      <text x="613" y="120" class="lot-price disp-price-text" text-anchor="middle">$2,237.27 USD</text>
+      <rect x="526" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="613" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 13 -->
+      <rect x="744" y="0" width="235" height="220" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="861" y="45" class="lot-num disp-text" text-anchor="middle">LT 13</text>
+      <text x="861" y="85" class="lot-sup disp-text" text-anchor="middle">314.50 m²</text>
+      <text x="861" y="120" class="lot-price disp-price-text" text-anchor="middle">$2,201.50 USD</text>
+      <rect x="774" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="861" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- Indicador Franja Posterior -->
+      <rect x="992" y="0" width="1228" height="220" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6" />
+      <text x="1606" y="115" font-family="'Outfit'" font-weight="700" font-size="22" fill="#94a3b8" text-anchor="middle" letter-spacing="2">
+        PATIOS POSTERIORES &bull; TOPOGRAFÍA ELEVADA NO INUNDABLE
+      </text>
+    </g>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- CALLE INTERNA DE ACCESO -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 1280)">
+    <rect x="0" y="0" width="2220" height="70" rx="8" fill="#64748b" />
+    <text x="1110" y="43" class="street-text" font-size="20" text-anchor="middle">
+      CALLE INTERNA DE DISTRIBUCIÓN
+    </text>
+  </g>
+
+  <!-- ====================================================================== -->
+  <!-- MANZANA M-3 & ÁREA VERDE PROTEGIDA (INFERIOR) -->
+  <!-- ====================================================================== -->
+  <g transform="translate(90, 1370)">
+    <!-- Cabecera M-3 -->
+    <rect x="0" y="0" width="1228" height="45" rx="8" fill="#334155" />
+    <text x="614" y="31" class="mz-title" font-size="24" fill="#ffffff" text-anchor="middle">MANZANA M-3</text>
+
+    <!-- LOTES M-3 (LT 01 al LT 05) -->
+    <g transform="translate(0, 55)">
+      <!-- LT 01 (Ocupado) -->
+      <rect x="0" y="0" width="235" height="210" class="sold-bg" rx="8" />
+      <text x="117" y="45" class="lot-num sold-text" text-anchor="middle">LT 01</text>
+      <text x="117" y="100" class="lot-sup sold-sub" text-anchor="middle">360.00 m²</text>
+      <rect x="35" y="135" width="165" height="34" rx="17" fill="#ea580c" />
+      <text x="117" y="158" class="badge-text" font-size="13" text-anchor="middle">OCUPADO</text>
+
+      <!-- LT 02 (DISPONIBLE) -->
+      <rect x="248" y="0" width="235" height="210" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="365" y="45" class="lot-num disp-text" text-anchor="middle">LT 02</text>
+      <text x="365" y="85" class="lot-sup disp-text" text-anchor="middle">362.64 m²</text>
+      <text x="365" y="115" class="lot-price disp-price-text" text-anchor="middle">$2,538.48 USD</text>
+      <rect x="278" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="365" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 03 (DISPONIBLE) -->
+      <rect x="496" y="0" width="235" height="210" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="613" y="45" class="lot-num disp-text" text-anchor="middle">LT 03</text>
+      <text x="613" y="85" class="lot-sup disp-text" text-anchor="middle">362.64 m²</text>
+      <text x="613" y="115" class="lot-price disp-price-text" text-anchor="middle">$2,538.48 USD</text>
+      <rect x="526" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="613" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 04 (DISPONIBLE) -->
+      <rect x="744" y="0" width="235" height="210" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="861" y="45" class="lot-num disp-text" text-anchor="middle">LT 04</text>
+      <text x="861" y="85" class="lot-sup disp-text" text-anchor="middle">362.64 m²</text>
+      <text x="861" y="115" class="lot-price disp-price-text" text-anchor="middle">$2,538.48 USD</text>
+      <rect x="774" y="145" width="175" height="34" rx="17" fill="#15803d" />
+      <text x="861" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+
+      <!-- LT 05 (DISPONIBLE) -->
+      <rect x="992" y="0" width="236" height="210" class="disp-bg" rx="8" filter="url(#shadow)" />
+      <text x="1109" y="45" class="lot-num disp-text" text-anchor="middle">LT 05</text>
+      <text x="1109" y="85" class="lot-sup disp-text" text-anchor="middle">365.31 m²</text>
+      <text x="1109" y="115" class="lot-price disp-price-text" text-anchor="middle">$2,557.17 USD</text>
+      <rect x="1022" y="145" width="176" height="34" rx="17" fill="#15803d" />
+      <text x="1109" y="168" class="badge-text" font-size="13" text-anchor="middle">★ DISPONIBLE</text>
+    </g>
+
+    <!-- ÁREA VERDE PROTEGIDA (DERECHA) -->
+    <g transform="translate(1260, 0)">
+      <rect x="0" y="0" width="960" height="265" rx="12" fill="#15803d" stroke="#166534" stroke-width="3" filter="url(#shadow)" />
+      <!-- Textura de Árboles -->
+      <circle cx="200" cy="130" r="45" fill="#16a34a" opacity="0.6" />
+      <circle cx="480" cy="120" r="55" fill="#16a34a" opacity="0.6" />
+      <circle cx="760" cy="140" r="50" fill="#16a34a" opacity="0.6" />
+      
+      <text x="480" y="115" font-family="'Outfit'" font-weight="900" font-size="32" fill="#ffffff" text-anchor="middle" letter-spacing="3">
+        🌳 ÁREA VERDE PROTEGIDA
+      </text>
+      <text x="480" y="160" font-family="'Plus Jakarta Sans'" font-weight="700" font-size="18" fill="#bbf7d0" text-anchor="middle">
+        ESPACIO COMUNITARIO Y PRESERVACIÓN NATURAL
+      </text>
+    </g>
+  </g>
+
+  <!-- Pie de Plano / Firma Técnica -->
+  <g transform="translate(90, 1685)">
+    <text x="0" y="20" class="subtitle" font-size="14">
+      • Fuente: Relevamiento Topográfico Oficial Proyecto Berlín (Hardeman, San Pedro, Santa Cruz) • Cota 100% Alta No Inundable
+    </text>
+    <text x="2220" y="20" class="subtitle" font-size="14" text-anchor="end" font-weight="700">
+      Escala 1:500 • Entrega y Posesión Inmediata 2026
+    </text>
+  </g>
+
+</svg>
