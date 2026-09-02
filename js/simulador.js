@@ -99,13 +99,13 @@ function calculateSimulation() {
     if (resRowSaldo) resRowSaldo.classList.remove('hidden');
     if (resBoxCuota) resBoxCuota.classList.remove('hidden');
 
-    msgWhatsApp = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)*.%0A📍 Manzana: ${selectedLot.manzana}, Lote: ${selectedLot.lote}%0A📐 Superficie: ${selectedLot.superficie.toFixed(2)} m²%0A💵 Precio Total ($7/m²): $${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0A💰 Cuota Inicial: $${inicial} USD%0A⏳ Plazo: ${simMeses} meses%0A💳 Cuota mensual estimada: $${cuotaUSD} USD/mes (~${cuotaBS} Bs/mes)%0AConsulto por disponibilidad y plan de financiamiento.`;
+    msgWhatsApp = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)* (Ubicación: https://maps.app.goo.gl/duiobcqmixL66bNM6).%0A📍 Manzana: ${selectedLot.manzana}, Lote: ${selectedLot.lote}%0A📐 Superficie: ${selectedLot.superficie.toFixed(2)} m²%0A💵 Precio Total ($7/m²): $${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0A💰 Cuota Inicial: $${inicial} USD%0A⏳ Plazo: ${simMeses} meses%0A💳 Cuota mensual estimada: $${cuotaUSD} USD/mes (~${cuotaBS} Bs/mes)%0AConsulto por disponibilidad y plan de financiamiento.`;
   } else {
     // Modo Al Contado
     if (resRowSaldo) resRowSaldo.classList.add('hidden');
     if (resBoxCuota) resBoxCuota.classList.add('hidden');
 
-    msgWhatsApp = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)*.%0A📍 Manzana: ${selectedLot.manzana}, Lote: ${selectedLot.lote}%0A📐 Superficie: ${selectedLot.superficie.toFixed(2)} m²%0A💵 Precio Total ($7/m²): $${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0AModalidad: Pago al Contado.%0AConsulto por disponibilidad y plan de financiamiento.`;
+    msgWhatsApp = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)* (Ubicación: https://maps.app.goo.gl/duiobcqmixL66bNM6).%0A📍 Manzana: ${selectedLot.manzana}, Lote: ${selectedLot.lote}%0A📐 Superficie: ${selectedLot.superficie.toFixed(2)} m²%0A💵 Precio Total ($7/m²): $${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0AModalidad: Pago al Contado.%0AConsulto por disponibilidad y plan de financiamiento.`;
   }
 
   // Actualizar enlace de WhatsApp
