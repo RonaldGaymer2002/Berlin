@@ -352,3 +352,63 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
+
+/* ==========================================================================
+   6. SELECTOR FLOTANTE DE 3 MODOS (SOLO PLANO / SATELITAL / MIXTO)
+   ========================================================================== */
+.mode-selector-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 25;
+}
+
+.mode-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #475569;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.mode-toggle-btn:hover:not(.active) {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.mode-toggle-btn.active {
+  background-color: #15803d;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.35);
+}
+
+@media (max-width: 640px) {
+  .mode-selector-container {
+    padding: 3px;
+    gap: 2px;
+  }
+  
+  .mode-toggle-btn {
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    gap: 4px;
+  }
+}
+

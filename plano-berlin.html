@@ -178,7 +178,23 @@
     <!-- Contenedor Leaflet con Pinch-to-Zoom y Drag -->
     <div id="plano-map"></div>
 
-    <!-- Botón Flotante: Controles de Plano -->
+    <!-- Selector Flotante de 3 Modos (Solo Plano / Satelital / Mixto) -->
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 z-20 mode-selector-container">
+      <button id="btn-mode-plano" class="mode-toggle-btn active" title="Ver únicamente el plano oficial con manzanas y lotes">
+        <span>📐</span>
+        <span>Solo Plano</span>
+      </button>
+      <button id="btn-mode-satelital" class="mode-toggle-btn" title="Ver imagen satelital real de alta resolución">
+        <span>🛰️</span>
+        <span>Satelital</span>
+      </button>
+      <button id="btn-mode-mixto" class="mode-toggle-btn" title="Ver plano sobrepuesto con transparencia sobre el terreno satelital">
+        <span>🗺️</span>
+        <span>Mixto</span>
+      </button>
+    </div>
+
+    <!-- Botones Flotantes de Control (Derecha) -->
     <div class="absolute top-4 right-4 z-20 flex flex-col gap-2">
       <!-- Botón Google Maps -->
       <a href="https://maps.app.goo.gl/duiobcqmixL66bNM6"
@@ -190,20 +206,12 @@
         </svg>
       </a>
 
+      <!-- Botón Recentrar -->
       <button id="btn-recenter"
-        class="w-10 h-10 rounded-xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-lg border border-slate-200 flex items-center justify-center transition-all"
+        class="w-10 h-10 rounded-xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-lg border border-slate-200 flex items-center justify-center transition-all hover:scale-105"
         title="Centrar Plano">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
-        </svg>
-      </button>
-
-      <!-- Botón Cambio de Capa (Satelital / Cartográfico) -->
-      <button id="btn-toggle-layer"
-        class="w-10 h-10 rounded-xl bg-white/95 hover:bg-white text-slate-700 hover:text-coral-600 shadow-lg border border-slate-200 flex items-center justify-center transition-all"
-        title="Cambiar Vista de Mapa">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
         </svg>
       </button>
     </div>
@@ -349,13 +357,15 @@
         tap: true
       });
 
-      // 3. Capas de Fondo (Satelital y Cartográfica con sobre-escalado nítido)
-      const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      // 3. Capas de Fondo
+      // A. Capa Satelital Esri (alta resolución con sobre-escalado nítido)
+      const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Esri Satellite &bull; Proyecto Berlín',
         maxNativeZoom: 17,
         maxZoom: 21
       });
 
+      // B. Capa Vectorial Neutra Limpia (CartoDB Positron / Voyager)
       const vectorLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap &copy; CARTO',
         maxNativeZoom: 19,
@@ -363,42 +373,16 @@
         subdomains: 'abcd'
       });
 
-      // Añadir capa satelital por defecto
-      satelliteLayer.addTo(map);
-      let currentLayer = 'satellite';
+      // 4. Grupos de Capas Vectoriales del Plano
+      const infraLayerGroup = L.layerGroup();
+      const lotesLayerGroup = L.layerGroup();
 
-      // Toggle entre capas
-      document.getElementById('btn-toggle-layer').addEventListener('click', () => {
-        if (currentLayer === 'satellite') {
-          map.removeLayer(satelliteLayer);
-          vectorLayer.addTo(map);
-          currentLayer = 'vector';
-        } else {
-          map.removeLayer(vectorLayer);
-          satelliteLayer.addTo(map);
-          currentLayer = 'satellite';
-        }
-      });
+      const lotPolygons = [];
+      const infraPolygons = [];
+      let activePolygon = null;
+      const lotSheet = document.getElementById('lot-sheet');
 
-      // Botón Recentrar
-      document.getElementById('btn-recenter').addEventListener('click', () => {
-        map.flyTo(centerCoords, defaultZoom, { duration: 1 });
-      });
-
-      // Toggle Leyenda
-      const toggleLegendBtn = document.getElementById('btn-toggle-legend');
-      const legendContent = document.getElementById('legend-content');
-      toggleLegendBtn.addEventListener('click', () => {
-        if (legendContent.classList.contains('hidden')) {
-          legendContent.classList.remove('hidden');
-          toggleLegendBtn.textContent = '−';
-        } else {
-          legendContent.classList.add('hidden');
-          toggleLegendBtn.textContent = '+';
-        }
-      });
-
-      // 4. Renderizado de Infraestructura (Avenida Central, Calle y Áreas Verdes)
+      // Render Infraestructura (Avenidas, Calles y Áreas Verdes)
       INFRASTRUCTURE_CONFIG.forEach(infra => {
         const poly = L.polygon(infra.bounds, {
           color: infra.color,
@@ -406,30 +390,28 @@
           fillOpacity: infra.fillOpacity,
           weight: infra.weight,
           dashArray: infra.dashArray || null
-        }).addTo(map);
+        }).addTo(infraLayerGroup);
 
         poly.bindTooltip(`<b>${infra.label}</b>`, {
           permanent: false,
           direction: 'center',
           className: 'lot-label'
         });
+
+        infraPolygons.push({ poly, infra });
       });
 
-      // 5. Renderizado de los 27 Lotes Oficiales
-      let activePolygon = null;
-      const lotSheet = document.getElementById('lot-sheet');
-
+      // Render Lotes Oficiales (Manzanas M-1, M-2, M-3)
       LOTES_DATA.forEach(lote => {
         const isDisponible = lote.estado === 'disponible';
         
         const polygon = L.polygon(lote.bounds, {
           color: isDisponible ? '#059669' : '#c2410c',
           fillColor: isDisponible ? '#10b981' : '#f97316',
-          fillOpacity: isDisponible ? 0.65 : 0.45,
+          fillOpacity: isDisponible ? 0.75 : 0.55,
           weight: isDisponible ? 2.5 : 1.5,
-        }).addTo(map);
+        }).addTo(lotesLayerGroup);
 
-        // Etiqueta fija en el centro del lote
         polygon.bindTooltip(`<b>${lote.lote}</b>`, {
           permanent: true,
           direction: 'center',
@@ -441,42 +423,48 @@
           if (activePolygon !== polygon) {
             this.setStyle({
               weight: 3.5,
-              fillOpacity: 0.85
+              fillOpacity: 0.90
             });
           }
         });
 
         polygon.on('mouseout', function () {
           if (activePolygon !== polygon) {
-            this.setStyle({
-              weight: isDisponible ? 2.5 : 1.5,
-              fillOpacity: isDisponible ? 0.65 : 0.45
-            });
+            if (currentVisualMode === 'mixto') {
+              this.setStyle({
+                weight: 2.5,
+                fillOpacity: isDisponible ? 0.50 : 0.45
+              });
+            } else {
+              this.setStyle({
+                weight: isDisponible ? 2.5 : 1.5,
+                fillOpacity: isDisponible ? 0.75 : 0.55
+              });
+            }
           }
         });
 
-        // Evento Tap / Clic para Abrir Ficha Técnica
+        // Evento Clic / Tap para Abrir Ficha Técnica
         polygon.on('click', function (e) {
           L.DomEvent.stopPropagation(e);
 
-          // Resetear estilo del polígono anterior
           if (activePolygon && activePolygon !== polygon) {
             const prevLote = LOTES_DATA.find(l => l.id === activePolygon._loteId);
             const prevDisp = prevLote && prevLote.estado === 'disponible';
+            const baseOpacity = currentVisualMode === 'mixto' ? (prevDisp ? 0.50 : 0.45) : (prevDisp ? 0.75 : 0.55);
             activePolygon.setStyle({
               color: prevDisp ? '#059669' : '#c2410c',
               weight: prevDisp ? 2.5 : 1.5,
-              fillOpacity: prevDisp ? 0.65 : 0.45
+              fillOpacity: baseOpacity
             });
           }
 
-          // Resaltar polígono seleccionado
           activePolygon = polygon;
           polygon._loteId = lote.id;
           polygon.setStyle({
             color: '#f59e0b',
             weight: 4,
-            fillOpacity: 0.9
+            fillOpacity: 0.95
           });
 
           // Llenar Ficha Técnica
@@ -505,9 +493,112 @@
           const whatsappUrl = `https://wa.me/59170832781?text=Hola,%20estoy%20viendo%20el%20Plano%20Oficial%20del%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20(Ubicaci%C3%B3n:%20https://maps.app.goo.gl/duiobcqmixL66bNM6)%20y%20deseo%20consultar%20por%20el%20*Lote%20${lote.numero}%20de%20la%20Manzana%20${lote.manzana}*%20con%20superficie%20de%20*${lote.superficie.toFixed(2)}%20m%C2%B2*%20(Precio:%20*$${lote.precioTotal.toFixed(2)}%20USD*).`;
           document.getElementById('sheet-whatsapp-btn').href = whatsappUrl;
 
-          // Mostrar Ficha
           lotSheet.classList.remove('hidden-sheet');
         });
+
+        lotPolygons.push({ polygon, isDisponible, lote });
+      });
+
+      // 5. Función de Gestión de los 3 Modos de Visualización
+      let currentVisualMode = 'plano';
+
+      function setVisualMode(mode) {
+        currentVisualMode = mode;
+
+        // Actualizar botones de interfaz
+        document.querySelectorAll('.mode-toggle-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.getElementById(`btn-mode-${mode}`);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        // MODO 1: SOLO PLANO (Fondo limpio + Plano oficial al 100%)
+        if (mode === 'plano') {
+          if (map.hasLayer(satLayer)) map.removeLayer(satLayer);
+          if (!map.hasLayer(vectorLayer)) vectorLayer.addTo(map);
+          if (!map.hasLayer(infraLayerGroup)) infraLayerGroup.addTo(map);
+          if (!map.hasLayer(lotesLayerGroup)) lotesLayerGroup.addTo(map);
+
+          lotPolygons.forEach(({ polygon, isDisponible }) => {
+            if (activePolygon !== polygon) {
+              polygon.setStyle({
+                color: isDisponible ? '#059669' : '#c2410c',
+                fillColor: isDisponible ? '#10b981' : '#f97316',
+                fillOpacity: isDisponible ? 0.75 : 0.55,
+                weight: isDisponible ? 2.5 : 1.5
+              });
+            }
+          });
+
+          infraPolygons.forEach(({ poly, infra }) => {
+            poly.setStyle({
+              fillOpacity: infra.fillOpacity || 0.6,
+              color: infra.color,
+              fillColor: infra.fillColor
+            });
+          });
+        }
+        
+        // MODO 2: SOLO SATELITAL (Fondo satelital de alta resolución sin polígonos)
+        else if (mode === 'satelital') {
+          if (map.hasLayer(vectorLayer)) map.removeLayer(vectorLayer);
+          if (!map.hasLayer(satLayer)) satLayer.addTo(map);
+          if (map.hasLayer(infraLayerGroup)) map.removeLayer(infraLayerGroup);
+          if (map.hasLayer(lotesLayerGroup)) map.removeLayer(lotesLayerGroup);
+
+          lotSheet.classList.add('hidden-sheet');
+        }
+        
+        // MODO 3: MIXTO / HÍBRIDO (Fondo satelital + Polígonos semitransparentes destacados)
+        else if (mode === 'mixto') {
+          if (map.hasLayer(vectorLayer)) map.removeLayer(vectorLayer);
+          if (!map.hasLayer(satLayer)) satLayer.addTo(map);
+          if (!map.hasLayer(infraLayerGroup)) infraLayerGroup.addTo(map);
+          if (!map.hasLayer(lotesLayerGroup)) lotesLayerGroup.addTo(map);
+
+          lotPolygons.forEach(({ polygon, isDisponible }) => {
+            if (activePolygon !== polygon) {
+              polygon.setStyle({
+                color: isDisponible ? '#22c55e' : '#ea580c',
+                fillColor: isDisponible ? '#10b981' : '#f97316',
+                fillOpacity: isDisponible ? 0.50 : 0.45,
+                weight: 2.5
+              });
+            }
+          });
+
+          infraPolygons.forEach(({ poly, infra }) => {
+            poly.setStyle({
+              fillOpacity: 0.35,
+              color: infra.color,
+              fillColor: infra.fillColor
+            });
+          });
+        }
+      }
+
+      // Conectar eventos a los botones de modos
+      document.getElementById('btn-mode-plano').addEventListener('click', () => setVisualMode('plano'));
+      document.getElementById('btn-mode-satelital').addEventListener('click', () => setVisualMode('satelital'));
+      document.getElementById('btn-mode-mixto').addEventListener('click', () => setVisualMode('mixto'));
+
+      // Inicializar en Modo 1: Solo Plano (por defecto)
+      setVisualMode('plano');
+
+      // Botón Recentrar
+      document.getElementById('btn-recenter').addEventListener('click', () => {
+        map.flyTo(centerCoords, defaultZoom, { duration: 1 });
+      });
+
+      // Toggle Leyenda
+      const toggleLegendBtn = document.getElementById('btn-toggle-legend');
+      const legendContent = document.getElementById('legend-content');
+      toggleLegendBtn.addEventListener('click', () => {
+        if (legendContent.classList.contains('hidden')) {
+          legendContent.classList.remove('hidden');
+          toggleLegendBtn.textContent = '−';
+        } else {
+          legendContent.classList.add('hidden');
+          toggleLegendBtn.textContent = '+';
+        }
       });
 
       // Cerrar Ficha al hacer clic en el botón de cierre o fuera del mapa
@@ -516,10 +607,11 @@
         if (activePolygon) {
           const prevLote = LOTES_DATA.find(l => l.id === activePolygon._loteId);
           const prevDisp = prevLote && prevLote.estado === 'disponible';
+          const baseOpacity = currentVisualMode === 'mixto' ? (prevDisp ? 0.50 : 0.45) : (prevDisp ? 0.75 : 0.55);
           activePolygon.setStyle({
             color: prevDisp ? '#059669' : '#c2410c',
             weight: prevDisp ? 2.5 : 1.5,
-            fillOpacity: prevDisp ? 0.65 : 0.45
+            fillOpacity: baseOpacity
           });
           activePolygon = null;
         }
