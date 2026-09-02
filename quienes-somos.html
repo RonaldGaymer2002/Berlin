@@ -174,31 +174,68 @@
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
         
-        <!-- Columna Izquierda: Collage Asimétrico de Fotos -->
+        <!-- Columna Izquierda: Collage Asimétrico de Fotos Reales -->
         <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+          <!-- Columna Izquierda del Mosaico -->
           <div class="space-y-4">
-            <div class="rounded-3xl overflow-hidden shadow-lg border border-slate-100 transform hover:scale-[1.02] transition-transform">
-              <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop" 
-                   alt="Naturaleza y cota alta en Hardeman" 
-                   class="w-full h-48 sm:h-56 object-cover" />
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-lg border border-slate-100 transform hover:scale-[1.02] transition-transform">
-              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" 
-                   alt="Construye tu casa propia" 
-                   class="w-full h-64 sm:h-72 object-cover" />
-            </div>
+            <!-- 1. Superior Izquierda: Foto 2 -->
+            <a href="img/proyecto-berlin-2.jpg" target="_blank" rel="noopener noreferrer" 
+               class="group block relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 bg-slate-100 h-48 sm:h-56 transition-all duration-300 hover:shadow-2xl">
+              <img src="img/proyecto-berlin-2.jpg" 
+                   alt="Terreno en cota alta y topografía plana - Proyecto Berlín Hardeman" 
+                   class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-out" 
+                   loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <span class="text-[11px] font-display font-bold text-white bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                  🔍 Ver Foto Real
+                </span>
+              </div>
+            </a>
+            
+            <!-- 3. Inferior Izquierda: Foto 4 -->
+            <a href="img/proyecto-berlin-4.jpg" target="_blank" rel="noopener noreferrer" 
+               class="group block relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 bg-slate-100 h-64 sm:h-72 transition-all duration-300 hover:shadow-2xl">
+              <img src="img/proyecto-berlin-4.jpg" 
+                   alt="Entorno natural y áreas verdes protegidas en Proyecto Berlín" 
+                   class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-out" 
+                   loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <span class="text-[11px] font-display font-bold text-white bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                  🔍 Ver Foto Real
+                </span>
+              </div>
+            </a>
           </div>
+
+          <!-- Columna Derecha del Mosaico (con desplazamiento vertical) -->
           <div class="space-y-4 pt-6 sm:pt-10">
-            <div class="rounded-3xl overflow-hidden shadow-lg border border-slate-100 transform hover:scale-[1.02] transition-transform">
-              <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=800&auto=format&fit=crop" 
-                   alt="Terrenos amplios y seguros" 
-                   class="w-full h-64 sm:h-72 object-cover" />
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-lg border border-slate-100 transform hover:scale-[1.02] transition-transform">
-              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" 
-                   alt="Topografía elevada Proyecto Berlín" 
-                   class="w-full h-48 sm:h-56 object-cover" />
-            </div>
+            <!-- 2. Superior Derecha: Foto 3 -->
+            <a href="img/proyecto-berlin-3.jpg" target="_blank" rel="noopener noreferrer" 
+               class="group block relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 bg-slate-100 h-64 sm:h-72 transition-all duration-300 hover:shadow-2xl">
+              <img src="img/proyecto-berlin-3.jpg" 
+                   alt="Camino de acceso consolidado a 400m de la carretera en Hardeman" 
+                   class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-out" 
+                   loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <span class="text-[11px] font-display font-bold text-white bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                  🔍 Ver Foto Real
+                </span>
+              </div>
+            </a>
+
+            <!-- 4. Inferior Derecha: Foto 5 -->
+            <a href="img/proyecto-berlin-5.jpg" target="_blank" rel="noopener noreferrer" 
+               class="group block relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 bg-slate-100 h-48 sm:h-56 transition-all duration-300 hover:shadow-2xl">
+              <img src="img/proyecto-berlin-5.jpg" 
+                   alt="Delimitación y visualización de lotes familiares en Hardeman" 
+                   class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-out" 
+                   loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <span class="text-[11px] font-display font-bold text-white bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                  🔍 Ver Foto Real
+                </span>
+              </div>
+            </a>
           </div>
         </div>
 
