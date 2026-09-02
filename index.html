@@ -6,13 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Proyecto Berlín | Lotes en Hardeman - $7 USD/m² • 100% Zona Alta No Inundable</title>
   <meta name="description"
-    content="Terrenos y lotes en Proyecto Berlín (Hardeman, Santa Cruz, Bolivia) a sólo $7 USD/m². A 400m de la Carretera Hardeman - Piraí. 100% Zona Alta Garantizada No Inundable. Trato directo con propietarios." />
+    content="Terrenos y lotes en Proyecto Berlín (Hardeman, Santa Cruz, Bolivia) a sólo $7 USD/m². A 400m de la Carretera Hardeman - Piraí. 100% Zona Alta Garantizada No Inundable. Trato directo." />
   <meta name="keywords"
     content="Lotes en Hardeman, Terrenos 7 dolares metro cuadrado, Proyecto Berlin Hardeman, Lotes Carretera Hardeman Pirai, Lotes zona alta no inundable, Terrenos Santa Cruz Bolivia" />
-  <meta property="og:title" content="Proyecto Berlín - Terrenos a $7 USD/m² en Hardeman" />
-  <meta property="og:description"
-    content="Asegura tu lote en zona alta no inundable a sólo 400m de la Carretera Hardeman - Piraí. Precio oficial $7 USD/m². Trato directo." />
-  <meta property="og:type" content="website" />
 
   <!-- Favicon SVG -->
   <link rel="icon"
@@ -25,30 +21,18 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
     rel="stylesheet">
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-  <!-- Swiper.js CSS (Estilo TECHO) -->
+  <!-- Swiper.js CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             brand: {
               50: '#f0fdf4',
-              100: '#dcfce7',
-              200: '#bbf7d0',
-              300: '#86efac',
-              400: '#4ade80',
               500: '#22c55e',
               600: '#16a34a',
               700: '#15803d',
@@ -56,34 +40,17 @@
               900: '#14532d',
               950: '#052e16',
             },
-            amberBrand: {
-              50: '#fffbeb',
-              100: '#fef3c7',
-              200: '#fde68a',
-              300: '#fcd34d',
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-              700: '#b45309',
-              800: '#92400e',
-              900: '#78350f',
-            },
-            terra: {
-              50: '#faf5f0',
-              100: '#f4eae0',
-              500: '#c27838',
-              700: '#8a4c17',
-              900: '#442207'
+            coral: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
             }
           },
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
             display: ['"Outfit"', 'system-ui', 'sans-serif'],
-          },
-          boxShadow: {
-            'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.4)',
-            'glow-amber': '0 0 25px -5px rgba(245, 158, 11, 0.45)',
-            'bottom-sheet': '0 -10px 40px -5px rgba(0, 0, 0, 0.25)',
           }
         }
       }
@@ -94,126 +61,119 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body
-  class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white pb-20 md:pb-0 font-sans">
+<body class="bg-white text-slate-800 antialiased font-sans">
 
   <!-- ====================================================================== -->
-  <!-- SECCIÓN A: NAVBAR & HEADER SUPERIOR -->
+  <!-- 1. HEADER / NAVBAR (FONDO BLANCO LIMPIO ESTILO TECHO) -->
   <!-- ====================================================================== -->
-  <header
-    class="sticky top-0 z-40 glass-nav border-b border-brand-700/50 text-white transition-all duration-300 shadow-md">
+  <header class="sticky top-0 z-40 site-header">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 md:h-20">
+      <div class="flex items-center justify-between h-20">
 
-        <!-- Logo & Marca -->
-        <a href="#" class="flex items-center gap-2.5 group">
+        <!-- Logo & Marca a la izquierda -->
+        <a href="#inicio" class="flex items-center gap-3 group">
           <div
-            class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-brand-950 font-black text-xl shadow-lg group-hover:scale-105 transition-transform">
-            <i class="fa-solid fa-tree text-brand-950"></i>
+            class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-md group-hover:scale-105 transition-transform">
+            <svg class="w-6 h-6 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L4 12h3v8h10v-8h3L12 2z"/>
+            </svg>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-display font-extrabold text-lg md:text-2xl tracking-tight text-white">PROYECTO
-                BERLÍN</span>
-              <!-- Badge Oficial de Precio $7/m2 -->
-              <span
-                class="bg-amber-400 text-brand-950 text-[10px] md:text-xs font-black px-2 py-0.5 rounded-full shadow-sm">
+              <span class="font-display font-extrabold text-xl md:text-2xl tracking-tight text-slate-900">PROYECTO BERLÍN</span>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded-full border border-emerald-300">
                 $7 USD/m²
               </span>
             </div>
-            <div class="flex items-center gap-1.5 mt-0.5">
-              <span
-                class="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-amber-300 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-500/30">
-                <i class="fa-solid fa-location-dot text-[9px] mr-1"></i>Hardeman • A 400m Carretera
-              </span>
-              <span class="hidden sm:inline-block text-[10px] text-emerald-200 font-medium">• 100% Zona Alta</span>
-            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-coral-600 block">
+              Hardeman • A 400m Carretera
+            </span>
           </div>
         </a>
 
-        <!-- Enlaces Rápidos Desktop -->
-        <nav class="hidden md:flex items-center gap-6 font-medium text-sm text-emerald-100">
-          <a href="#info-institucional" class="hover:text-amber-300 transition-colors">Institucional</a>
-          <a href="#mapa-lotes"
-            class="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-amber-300 font-bold">
-            <i class="fa-solid fa-map-location-dot"></i> Plano M-1, M-2, M-3
-          </a>
-          <a href="#simulador-modal" onclick="openSimulador(); return false;" class="hover:text-amber-300 transition-colors">Simulador ($7/m²)</a>
-          <a href="#ubicacion" class="hover:text-amber-300 transition-colors">Ubicación (Carretera)</a>
-          <a href="#contacto" class="hover:text-amber-300 transition-colors">Contacto</a>
+        <!-- Menú a la derecha (Desktop) -->
+        <nav class="hidden md:flex items-center gap-8 font-display">
+          <a href="#inicio" class="nav-link">Inicio</a>
+          <a href="#quienes-somos" class="nav-link">Quiénes Somos</a>
+          <a href="#quienes-somos" class="nav-link">Proyectos</a>
+          <a href="#contacto" class="nav-link">Ubicación</a>
+          <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
 
-        <!-- Botones de Acción Directa -->
-        <div class="flex items-center gap-2 sm:gap-3">
-          <!-- Llamada Rápida Móvil -->
-          <a href="tel:+59170832781"
-            class="flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs md:text-sm font-semibold transition-all active:scale-95"
-            title="Llamar al Propietario">
-            <i class="fa-solid fa-phone-volume text-amber-300 text-sm"></i>
-            <span class="hidden sm:inline">Llamar: </span>
-            <span class="font-bold">70832781</span>
-          </a>
-
-          <!-- Botón Directo WhatsApp Header -->
-          <a href="https://api.whatsapp.com/send?phone=59170832781&text=Hola,%20me%20interesa%20conocer%20los%20lotes%20disponibles%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20oficial%20de%20*$7%20USD/m%C2%B2*%20en%20Zona%20Alta%20No%20Inundable."
+        <!-- Botón Directo WhatsApp Header -->
+        <div class="hidden sm:flex items-center">
+          <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20conocer%20los%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20de%20*$7%20USD/m%C2%B2*."
             target="_blank" rel="noopener noreferrer"
-            class="flex items-center gap-1.5 px-3.5 py-2 md:px-4 md:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white text-xs md:text-sm font-bold shadow-md hover:shadow-glow-emerald transition-all active:scale-95">
-            <i class="fa-brands fa-whatsapp text-base"></i>
-            <span class="hidden xs:inline">WhatsApp</span>
+            class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-sm shadow-md transition-all active:scale-95">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z"/>
+            </svg>
+            <span>WhatsApp (+591 70832781)</span>
           </a>
         </div>
 
+        <!-- Botón Móvil Menú -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-coral-600 focus:outline-none">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
       </div>
+
+      <!-- Menú Desplegable Móvil -->
+      <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-slate-100 font-display space-y-2">
+        <a href="#inicio" class="block py-2 text-slate-700 font-bold hover:text-coral-600">INICIO</a>
+        <a href="#quienes-somos" class="block py-2 text-slate-700 font-bold hover:text-coral-600">QUIÉNES SOMOS</a>
+        <a href="#quienes-somos" class="block py-2 text-slate-700 font-bold hover:text-coral-600">PROYECTOS</a>
+        <a href="#contacto" class="block py-2 text-slate-700 font-bold hover:text-coral-600">UBICACIÓN</a>
+        <a href="#contacto" class="block py-2 text-slate-700 font-bold hover:text-coral-600">CONTACTO</a>
+        <a href="https://wa.me/59170832781" target="_blank" rel="noopener noreferrer"
+          class="inline-block mt-2 w-full text-center py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-sm">
+          💬 WhatsApp Directo
+        </a>
+      </div>
+
     </div>
   </header>
 
   <!-- ====================================================================== -->
-  <!-- SECCIÓN B: HERO BANNER CAROUSEL (ESTILO COMERCIAL TECHO / SWIPER.JS) -->
+  <!-- 2. CARRUSEL HERO COMERCIAL (SWIPER.JS) -->
   <!-- ====================================================================== -->
-  <section class="hero-carousel-section relative w-full overflow-hidden bg-slate-950">
-    <div class="swiper heroSwiper w-full h-[420px] md:h-[520px]">
+  <section id="inicio" class="hero-carousel-section relative w-full overflow-hidden bg-slate-950">
+    <div class="swiper heroSwiper w-full h-[420px] md:h-[540px]">
       <div class="swiper-wrapper">
 
-        <!-- SLIDE 1: Venta / Ubicación & Casa Propia -->
+        <!-- SLIDE 1: Venta / Casa Propia $7 USD/m2 -->
         <div class="swiper-slide relative flex items-center justify-center text-white">
           <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1920&auto=format&fit=crop" 
                alt="Terrenos Proyecto Berlín Hardeman" 
                class="absolute inset-0 w-full h-full object-cover object-center" />
           <div class="hero-overlay"></div>
           
-          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3.5 md:space-y-5">
+          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 md:space-y-6">
             <!-- Badge Superior -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-bold text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
-              <i class="fa-solid fa-tree"></i>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-600 text-white font-bold text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
               <span>PROYECTO BERLÍN • HARDEMAN</span>
             </div>
             
-            <!-- Título Principal con Destacado de Precio -->
+            <!-- Título Principal -->
             <h1 class="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-tight uppercase drop-shadow-md">
-              LOTES PARA SACAR TU <span class="text-amber-400">CASA PROPIA</span>
+              LOTES PARA SACAR TU CASA PROPIA A SÓLO <span class="text-amber-400">$7 USD / m²</span>
             </h1>
             
-            <!-- Destacado de Precio Oficial -->
-            <div class="inline-block">
-              <span class="bg-amber-400 text-slate-950 font-black text-xs sm:text-base md:text-lg px-4 py-1.5 rounded-full shadow-lg">
-                PRECIO DE LANZAMIENTO: $7 USD / m²
-              </span>
-            </div>
-
             <!-- Subtítulo -->
             <p class="text-xs sm:text-base md:text-lg text-slate-100 font-medium max-w-3xl mx-auto drop-shadow leading-relaxed">
-              Invierta en tierra segura a sólo <strong class="text-amber-300">400 metros de la Carretera Principal Hardeman - Piraí</strong>. 100% Zona Alta No Inundable.
+              Invierta en tierra segura a sólo <strong class="text-amber-300">400 metros de la Carretera Principal Hardeman - Piraí</strong>. 100% Zona Alta Garantizada No Inundable.
             </p>
 
-            <!-- Botones de Acción Inmobiliarios -->
+            <!-- Botones CTA -->
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <a href="#mapa-lotes" class="btn-hero-primary">
-                <i class="fa-solid fa-map-location-dot text-base sm:text-lg"></i>
-                <span>Ver Plano Interactivo</span>
+              <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20conocer%20los%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20de%20*$7%20USD/m%C2%B2*." target="_blank" rel="noopener noreferrer" class="btn-hero-primary">
+                <span>💬 Contactar por WhatsApp</span>
               </a>
-              <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20el%20lote%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20de%20*$7%20USD/m%C2%B2*." target="_blank" rel="noopener noreferrer" class="btn-hero-whatsapp">
-                <i class="fa-brands fa-whatsapp text-lg sm:text-xl text-emerald-200"></i>
-                <span>Contactar por WhatsApp</span>
+              <a href="#quienes-somos" class="btn-hero-whatsapp">
+                <span>Más Información</span>
               </a>
             </div>
           </div>
@@ -226,10 +186,9 @@
                class="absolute inset-0 w-full h-full object-cover object-center" />
           <div class="hero-overlay"></div>
           
-          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3.5 md:space-y-5">
+          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 md:space-y-6">
             <!-- Badge Superior -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500 text-slate-950 font-black text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
-              <i class="fa-solid fa-handshake"></i>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500 text-slate-950 font-black text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
               <span>FINANCIAMIENTO DIRECTO</span>
             </div>
             
@@ -238,43 +197,30 @@
               CRÉDITO FÁCIL Y <span class="text-amber-400">SIN BANCOS</span>
             </h2>
 
-            <!-- Destacado -->
-            <div class="inline-block">
-              <span class="bg-emerald-500 text-white font-black text-xs sm:text-base md:text-lg px-4 py-1.5 rounded-full shadow-lg">
-                CUOTAS INICIALES ACCESIBLES DESDE $50 USD
-              </span>
-            </div>
-
             <!-- Subtítulo -->
             <p class="text-xs sm:text-base md:text-lg text-slate-100 font-medium max-w-3xl mx-auto drop-shadow leading-relaxed">
-              Planes de 12 a 120 meses con cuotas fijas en Bolivianos (TC 6.96) y Dólares. Aprobación inmediata sin trámites burocráticos.
+              Planes de 12 a 120 meses con cuotas fijas en Bolivianos (TC 6.96) y Dólares. Cuotas iniciales accesibles desde $50 USD.
             </p>
 
-            <!-- Botón de Acción -->
+            <!-- Botón CTA -->
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <button onclick="openSimulador(); return false;" class="btn-hero-primary cursor-pointer">
-                <i class="fa-solid fa-calculator text-base sm:text-lg"></i>
-                <span>Calcular Cuota en Simulador</span>
-              </button>
-              <a href="#mapa-lotes" class="btn-hero-secondary">
-                <i class="fa-solid fa-layer-group text-base"></i>
-                <span>Ver Manzanas M1, M2, M3</span>
+              <a href="https://wa.me/59170832781?text=Hola,%20deseo%20consultar%20por%20un%20plan%20de%20financiamiento%20en%20*Proyecto%20Berl%C3%ADn*." target="_blank" rel="noopener noreferrer" class="btn-hero-primary">
+                <span>💬 Consultar Plan de Cuotas (+591 70832781)</span>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- SLIDE 3: Inversión / Plusvalía y Cota Alta -->
+        <!-- SLIDE 3: Plusvalía y Cota Alta -->
         <div class="swiper-slide relative flex items-center justify-center text-white">
           <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=1920&auto=format&fit=crop" 
                alt="Terrenos de Alta Plusvalia en Hardeman" 
                class="absolute inset-0 w-full h-full object-cover object-center" />
           <div class="hero-overlay"></div>
           
-          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3.5 md:space-y-5">
+          <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 md:space-y-6">
             <!-- Badge Superior -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-black text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
-              <i class="fa-solid fa-arrow-trend-up"></i>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-600 text-white font-black text-xs md:text-sm tracking-wide uppercase shadow-lg backdrop-blur-sm">
               <span>ALTA PLUSVALÍA</span>
             </div>
             
@@ -283,27 +229,15 @@
               TERRENOS ELEVADOS CON <span class="text-amber-400">COTA SEGURA</span>
             </h2>
 
-            <!-- Destacado -->
-            <div class="inline-block">
-              <span class="bg-amber-400 text-slate-950 font-black text-xs sm:text-base md:text-lg px-4 py-1.5 rounded-full shadow-lg">
-                100% ZONA ALTA NO INUNDABLE
-              </span>
-            </div>
-
             <!-- Subtítulo -->
             <p class="text-xs sm:text-base md:text-lg text-slate-100 font-medium max-w-3xl mx-auto drop-shadow leading-relaxed">
-              Ideales para engorde de capital, quintas y proyectos comerciales sobre la Avenida Central de Tierra y junto a áreas verdes.
+              Ideales para engorde de capital, quintas y proyectos comerciales sobre la Avenida Central de Tierra a 400m de la carretera.
             </p>
 
-            <!-- Botón de Acción -->
+            <!-- Botón CTA -->
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <a href="https://wa.me/59170832781?text=Hola,%20deseo%20consultar%20disponibilidad%20de%20lotes%20en%20zona%20alta%20de%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*." target="_blank" rel="noopener noreferrer" class="btn-hero-whatsapp">
-                <i class="fa-brands fa-whatsapp text-lg sm:text-xl text-emerald-200"></i>
-                <span>Consultar Disponibilidad</span>
-              </a>
-              <a href="#mapa-lotes" class="btn-hero-primary">
-                <i class="fa-solid fa-map text-base"></i>
-                <span>Explorar Plano de Lotes</span>
+              <a href="https://wa.me/59170832781?text=Hola,%20deseo%20consultar%20disponibilidad%20de%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*." target="_blank" rel="noopener noreferrer" class="btn-hero-primary">
+                <span>💬 Consultar Disponibilidad</span>
               </a>
             </div>
           </div>
@@ -311,7 +245,7 @@
 
       </div>
 
-      <!-- Controles de Navegación Swiper (Flechas y Paginación) -->
+      <!-- Controles de Navegación Swiper -->
       <div class="swiper-button-next text-white hover:text-amber-400 transition-colors after:text-2xl sm:after:text-3xl"></div>
       <div class="swiper-button-prev text-white hover:text-amber-400 transition-colors after:text-2xl sm:after:text-3xl"></div>
       <div class="swiper-pagination"></div>
@@ -319,9 +253,9 @@
   </section>
 
   <!-- ====================================================================== -->
-  <!-- SECCIÓN C: INFORMACIÓN INSTITUCIONAL & ACORDEÓN (ESTILO TECHO) -->
+  <!-- 3. SECCIÓN INFORMATIVA CON ACORDEÓN (ESTILO TECHO) -->
   <!-- ====================================================================== -->
-  <section id="info-institucional" class="py-16 md:py-24 bg-white text-slate-800 border-b border-slate-100">
+  <section id="quienes-somos" class="py-16 md:py-24 bg-white text-slate-800 border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -329,7 +263,7 @@
         <!-- Columna Izquierda: Texto Institucional -->
         <div class="lg:col-span-6 space-y-6">
           <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-[2.6rem] text-slate-900 leading-[1.15] tracking-tight">
-            Terrenos Para Asegurar Tu Futuro
+            Terrenos Para Sacar Tu Casa Propia
           </h2>
           
           <div class="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
@@ -408,7 +342,7 @@
                 </span>
                 <div>
                   <h3 class="font-display font-bold text-base sm:text-lg text-slate-900 leading-snug">
-                    Proyectos Consolidados / Cota Alta Garantizada
+                    Cota Alta Garantizada
                   </h3>
                   <span class="text-xs text-slate-400 italic block font-sans mt-0.5">Más Información</span>
                 </div>
@@ -431,788 +365,169 @@
   </section>
 
   <!-- ====================================================================== -->
-  <!-- SECCIÓN D: VISOR DE LOTES (PLANO INTERACTIVO CON LEAFLET) -->
+  <!-- 4. FOOTER DE CONTACTO Y REDES (ESTILO TECHO) -->
   <!-- ====================================================================== -->
-  <section id="mapa-lotes" class="py-12 md:py-20 bg-slate-900 text-white relative">
+  <footer id="contacto" class="bg-white pt-16 border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <!-- Encabezado del Visor -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-        <div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="bg-amber-400 text-brand-950 text-xs font-black px-2.5 py-0.5 rounded-full uppercase">
-              Croquis Oficial • $7 USD/m²
-            </span>
-            <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Manzanas M-1, M-2 y M-3
-            </span>
-          </div>
-          <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
-            Plano Interactivo de Lotes
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-            Toca cualquier lote disponible para ver su superficie exacta ($m^2$), precio calculado a $7 USD/m² y simular cuotas de pago.
-          </p>
-        </div>
+      <!-- Cuadrícula simétrica de 3 columnas -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-14 border-b border-slate-100">
 
-        <!-- Controles rápidos de mapa -->
-        <div class="flex flex-wrap items-center gap-2">
-          <button id="btn-toggle-satellite"
-            class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl text-xs font-bold text-slate-200 transition-colors shadow">
-            <i class="fa-solid fa-satellite text-amber-400"></i>
-            <span id="satellite-label">Ver Satelital</span>
-          </button>
-          <button id="btn-reset-map"
-            class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl text-xs font-bold text-slate-200 transition-colors shadow">
-            <i class="fa-solid fa-crosshairs text-emerald-400"></i>
-            <span>Centrar Plano</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Barra de Filtros de Lotes -->
-      <div
-        class="bg-slate-800/80 border border-slate-700 p-3 rounded-2xl mb-4 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-3">
-
-        <!-- Categorías (Pills) -->
-        <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto no-scrollbar pb-1 sm:pb-0">
-          <button
-            class="filter-btn active px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-emerald-600 text-white shadow-sm"
-            data-filter="all">
-            Todos (<span id="count-all">27</span>)
-          </button>
-          <button
-            class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-700 hover:bg-slate-600 text-slate-200"
-            data-filter="disponible">
-            ✨ Disponibles (<span id="count-disponible">11</span>)
-          </button>
-          <button
-            class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-700 hover:bg-slate-600 text-slate-200"
-            data-filter="M-1">
-            Manzana M-1 (<span id="count-m1">9</span>)
-          </button>
-          <button
-            class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-700 hover:bg-slate-600 text-slate-200"
-            data-filter="M-2">
-            Manzana M-2 (<span id="count-m2">13</span>)
-          </button>
-          <button
-            class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-700 hover:bg-slate-600 text-slate-200"
-            data-filter="M-3">
-            Manzana M-3 (<span id="count-m3">5</span>)
-          </button>
-        </div>
-
-        <!-- Selector rápido de Lote -->
-        <div class="w-full sm:w-auto flex items-center gap-2">
-          <label for="select-lote-quick" class="text-xs text-slate-300 font-medium whitespace-nowrap">Ir al Lote:</label>
-          <select id="select-lote-quick"
-            class="bg-slate-900 border border-slate-600 text-white text-xs rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-emerald-500 w-full sm:w-56">
-            <option value="">Seleccionar lote...</option>
-          </select>
-        </div>
-
-      </div>
-
-      <!-- Contenedor del Mapa Leaflet -->
-      <div class="relative rounded-3xl overflow-hidden border-2 border-slate-700 shadow-2xl bg-slate-950">
-
-        <!-- Mapa Leaflet DOM -->
-        <div id="map" class="w-full h-[480px] sm:h-[540px] md:h-[600px] z-10"></div>
-
-        <!-- Leyenda Flotante / Colapsable en Móvil -->
-        <div id="map-legend"
-          class="absolute bottom-4 left-4 z-20 bg-slate-900/90 border border-slate-700/80 rounded-2xl p-3 backdrop-blur-md shadow-xl max-w-[270px] text-xs">
-          <div class="flex items-center justify-between mb-2 font-bold text-slate-200">
-            <span class="flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-amber-400"></i> Leyenda del Croquis</span>
-            <button id="toggle-legend-btn" class="text-slate-400 hover:text-white sm:hidden text-xs">
-              <i class="fa-solid fa-chevron-down"></i>
-            </button>
-          </div>
-          <div id="legend-content" class="space-y-1.5">
-            <div class="flex items-center gap-2">
-              <span class="w-3.5 h-3.5 rounded-md bg-emerald-500 border border-emerald-300 shrink-0"></span>
-              <span class="text-emerald-300 font-bold text-[11px]">Lote Disponible ($7 USD/m²)</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3.5 h-3.5 rounded-md bg-amber-600 border border-amber-400 shrink-0"></span>
-              <span class="text-amber-200 text-[11px]">Lote Ocupado / Vendido</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3.5 h-3.5 rounded-md bg-emerald-800 border border-emerald-500 shrink-0"></span>
-              <span class="text-slate-300 text-[11px]">Áreas Verdes</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3.5 h-3.5 rounded-md bg-amber-900/80 border border-amber-600/60 shrink-0"></span>
-              <span class="text-slate-300 text-[11px]">Avenida Central de Tierra</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Indicador de Cota Alta / Brújula -->
-        <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-1.5">
-          <div
-            class="bg-emerald-950/90 border border-emerald-500/50 px-3 py-1.5 rounded-xl backdrop-blur-md text-[11px] font-bold text-emerald-300 flex items-center gap-1.5 shadow-lg">
-            <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-            <span>100% Cota Alta No Inundable</span>
-          </div>
-          <div
-            class="bg-slate-900/90 border border-slate-700 px-2.5 py-1 rounded-lg backdrop-blur-md text-[10px] font-semibold text-amber-300 flex items-center gap-1 shadow">
-            <i class="fa-solid fa-road text-amber-400"></i>
-            <span>Carretera Hardeman - Piraí a 400m</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Guía de uso rápido móvil -->
-      <div class="flex items-center justify-center gap-2 text-xs text-slate-400 mt-3">
-        <i class="fa-solid fa-hand-pointer text-amber-400"></i>
-        <span>Tip: Toca cualquier lote verde disponible para desplegar la cotización oficial al instante.</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ====================================================================== -->
-  <!-- BOTTOM SHEET (MODAL INFERIOR TÁCTIL PARA DETALLES DEL LOTE) -->
-  <!-- ====================================================================== -->
-  <div id="bottom-sheet"
-    class="fixed inset-x-0 bottom-0 z-50 translate-y-full max-w-xl mx-auto px-4 pb-4 transition-transform duration-300">
-    <div
-      class="bg-slate-900 text-white rounded-3xl border-2 border-emerald-500/50 shadow-bottom-sheet overflow-hidden backdrop-blur-xl">
-
-      <!-- Drag Handle (Móvil) -->
-      <div class="w-full flex justify-center pt-2.5 pb-1 cursor-pointer" id="bottom-sheet-handle">
-        <div class="w-12 h-1.5 rounded-full bg-slate-600"></div>
-      </div>
-
-      <div class="p-5 space-y-4">
-
-        <!-- Header del Lote -->
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="flex items-center gap-2">
-              <span id="bs-manzana"
-                class="bg-brand-600 text-white font-extrabold text-xs px-2.5 py-0.5 rounded-lg">M-2</span>
-              <span id="bs-estado-badge"
-                class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs px-2.5 py-0.5 rounded-lg flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Disponible
-              </span>
-              <span class="bg-amber-400 text-brand-950 font-black text-xs px-2 py-0.5 rounded-lg shadow-sm">
-                $7 USD / m²
-              </span>
-            </div>
-            <h3 id="bs-titulo" class="font-display font-black text-2xl text-white mt-1">Lote LT 11</h3>
-          </div>
-          <button id="btn-close-sheet"
-            class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors">
-            <i class="fa-solid fa-xmark text-base"></i>
-          </button>
-        </div>
-
-        <!-- Ficha Técnica Rápida -->
-        <div class="grid grid-cols-3 gap-2 bg-slate-800/80 p-3 rounded-2xl border border-slate-700/80 text-center">
-          <div>
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Superficie</span>
-            <span id="bs-superficie" class="font-display font-black text-base sm:text-lg text-emerald-400">324.72
-              m²</span>
-          </div>
-          <div class="border-x border-slate-700">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Precio Base</span>
-            <span class="font-display font-bold text-sm sm:text-base text-amber-300">$7.00 / m²</span>
+        <!-- Fila 1 - Columna 1: OFICINA CENTRAL -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Ubicación SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
           </div>
           <div>
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Seguridad</span>
-            <span class="font-display font-bold text-xs sm:text-sm text-emerald-300">100% No Inundable</span>
-          </div>
-        </div>
-
-        <!-- Precios Oficiales -->
-        <div
-          class="bg-gradient-to-r from-emerald-950/80 to-slate-800 p-3.5 rounded-2xl border border-emerald-500/40 flex items-center justify-between">
-          <div>
-            <span class="text-xs text-slate-300 block">Precio Total ($7 USD/m²):</span>
-            <span id="bs-precio-contado" class="font-display font-black text-2xl text-amber-400">$2,273.04 USD</span>
-          </div>
-          <div class="text-right">
-            <span class="text-[11px] text-emerald-300 block">Financiamiento:</span>
-            <span id="bs-cuota-inicial" class="text-xs font-semibold text-slate-200">Inicial flexible</span>
-            <span id="bs-cuota-mensual" class="block font-bold text-emerald-400 text-sm">Planes hasta 120m</span>
-          </div>
-        </div>
-
-        <!-- Descripción breve -->
-        <p id="bs-descripcion" class="text-xs text-slate-300 leading-relaxed">
-          Terreno en cota alta con frente a avenida o calle consolidada. A sólo 400m de la Carretera Hardeman - Piraí.
-        </p>
-
-        <!-- Botones de Acción del Lote -->
-        <div id="bs-action-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-          <button id="btn-bs-simular"
-            class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-brand-950 font-extrabold text-xs sm:text-sm shadow-md transition-transform active:scale-98">
-            <i class="fa-solid fa-calculator text-base"></i>
-            <span>🧮 Simular Plan de Cuotas</span>
-          </button>
-
-          <a id="btn-bs-whatsapp" href="#" target="_blank" rel="noopener noreferrer"
-            class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-extrabold text-xs sm:text-sm shadow-md transition-transform active:scale-98">
-            <i class="fa-brands fa-whatsapp text-lg text-emerald-200"></i>
-            <span>💬 Consultar por WhatsApp</span>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ====================================================================== -->
-  <!-- SECCIÓN E: MODAL SIMULADOR DE CRÉDITO Y CUOTAS ($7 USD/m²) -->
-  <!-- ====================================================================== -->
-  <div id="simulador-modal"
-    class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-    <div
-      class="bg-slate-900 border-2 border-amber-500/50 rounded-3xl w-full max-w-lg text-white shadow-2xl overflow-hidden my-8 transform transition-all">
-
-      <!-- Modal Header -->
-      <div
-        class="bg-gradient-to-r from-brand-900 to-slate-900 p-5 border-b border-slate-700 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-10 h-10 rounded-xl bg-amber-500 text-brand-950 flex items-center justify-center text-xl font-bold shadow">
-            <i class="fa-solid fa-calculator"></i>
-          </div>
-          <div>
-            <h3 class="font-display font-black text-xl text-white">Simulador de Financiamiento</h3>
-            <p class="text-xs text-amber-300">Precio Oficial: $7 USD/m² • Proyecto Berlín</p>
-          </div>
-        </div>
-        <button id="btn-close-simulador"
-          class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
-          <i class="fa-solid fa-xmark text-base"></i>
-        </button>
-      </div>
-
-      <!-- Modal Body -->
-      <div class="p-5 sm:p-6 space-y-5">
-
-        <!-- Badge Lote Seleccionado -->
-        <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 flex items-center justify-between">
-          <div>
-            <span class="text-[11px] text-slate-400 block uppercase font-semibold">Lote Seleccionado</span>
-            <span id="sim-lote-info" class="font-display font-extrabold text-emerald-400 text-base">M-2 LT 11 - 324.72
-              m²</span>
-          </div>
-          <span class="text-xs bg-amber-400 text-brand-950 px-2.5 py-1 rounded-lg font-black shadow">
-            $7 USD/m²
-          </span>
-        </div>
-
-        <!-- Selector de Modalidad (Contado vs Cuotas) -->
-        <div>
-          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">Modalidad de Compra:</label>
-          <div class="grid grid-cols-2 gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700">
-            <button id="tab-cuotas"
-              class="py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all bg-emerald-600 text-white shadow">
-              <i class="fa-solid fa-calendar-days mr-1"></i> En Cuotas Fijas
-            </button>
-            <button id="tab-contado"
-              class="py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all text-slate-400 hover:text-white">
-              <i class="fa-solid fa-bolt mr-1"></i> Al Contado
-            </button>
-          </div>
-        </div>
-
-        <!-- Controles para Modalidad en Cuotas -->
-        <div id="sim-cuotas-controls" class="space-y-4">
-
-          <!-- Cuota Inicial -->
-          <div>
-            <div class="flex justify-between items-center mb-1.5">
-              <label for="slider-inicial" class="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Cuota Inicial (USD):
-              </label>
-              <span id="inicial-display" class="font-display font-black text-amber-400 text-base">$100 USD</span>
-            </div>
-
-            <input type="range" id="slider-inicial" min="50" max="2000" step="50" value="100"
-              class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500" />
-
-            <div class="flex justify-between text-[10px] text-slate-400 mt-1">
-              <span>Mínimo: $50 USD</span>
-              <span>Recomendado: $200 - $400 USD</span>
-              <span>$2,000 USD</span>
-            </div>
-          </div>
-
-          <!-- Plazo en Meses -->
-          <div>
-            <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
-              Plazo de Financiamiento:
-            </label>
-            <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="12">12 m (1 año)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="24">24 m (2 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="36">36 m (3 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="48">48 m (4 años)</button>
-              <button
-                class="btn-plazo active px-2 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white border border-emerald-400 shadow"
-                data-meses="60">60 m (5 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="72">72 m (6 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="84">84 m (7 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                data-meses="96">96 m (8 años)</button>
-              <button
-                class="btn-plazo px-2 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 col-span-3 sm:col-span-2"
-                data-meses="120">120 m (10 años)</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Controles para Modalidad al Contado -->
-        <div id="sim-contado-controls" class="hidden space-y-3 bg-slate-800/60 p-4 rounded-2xl border border-amber-500/30">
-          <div class="flex items-center gap-2 text-amber-300 font-bold text-sm">
-            <i class="fa-solid fa-tag text-lg"></i>
-            <span>Pago al Contado de Cancelación Inmediata</span>
-          </div>
-          <p class="text-xs text-slate-300">
-            Adquiere tu lote directamente con posesión y documentación al día.
-          </p>
-          <div class="flex justify-between items-center bg-slate-900 p-3 rounded-xl">
-            <span class="text-xs text-slate-400">Total a Pagar ($7 USD/m²):</span>
-            <span id="sim-precio-final-contado" class="font-display font-black text-xl text-amber-400">$2,273.04
-              USD</span>
-          </div>
-        </div>
-
-        <!-- Tarjeta de Resumen / Resultado de Cálculo -->
-        <div
-          class="bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-900 p-4 sm:p-5 rounded-2xl border-2 border-emerald-500/40 space-y-3">
-          <div class="flex justify-between items-center text-xs text-slate-300 border-b border-slate-800 pb-2">
-            <span>Precio Total ($7 USD/m²):</span>
-            <span id="res-precio-total" class="font-bold text-amber-400 text-sm">$2,273.04 USD</span>
-          </div>
-
-          <div id="res-row-saldo"
-            class="flex justify-between items-center text-xs text-slate-300 border-b border-slate-800 pb-2">
-            <span>Saldo a Financiar:</span>
-            <span id="res-saldo" class="font-bold text-white">$2,173.04 USD</span>
-          </div>
-
-          <div id="res-box-cuota" class="text-center pt-1">
-            <span class="text-xs uppercase font-bold text-emerald-300 tracking-wider block">Tu Cuota Mensual
-              Estimada:</span>
-            <div class="flex items-baseline justify-center gap-2 mt-1">
-              <span id="res-cuota-usd" class="font-display font-black text-3xl sm:text-4xl text-white">$36.22</span>
-              <span class="text-xs text-slate-300 font-semibold">USD / mes</span>
-            </div>
-            <p class="text-xs text-emerald-400 mt-1 font-medium">
-              Equivalente aproximado: <strong id="res-cuota-bs">~252.09 Bs / mes</strong> (T/C 6.96)
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              OFICINA CENTRAL
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              A 400m de la Carretera Hardeman - Piraí<br />
+              Hardeman, Municipio de San Pedro<br />
+              Santa Cruz, Bolivia
             </p>
           </div>
         </div>
 
-        <!-- Botón Enviar Cotización por WhatsApp -->
-        <a id="btn-sim-whatsapp" href="#" target="_blank" rel="noopener noreferrer"
-          class="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-green-600 to-emerald-600 hover:from-emerald-400 hover:to-green-500 text-white font-display font-extrabold text-sm sm:text-base shadow-lg hover:shadow-glow-emerald transition-all active:scale-98">
-          <i class="fa-brands fa-whatsapp text-2xl"></i>
-          <span>📲 Enviar Cotización por WhatsApp al Propietario</span>
-        </a>
-
-        <p class="text-[11px] text-center text-slate-400">
-          * Trato 100% directo con el propietario (+591 70832781). Sin bancos ni comisiones de intermediarios.
-        </p>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ====================================================================== -->
-  <!-- SECCIÓN F: HARDEMAN & UBICACIÓN ESTRATÉGICA (A 400M CARRETERA) -->
-  <!-- ====================================================================== -->
-  <section id="ubicacion" class="py-14 md:py-20 bg-slate-50 border-t border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-
-        <div class="lg:col-span-6 space-y-5">
-          <span
-            class="text-xs font-bold uppercase tracking-widest text-brand-700 bg-brand-100 px-3 py-1 rounded-full border border-brand-200">
-            Conectividad Inmediata
-          </span>
-          <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            A sólo 400m de la Carretera Hardeman - Piraí
-          </h2>
-          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Situado en el municipio de San Pedro, a <strong class="text-slate-900 font-bold">180 km al norte de Santa
-              Cruz de la Sierra</strong>. Los terrenos de Proyecto Berlín disfrutan de una ubicación privilegiada con
-            acceso inmediato a la carretera asfaltada Hardeman - Piraí, garantizando conectividad constante y fluida en
-            cualquier época del año.
-          </p>
-
-          <!-- Ruta y Accesos -->
-          <div class="bg-white border border-slate-200 p-4 rounded-2xl space-y-3 shadow-sm">
-            <h4 class="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-route text-brand-600"></i> Ruta Estratégica del Norte Integrado:
+        <!-- Fila 1 - Columna 2: TELÉFONO -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Teléfono SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              TELÉFONO
             </h4>
-            <div class="flex items-center gap-1.5 text-xs text-slate-700 flex-wrap">
-              <span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 font-semibold">Santa Cruz</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 font-semibold">Montero</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 font-semibold">Mineros</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 font-semibold">San Pedro</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span
-                class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-300 font-bold">Hardeman
-                (400m de Carretera)</span>
-            </div>
-          </div>
-
-          <!-- Puntos Clave -->
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="flex items-start gap-2">
-              <i class="fa-solid fa-check text-brand-600 text-sm mt-0.5"></i>
-              <span class="text-slate-700">A 400 metros de la vía asfaltada principal.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i class="fa-solid fa-check text-brand-600 text-sm mt-0.5"></i>
-              <span class="text-slate-700">100% Cota Alta: Suelo firme no inundable.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i class="fa-solid fa-check text-brand-600 text-sm mt-0.5"></i>
-              <span class="text-slate-700">Avenida central de tierra y áreas verdes.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i class="fa-solid fa-check text-brand-600 text-sm mt-0.5"></i>
-              <span class="text-slate-700">Comercio, bancos y servicios en Hardeman.</span>
-            </div>
-          </div>
-
-          <div class="pt-2">
-            <a href="https://maps.google.com/?q=-16.8520,-63.5510" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors shadow">
-              <i class="fa-solid fa-location-arrow text-amber-400"></i>
-              <span>Abrir Ubicación en Google Maps</span>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Banner Visual / Infografía -->
-        <div class="lg:col-span-6">
-          <div
-            class="relative bg-gradient-to-br from-brand-900 to-slate-900 rounded-3xl p-6 text-white shadow-xl overflow-hidden">
-            <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-amber-500/10 rounded-full blur-2xl"></div>
-
-            <div class="relative space-y-4">
-              <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                <span class="text-xs uppercase font-bold text-amber-300">Resumen de Ubicación</span>
-                <span class="text-xs text-slate-300">Hardeman - Santa Cruz</span>
-              </div>
-
-              <!-- Infografía de Cota de Seguridad -->
-              <div class="bg-white/10 rounded-2xl p-4 border border-white/15 space-y-3">
-                <div class="flex items-center gap-3">
-                  <div
-                    class="w-10 h-10 rounded-xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-xl font-bold">
-                    <i class="fa-solid fa-shield-halved"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-display font-bold text-sm text-white">Topografía de Cota Elevada Garantizada</h5>
-                    <p class="text-[11px] text-slate-300">Libre de inundaciones frente a zonas bajas de Hardeman.</p>
-                  </div>
-                </div>
-
-                <!-- Barra comparativa visual -->
-                <div class="space-y-1.5 pt-1">
-                  <div class="flex justify-between text-[10px] text-slate-300">
-                    <span>Zonas Bajas Hardeman (Anegables)</span>
-                    <span class="font-bold text-emerald-300">Proyecto Berlín (Cota Alta)</span>
-                  </div>
-                  <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden flex">
-                    <div class="w-1/3 bg-red-500/60"></div>
-                    <div class="w-2/3 bg-gradient-to-r from-emerald-500 to-green-400"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Beneficio del $7 USD/m2 -->
-              <div class="p-3 bg-amber-500/15 border border-amber-400/40 rounded-xl flex items-center justify-between">
-                <div>
-                  <span class="text-[11px] text-amber-200 uppercase font-semibold block">Precio por metro
-                    cuadrado:</span>
-                  <span class="font-display font-black text-xl text-amber-300">$7 USD / m²</span>
-                </div>
-                <span class="text-xs text-slate-300 font-medium">Trato directo con los dueños</span>
-              </div>
-
-            </div>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <a href="tel:+59170832781" class="hover:text-coral-600 transition-colors font-bold block">(+591) 70832781</a>
+              <span class="text-xs text-slate-400">Atención directa y visitas al predio</span>
+            </p>
           </div>
         </div>
 
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ====================================================================== -->
-  <!-- SECCIÓN G: SOBRE NOSOTROS & PREGUNTAS FRECUENTES (FAQ) -->
-  <!-- ====================================================================== -->
-  <section class="py-14 md:py-20 bg-white border-t border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-      <!-- Sobre Nosotros -->
-      <div class="text-center space-y-3">
-        <span class="text-xs font-bold uppercase tracking-widest text-brand-700 bg-brand-100 px-3 py-1 rounded-full">
-          Emprendimiento Familiar y Transparente
-        </span>
-        <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
-          Sobre Proyecto Berlín (Hardeman)
-        </h2>
-        <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          "Un proyecto familiar desarrollado para brindar seguridad patrimonial y oportunidades reales de progreso a las
-          familias e inversores que apuestan por el desarrollo de Hardeman y el Norte Integrado."
-        </p>
-      </div>
-
-      <!-- Acordeón FAQ -->
-      <div class="space-y-3">
-        <h3 class="font-display font-bold text-xl text-slate-900 text-center mb-4">
-          Preguntas Frecuentes
-        </h3>
-
-        <!-- FAQ 1 -->
-        <details
-          class="group bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden"
-          open>
-          <summary
-            class="flex items-center justify-between cursor-pointer font-display font-bold text-sm sm:text-base text-slate-900">
-            <span>¿Cuál es el precio oficial y qué incluye?</span>
-            <span class="ml-2 text-brand-600 transition-transform group-open:rotate-180">
-              <i class="fa-solid fa-chevron-down"></i>
-            </span>
-          </summary>
-          <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
-            El precio oficial es de <strong>$7 USD por metro cuadrado</strong>. Los lotes se entregan con posesión
-            física inmediata, con acceso por la avenida central de tierra y colindantes a las áreas verdes del proyecto.
-          </p>
-        </details>
-
-        <!-- FAQ 2 -->
-        <details
-          class="group bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-          <summary
-            class="flex items-center justify-between cursor-pointer font-display font-bold text-sm sm:text-base text-slate-900">
-            <span>¿Cómo se garantiza que la zona es 100% no inundable?</span>
-            <span class="ml-2 text-brand-600 transition-transform group-open:rotate-180">
-              <i class="fa-solid fa-chevron-down"></i>
-            </span>
-          </summary>
-          <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
-            Los terrenos de Proyecto Berlín están situados sobre la cota natural más alta de Hardeman. Durante las
-            temporadas de lluvia en el Norte Integrado, el agua drena de manera natural sin acumularse, manteniendo los
-            terrenos secos y transitables.
-          </p>
-        </details>
-
-        <!-- FAQ 3 -->
-        <details
-          class="group bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-          <summary
-            class="flex items-center justify-between cursor-pointer font-display font-bold text-sm sm:text-base text-slate-900">
-            <span>¿A qué distancia está de la carretera principal?</span>
-            <span class="ml-2 text-brand-600 transition-transform group-open:rotate-180">
-              <i class="fa-solid fa-chevron-down"></i>
-            </span>
-          </summary>
-          <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
-            El predio se encuentra a tan sólo <strong>400 metros de la Carretera Hardeman - Piraí</strong>, facilitando
-            el transporte diario y el acceso rápido hacia San Pedro, Mineros, Montero y Santa Cruz.
-          </p>
-        </details>
-
-        <!-- FAQ 4 -->
-        <details
-          class="group bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-sm [&_summary::-webkit-details-marker]:hidden">
-          <summary
-            class="flex items-center justify-between cursor-pointer font-display font-bold text-sm sm:text-base text-slate-900">
-            <span>¿Cómo coordino una visita o apartado de mi lote?</span>
-            <span class="ml-2 text-brand-600 transition-transform group-open:rotate-180">
-              <i class="fa-solid fa-chevron-down"></i>
-            </span>
-          </summary>
-          <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
-            Comunícate directamente al WhatsApp o llamada telefónica con los propietarios al <a href="tel:+59170832781"
-              class="text-brand-700 font-bold underline">+591 70832781</a>.
-          </p>
-        </details>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ====================================================================== -->
-  <!-- SECCIÓN H: CONTACTO DIRECTO & FOOTER -->
-  <!-- ====================================================================== -->
-  <footer id="contacto" class="bg-brand-950 text-white border-t border-brand-800 pt-12 pb-24 md:pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-brand-800/80">
-
-        <!-- Columna Marca -->
-        <div class="md:col-span-5 space-y-4">
-          <div class="flex items-center gap-2.5">
-            <div
-              class="w-10 h-10 rounded-xl bg-amber-400 flex items-center justify-center text-brand-950 font-black text-xl">
-              <i class="fa-solid fa-tree"></i>
-            </div>
-            <div>
-              <span class="font-display font-extrabold text-2xl tracking-tight text-white block">PROYECTO BERLÍN</span>
-              <span class="text-xs text-amber-300 font-bold">$7 USD / m² • Hardeman, Bolivia</span>
-            </div>
+        <!-- Fila 1 - Columna 3: EMAIL -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Email SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
           </div>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Terrenos de cota alta a 400m de la Carretera Hardeman - Piraí. Inversión protegida, sin intermediarios y con
-            planes de pago directo.
-          </p>
-          <div class="flex items-center gap-2 text-xs text-amber-400 font-semibold">
-            <i class="fa-solid fa-shield-check"></i>
-            <span>100% Zona Alta No Inundable Garantizada</span>
+          <div>
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              EMAIL
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <a href="mailto:info@proyectoberlin.com.bo" class="hover:text-coral-600 transition-colors font-semibold block">info@proyectoberlin.com.bo</a>
+              <span class="text-xs text-slate-400">Consultas y cotizaciones oficiales</span>
+            </p>
           </div>
         </div>
 
-        <!-- Columna Datos de Contacto Directo -->
-        <div class="md:col-span-4 space-y-3">
-          <h4 class="font-display font-bold text-base text-amber-400 uppercase tracking-wider">
-            Contacto Directo con el Propietario
-          </h4>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-200">
-            <li class="flex items-center gap-2.5">
-              <i class="fa-solid fa-phone text-emerald-400"></i>
-              <a href="tel:+59170832781" class="hover:text-amber-300 transition-colors font-bold">+591 70832781</a>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
-              <a href="https://api.whatsapp.com/send?phone=59170832781&text=Hola,%20me%20interesa%20el%20lote%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20a%20*$7%20USD/m%C2%B2*."
-                target="_blank" rel="noopener noreferrer" class="hover:text-amber-300 transition-colors">
-                WhatsApp: +591 70832781
+        <!-- Fila 2 - Columna 1: FACEBOOK -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Facebook SVG -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              FACEBOOK
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:text-coral-600 transition-colors font-medium">
+                /ProyectoBerlinHardeman
               </a>
-            </li>
-            <li class="flex items-center gap-2.5">
-              <i class="fa-solid fa-location-dot text-emerald-400"></i>
-              <span>A 400m de Carretera Hardeman - Piraí, San Pedro, Santa Cruz</span>
-            </li>
-          </ul>
+            </p>
+          </div>
         </div>
 
-        <!-- Columna Enlaces Rápidos -->
-        <div class="md:col-span-3 space-y-3">
-          <h4 class="font-display font-bold text-base text-white uppercase tracking-wider">
-            Navegación
-          </h4>
-          <ul class="space-y-1.5 text-xs text-slate-300">
-            <li><a href="#info-institucional" class="hover:text-amber-300 transition-colors">🏢 Institucional</a></li>
-            <li><a href="#mapa-lotes" class="hover:text-amber-300 transition-colors">🗺️ Croquis Oficial (M1, M2,
-                M3)</a></li>
-            <li><a href="#simulador-modal" onclick="openSimulador(); return false;" class="hover:text-amber-300 transition-colors">🧮 Simulador ($7 USD/m²)</a></li>
-            <li><a href="#ubicacion" class="hover:text-amber-300 transition-colors">📍 Carretera Hardeman - Piraí</a>
-            </li>
-          </ul>
+        <!-- Fila 2 - Columna 2: INSTAGRAM -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Instagram SVG -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              INSTAGRAM
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-coral-600 transition-colors font-medium">
+                @proyectoberlin_oficial
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Fila 2 - Columna 3: TIKTOK / YOUTUBE -->
+        <div class="footer-item flex items-start gap-4">
+          <div class="footer-icon-box shrink-0">
+            <!-- Icono Video SVG -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.298 0 .593.047.87.14V9.41a6.33 6.33 0 00-.87-.06A6.34 6.34 0 003.15 15.7a6.34 6.34 0 0010.82 4.47c1.37-1.37 2.14-3.23 2.14-5.18V8.67a8.21 8.21 0 004.53 1.34V6.57a4.86 4.86 0 01-1.05-.12v.24z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-display font-extrabold text-sm uppercase tracking-wider text-slate-900 mb-1">
+              TIKTOK & YOUTUBE
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="hover:text-coral-600 transition-colors font-medium">
+                @proyectoberlin
+              </a>
+            </p>
+          </div>
         </div>
 
       </div>
 
-      <!-- Copyright -->
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
-        <p>© 2026 Proyecto Berlín - Hardeman. Todos los derechos reservados.</p>
-        <p class="text-[11px]">Trato directo y transparente con los titulares del predio.</p>
-      </div>
+    </div>
 
+    <!-- Franja Inferior Oscura (Sub-footer) -->
+    <div class="bg-[#1c382b] text-slate-300 py-6 text-center text-xs sm:text-sm">
+      <div class="max-w-7xl mx-auto px-4">
+        <p>Diseñado para Proyecto Berlín | © Todos los derechos reservados.</p>
+      </div>
     </div>
   </footer>
 
   <!-- ====================================================================== -->
-  <!-- BARRA DE ACCIÓN PERSISTENTE MÓVIL (STICKY BOTTOM BAR) -->
+  <!-- BOTÓN FLOTANTE DE WHATSAPP (CON RADAR PULSE) -->
   <!-- ====================================================================== -->
-  <div
-    class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-slate-900/95 border-t border-slate-800 p-2.5 backdrop-blur-lg flex items-center gap-2 shadow-2xl">
-    <a href="#mapa-lotes"
-      class="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-brand-950 font-display font-extrabold text-xs shadow-md">
-      <i class="fa-solid fa-map-location-dot text-sm"></i>
-      <span>🗺️ Plano ($7/m²)</span>
-    </a>
-    <a href="https://api.whatsapp.com/send?phone=59170832781&text=Hola,%20me%20interesa%20el%20lote%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20de%20*$7%20USD/m%C2%B2*."
-      target="_blank" rel="noopener noreferrer"
-      class="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 text-white font-display font-extrabold text-xs shadow-md">
-      <i class="fa-brands fa-whatsapp text-base"></i>
-      <span>💬 WhatsApp Directo</span>
-    </a>
-  </div>
-
-  <!-- ====================================================================== -->
-  <!-- BOTÓN FLOTANTE PERSISTENTE DE WHATSAPP (CON RADAR PULSE) -->
-  <!-- ====================================================================== -->
-  <div class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40">
+  <div class="fixed bottom-6 right-6 z-50">
     <div class="relative group">
       <!-- Radar Pulse Ring -->
       <div class="absolute -inset-2 bg-emerald-500 rounded-full opacity-75 pulse-ring pointer-events-none"></div>
 
       <!-- Botón Principal -->
-      <a href="https://api.whatsapp.com/send?phone=59170832781&text=Hola,%20me%20interesa%20el%20lote%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20a%20*$7%20USD/m%C2%B2*.%20%C2%BFMe%20brindan%20informaci%C3%B3n%20de%20disponibilidad%3F"
+      <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20informaci%C3%B3n%20sobre%20los%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20a%20*$7%20USD/m%C2%B2*."
         target="_blank" rel="noopener noreferrer"
-        class="relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-tr from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white shadow-2xl shadow-emerald-950 transform hover:scale-110 active:scale-95 transition-all"
+        class="relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xl shadow-emerald-950/40 transform hover:scale-110 active:scale-95 transition-all"
         title="Chatear por WhatsApp">
-        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
-        <!-- Badge Notificación -->
-        <span
-          class="absolute top-0 right-0 w-4 h-4 bg-amber-400 text-brand-950 font-extrabold text-[9px] rounded-full flex items-center justify-center shadow">1</span>
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
       </a>
-
-      <!-- Tooltip en Desktop -->
-      <div
-        class="hidden lg:group-hover:block absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-xl shadow-xl whitespace-nowrap border border-slate-700 pointer-events-none">
-        $7 USD/m² • Trato con el dueño
-      </div>
     </div>
   </div>
 
-  <!-- ====================================================================== -->
-  <!-- SCRIPTS EXTERNOS: LEAFLET & SWIPER & MÓDULOS DEL PROYECTO -->
-  <!-- ====================================================================== -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
-  <!-- Swiper.js CDN -->
+  <!-- Swiper.js JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-  <!-- 1. Dataset Oficial y Geometrías -->
-  <script src="js/lotes-data.js"></script>
-
-  <!-- 2. Visor WebGIS y Leaflet -->
-  <script src="js/mapa.js"></script>
-
-  <!-- 3. Simulador Financiero ($7 USD/m²) y WhatsApp API -->
-  <script src="js/simulador.js"></script>
-
-  <!-- 4. Controlador Principal de la Aplicación -->
+  <!-- Controlador Principal -->
   <script src="js/main.js"></script>
 
 </body>

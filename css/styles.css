@@ -1,135 +1,44 @@
 /* ==========================================================================
-   PROYECTO BERLÍN - HARDEMAN
-   Estilos personalizados, animaciones y overrides de Leaflet & Swiper
+   PROYECTO BERLÍN - ESTILO COMERCIAL TECHO
+   Estilos globales, Swiper Carousel, Acordeón y Footer
    ========================================================================== */
 
-/* Leaflet Container & Typography */
-.leaflet-container {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
-  background-color: #0f172a;
+/* Tipografía base */
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #334155;
+  background-color: #ffffff;
 }
 
-/* Custom Lot Number Labels */
-.custom-lot-label {
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 1px 4px;
-  border-radius: 4px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.custom-lot-label.disponible {
-  background: rgba(6, 78, 59, 0.95);
-  border-color: #34d399;
-  color: #a7f3d0;
-}
-
-/* Manzanas Badges */
-.manzana-label {
-  background: rgba(15, 23, 42, 0.95);
-  border: 1.5px solid #fbbf24;
-  color: #fde68a;
-  font-size: 11px;
-  font-weight: 900;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.5px;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* Street & Infrastructure Labels */
-.street-label {
-  background: rgba(30, 41, 59, 0.85);
-  border: 1px dashed rgba(255, 255, 255, 0.4);
-  color: #e2e8f0;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* Green Areas Label */
-.green-area-label {
-  background: rgba(5, 150, 105, 0.85);
-  border: 1px solid #6ee7b7;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* Pulse radar effect for WhatsApp badge */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
-}
-
-.pulse-ring {
-  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-}
-
-/* Bottom Sheet swipe / slide animations */
-#bottom-sheet {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-}
-
-#bottom-sheet.translate-y-full {
-  transform: translateY(105%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-#bottom-sheet:not(.translate-y-full) {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Glassmorphism Navigation */
-.glass-nav {
-  background: rgba(6, 78, 59, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Hide scrollbars on horizontal scroll cards */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
 }
 
 /* ==========================================================================
-   HERO SWIPER CAROUSEL (ESTILO COMERCIAL TECHO)
+   1. NAVBAR LIMPIO BLANCO
+   ========================================================================== */
+.site-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.nav-link {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  color: #334155;
+  transition: color 0.2s ease;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+  color: #ea580c;
+}
+
+/* ==========================================================================
+   2. CARRUSEL HERO COMERCIAL (SWIPER.JS)
    ========================================================================== */
 .hero-carousel-section {
   position: relative;
@@ -143,7 +52,7 @@
 
 @media (min-width: 768px) {
   .heroSwiper {
-    height: 520px;
+    height: 540px;
   }
 }
 
@@ -159,29 +68,22 @@
   z-index: 1;
 }
 
-/* Botones estilo inmobiliario */
+/* Botones Hero Comerciales */
 .btn-hero-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.875rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 0.75rem;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #0f172a;
   font-family: 'Outfit', system-ui, sans-serif;
   font-weight: 800;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
   transition: all 0.25s ease;
   text-decoration: none;
-}
-
-@media (min-width: 640px) {
-  .btn-hero-primary {
-    font-size: 1rem;
-    padding: 0.875rem 1.75rem;
-  }
 }
 
 .btn-hero-primary:hover {
@@ -191,33 +93,22 @@
   color: #022c22;
 }
 
-.btn-hero-primary:active {
-  transform: translateY(0);
-}
-
 .btn-hero-whatsapp {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.875rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 0.75rem;
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   color: #ffffff;
   font-family: 'Outfit', system-ui, sans-serif;
   font-weight: 800;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
   transition: all 0.25s ease;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-@media (min-width: 640px) {
-  .btn-hero-whatsapp {
-    font-size: 1rem;
-    padding: 0.875rem 1.75rem;
-  }
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .btn-hero-whatsapp:hover {
@@ -227,57 +118,25 @@
   color: #ffffff;
 }
 
-.btn-hero-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.875rem;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 0.875rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.25s ease;
-  text-decoration: none;
-}
-
-@media (min-width: 640px) {
-  .btn-hero-secondary {
-    font-size: 1rem;
-    padding: 0.875rem 1.75rem;
-  }
-}
-
-.btn-hero-secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
-  color: #ffffff;
-}
-
-/* Estilos de Controles de Swiper */
+/* Flechas Swiper */
 .swiper-button-next,
 .swiper-button-prev {
   color: #ffffff !important;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   width: 44px !important;
   height: 44px !important;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   transition: all 0.25s ease;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background: rgba(15, 23, 42, 0.85);
-  border-color: #fbbf24;
-  color: #fbbf24 !important;
+  border-color: #ea580c;
+  color: #ea580c !important;
   transform: scale(1.08);
 }
 
@@ -288,9 +147,9 @@
   }
 }
 
-/* Paginación Swiper con Puntos Activos Alargados */
+/* Paginación Swiper */
 .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.6) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
   opacity: 1 !important;
   width: 8px !important;
   height: 8px !important;
@@ -298,14 +157,14 @@
 }
 
 .swiper-pagination-bullet-active {
-  background: #fbbf24 !important;
+  background: #ea580c !important;
   width: 26px !important;
   border-radius: 9999px !important;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+  box-shadow: 0 0 10px rgba(234, 88, 12, 0.6);
 }
 
 /* ==========================================================================
-   SECCIÓN INSTITUCIONAL & ACORDEÓN (ESTILO TECHO)
+   3. SECCIÓN INFORMATIVA CON ACORDEÓN (ESTILO TECHO)
    ========================================================================== */
 .techo-check-icon {
   display: flex;
@@ -315,7 +174,7 @@
   height: 26px;
   border-radius: 9999px;
   background-color: #16a34a;
-  box-shadow: 0 2px 5px rgba(22, 163, 74, 0.3);
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
 }
 
 .techo-toggle-btn {
@@ -369,4 +228,49 @@
   padding-top: 0.75rem;
   padding-bottom: 1.25rem;
   border-top: 1px solid #f1f5f9;
+}
+
+/* ==========================================================================
+   4. FOOTER CUADRÍCULA & ICONOS CORAL (ESTILO TECHO)
+   ========================================================================== */
+.footer-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background-color: #fff7ed;
+  color: #ea580c;
+  border: 1.5px solid #ffedd5;
+  transition: all 0.25s ease;
+}
+
+.footer-item:hover .footer-icon-box {
+  background-color: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   5. BOTÓN FLOTANTE DE WHATSAPP (CON RADAR PULSE)
+   ========================================================================== */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
