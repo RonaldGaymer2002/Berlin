@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-  <title>Calibrador Total de Lotes (29 Lotes + 3 Áreas Verdes) | Proyecto Berlín</title>
+  <title>Plano Oficial Definitivo | Proyecto Berlín - Hardeman, Santa Cruz</title>
   <meta name="description"
-    content="Herramienta interactiva de calibración total de los 29 lotes oficiales y 3 áreas verdes sobre el plano de Proyecto Berlín." />
+    content="Visor interactivo oficial de lotes de Proyecto Berlín en Hardeman. Consulta técnica en tiempo real, disponibilidad de lotes a $7 USD/m² y reserva directa por WhatsApp." />
 
   <!-- Favicon SVG -->
   <link rel="icon"
@@ -140,11 +140,11 @@
     }
 
     /* ====================================================================== */
-    /* TODOS LOS MARCADORES ARRASTRABLES (L.divIcon) */
+    /* MARCADORES OFICIALES DEFINITIVOS (L.divIcon) */
     /* ====================================================================== */
     .lot-badge-icon {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -154,17 +154,16 @@
       font-size: 11px;
       color: #ffffff;
       border: 2px solid #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
-      cursor: grab;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
       user-select: none;
     }
 
-    .lot-badge-icon:active {
-      cursor: grabbing;
-      transform: scale(1.45);
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.85);
-      z-index: 99999 !important;
+    .lot-badge-icon:hover {
+      transform: scale(1.35);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+      z-index: 9999 !important;
     }
 
     .lot-badge-icon.disponible {
@@ -177,41 +176,38 @@
 
     /* Badge de Área Verde */
     .green-area-badge {
-      padding: 5px 12px;
+      padding: 4px 10px;
       background: linear-gradient(135deg, #10b981 0%, #047857 100%);
       color: white;
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 11px;
+      font-size: 10px;
       border-radius: 9999px;
-      border: 2px solid white;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      border: 1.5px solid white;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
       white-space: nowrap;
-      cursor: grab;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
-      transition: transform 0.15s ease;
+      gap: 4px;
+      transition: transform 0.2s ease;
       user-select: none;
     }
 
-    .green-area-badge:active {
-      cursor: grabbing;
-      transform: scale(1.3);
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.85);
-      z-index: 99999 !important;
+    .green-area-badge:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
     }
 
-    /* Panel de Calibración */
-    .calib-panel {
-      background: rgba(15, 23, 42, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(51, 65, 85, 0.85);
-      border-radius: 22px;
-      color: #f8fafc;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Bottom Sheet / Ficha Técnica */
+    .lot-sheet-card {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+
+    .lot-sheet-card.hidden-sheet {
+      transform: translateY(120%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     /* Controles de Zoom Leaflet */
@@ -251,7 +247,7 @@
   <!-- 2. SELECTOR FLOTANTE DE 3 MODOS (SUPERIOR CENTRADO) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 left-1/2 -translate-x-1/2 mode-selector">
-    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano oficial técnico">
+    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano técnico oficial">
       <span>📐</span>
       <span>Solo Plano</span>
     </button>
@@ -283,13 +279,6 @@
   <!-- 4. BOTONES FLOTANTES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
   <!-- ====================================================================== -->
   <div class="floating-ui absolute top-4 right-4 flex flex-col gap-2">
-    <!-- Botón Toggle Panel de Calibración -->
-    <button id="btn-toggle-calib-panel"
-      class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-emerald-700 hover:text-emerald-800 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Herramienta de Calibración Total (29 Lotes + 3 Áreas Verdes)">
-      <span class="text-base">🎯</span>
-    </button>
-
     <!-- Botón Google Maps Oficial -->
     <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-red-600 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
@@ -310,64 +299,60 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 5. PANEL FLOTANTE DE EXTRACCIÓN EN VIVO (29 LOTES + 3 ÁREAS VERDES) -->
+  <!-- 5. FICHA TÉCNICA / BOTTOM SHEET DEL LOTE SELECCIONADO -->
   <!-- ====================================================================== -->
-  <div id="panel-calibracion"
-    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[550px] p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
+  <div id="lot-sheet"
+    class="floating-ui lot-sheet-card hidden-sheet absolute bottom-6 right-4 left-4 sm:left-auto sm:w-96 bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200">
     
-    <div class="flex items-center justify-between pb-3 border-b border-slate-700/80 mb-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-        <h3 class="font-display font-extrabold text-sm sm:text-base text-white tracking-wide">
-          🎯 Calibrador Total (29 Lotes + 3 Áreas Verdes)
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div>
+        <span id="sheet-manzana" class="text-[10px] font-black uppercase tracking-widest text-coral-600 block">
+          MANZANA M-1
+        </span>
+        <h3 id="sheet-lote" class="font-display font-extrabold text-xl text-slate-900">
+          LOTE 09
         </h3>
       </div>
-      <button id="btn-close-calib" class="text-slate-400 hover:text-white font-bold text-sm px-1.5 py-0.5 rounded-lg hover:bg-slate-800">
+      <button id="btn-close-sheet" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-sm transition-colors">
         ✕
       </button>
     </div>
 
-    <!-- Contador y Guía Rápida -->
-    <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60 mb-3 space-y-1.5">
-      <div class="flex items-center justify-between text-xs font-bold">
-        <span class="text-emerald-400">TODOS los marcadores arrastrables (29 Lotes)</span>
-        <span class="text-teal-300">3 Áreas Verdes</span>
-      </div>
-      <p class="text-[11px] text-slate-300 leading-relaxed font-medium">
-        👆 <b>Arrastra libremente cualquier número o área verde</b> para posicionarlo sobre su lote exacto en el dibujo.
-      </p>
-      <div id="last-moved-info" class="text-[11px] font-mono text-amber-300 pt-0.5">
-        💡 Arrastra cualquier elemento para actualizar el código en vivo.
-      </div>
-    </div>
-
-    <!-- Bloque de Código en Vivo -->
-    <div class="space-y-1.5 mb-3">
+    <div class="py-4 space-y-2 text-xs sm:text-sm">
       <div class="flex items-center justify-between">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-          Código JavaScript Resultante:
-        </span>
-        <span id="badge-saved" class="hidden text-[10px] font-extrabold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
-          Guardado en navegador ✅
+        <span class="text-slate-500 font-medium">Estado:</span>
+        <span id="sheet-estado" class="font-bold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 border border-emerald-300">
+          DISPONIBLE
         </span>
       </div>
-      <pre id="code-configuracion" class="bg-slate-950 p-3 rounded-xl text-[10.5px] font-mono text-emerald-400 max-h-52 overflow-y-auto border border-slate-800 select-all leading-relaxed"></pre>
+      <div class="flex items-center justify-between">
+        <span class="text-slate-500 font-medium">Superficie:</span>
+        <span id="sheet-superficie" class="font-bold text-slate-900">437.77 m²</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-slate-500 font-medium">Precio Oficial ($7/m²):</span>
+        <span id="sheet-precio-usd" class="font-bold text-emerald-700 text-base">$3,064.39 USD</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-slate-500 font-medium">Equivalente en Bs:</span>
+        <span id="sheet-precio-bs" class="font-semibold text-slate-600">~Bs. 21,328.15</span>
+      </div>
+      <div class="flex items-center justify-between pt-1 border-t border-slate-100">
+        <span class="text-slate-500 font-medium">Cuota Directa (120m):</span>
+        <span id="sheet-cuota" class="font-bold text-coral-600">Desde $25.54 USD/mes</span>
+      </div>
     </div>
 
-    <!-- Botones de Acción -->
-    <div class="flex items-center gap-2">
-      <button id="btn-copy-config"
-        class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-xs shadow-md transition-all active:scale-95">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-        <span id="btn-copy-text">Copiar Configuración Definitiva</span>
-      </button>
-
-      <button id="btn-reset-config"
-        class="py-3 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-colors"
-        title="Reiniciar posiciones">
-        🔄 Reiniciar
-      </button>
-    </div>
+    <!-- Botón CTA WhatsApp Directo -->
+    <a id="sheet-whatsapp-btn"
+      href="https://wa.me/59170832781"
+      target="_blank" rel="noopener noreferrer"
+      class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-sm shadow-md transition-all text-center active:scale-95">
+      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z"/>
+      </svg>
+      <span>Cotizar este Lote por WhatsApp</span>
+    </a>
 
   </div>
 
@@ -398,6 +383,9 @@
         <span class="px-1.5 py-0.5 rounded bg-emerald-700 text-white font-bold text-[9px] shrink-0">🌳 AV</span>
         <span class="text-slate-700 font-semibold">Área Verde / Parque</span>
       </div>
+      <div class="flex items-center gap-2 pt-1 border-t border-slate-100 text-[11px] text-slate-500">
+        <span>💡 Toca cualquier número para ver detalles y cotizar.</span>
+      </div>
     </div>
   </div>
 
@@ -405,7 +393,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
   <!-- ====================================================================== -->
-  <!-- 7. SCRIPT CON TODOS LOS 29 LOTES Y 3 ÁREAS VERDES ARRASTRABLES -->
+  <!-- 7. SCRIPT DE PRODUCCIÓN CON DATASET OFICIAL DEFINITIVO -->
   <!-- ====================================================================== -->
   <script>
     // Variables Globales
@@ -425,60 +413,55 @@
 
     const CENTER_COORDS = [-16.672790, -63.611854];
     const DEFAULT_ZOOM = 18;
+    const PRECIO_M2 = 7.0;
+    const TIPO_CAMBIO = 6.96;
 
     // ========================================================================
-    // 1. DATASET INICIAL DISPERSO DE LOS 29 LOTES (TODOS DRAGGABLE = TRUE)
+    // DATASET OFICIAL DEFINITIVO CALIBRADO (27 LOTES)
     // ========================================================================
-    const LOTES_DEFAULT = [
-      // MANZANA M-1 (9 Lotes - Fila Superior)
-      { id: "M1-L1", mz: "M-1", lote: 1, lat: -16.672050, lng: -63.612800, estado: "ocupado",    sup: 338.01 },
-      { id: "M1-L2", mz: "M-1", lote: 2, lat: -16.672075, lng: -63.612580, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L3", mz: "M-1", lote: 3, lat: -16.672095, lng: -63.612360, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L4", mz: "M-1", lote: 4, lat: -16.672115, lng: -63.612140, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L5", mz: "M-1", lote: 5, lat: -16.672135, lng: -63.611920, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L6", mz: "M-1", lote: 6, lat: -16.672155, lng: -63.611700, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L7", mz: "M-1", lote: 7, lat: -16.672175, lng: -63.611480, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L8", mz: "M-1", lote: 8, lat: -16.672195, lng: -63.611260, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L9", mz: "M-1", lote: 9, lat: -16.672215, lng: -63.611040, estado: "disponible", sup: 437.77 },
+    const LOTES_CALIBRADOS = [
+      // Manzana M-1 (9 Lotes)
+      { id: "M1-L1", mz: "M-1", lote: 1, lat: -16.673704, lng: -63.611577, estado: "ocupado",    sup: 338.01 },
+      { id: "M1-L2", mz: "M-1", lote: 2, lat: -16.673630, lng: -63.611502, estado: "ocupado",    sup: 307.94 },
+      { id: "M1-L3", mz: "M-1", lote: 3, lat: -16.673564, lng: -63.611422, estado: "ocupado",    sup: 348.79 },
+      { id: "M1-L4", mz: "M-1", lote: 4, lat: -16.673379, lng: -63.611628, estado: "ocupado",    sup: 460.89 },
+      { id: "M1-L5", mz: "M-1", lote: 5, lat: -16.673265, lng: -63.611717, estado: "ocupado",    sup: 437.86 },
+      { id: "M1-L6", mz: "M-1", lote: 6, lat: -16.673155, lng: -63.611797, estado: "ocupado",    sup: 414.83 },
+      { id: "M1-L7", mz: "M-1", lote: 7, lat: -16.673052, lng: -63.611875, estado: "ocupado",    sup: 263.76 },
+      { id: "M1-L8", mz: "M-1", lote: 8, lat: -16.672988, lng: -63.611937, estado: "ocupado",    sup: 350.00 },
+      { id: "M1-L9", mz: "M-1", lote: 9, lat: -16.672905, lng: -63.611999, estado: "disponible", sup: 437.77 },
 
-      // MANZANA M-2 (13 Lotes - Fila Media Superior e Inferior)
-      { id: "M2-L1", mz: "M-2", lote: 1,  lat: -16.672520, lng: -63.612800, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L2", mz: "M-2", lote: 2,  lat: -16.672540, lng: -63.612580, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L3", mz: "M-2", lote: 3,  lat: -16.672560, lng: -63.612360, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L4", mz: "M-2", lote: 4,  lat: -16.672580, lng: -63.612140, estado: "disponible", sup: 504.49 },
-      { id: "M2-L5", mz: "M-2", lote: 5,  lat: -16.672600, lng: -63.611920, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L6", mz: "M-2", lote: 6,  lat: -16.672620, lng: -63.611700, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L7", mz: "M-2", lote: 7,  lat: -16.672640, lng: -63.611480, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L8", mz: "M-2", lote: 8,  lat: -16.672660, lng: -63.611260, estado: "ocupado",    sup: 350.00 },
-      { id: "M2-L9", mz: "M-2", lote: 9,  lat: -16.672680, lng: -63.611040, estado: "disponible", sup: 961.57 },
+      // Manzana M-2 (13 Lotes)
+      { id: "M2-L1", mz: "M-2", lote: 1,  lat: -16.673376, lng: -63.611269, estado: "ocupado",    sup: 382.98 },
+      { id: "M2-L2", mz: "M-2", lote: 2,  lat: -16.673309, lng: -63.611191, estado: "ocupado",    sup: 293.55 },
+      { id: "M2-L3", mz: "M-2", lote: 3,  lat: -16.673247, lng: -63.611113, estado: "ocupado",    sup: 284.21 },
+      { id: "M2-L4", mz: "M-2", lote: 4,  lat: -16.673065, lng: -63.611317, estado: "disponible", sup: 504.49 },
+      { id: "M2-L5", mz: "M-2", lote: 5,  lat: -16.672959, lng: -63.611400, estado: "ocupado",    sup: 510.44 },
+      { id: "M2-L6", mz: "M-2", lote: 6,  lat: -16.672859, lng: -63.611502, estado: "ocupado",    sup: 516.38 },
+      { id: "M2-L7", mz: "M-2", lote: 7,  lat: -16.672738, lng: -63.611588, estado: "ocupado",    sup: 522.33 },
+      { id: "M2-L8", mz: "M-2", lote: 8,  lat: -16.672646, lng: -63.611671, estado: "ocupado",    sup: 422.83 },
+      { id: "M2-L9", mz: "M-2", lote: 9,  lat: -16.672473, lng: -63.611661, estado: "disponible", sup: 961.57 },
+      { id: "M2-L10", mz: "M-2", lote: 10, lat: -16.672306, lng: -63.611685, estado: "disponible", sup: 290.71 },
+      { id: "M2-L11", mz: "M-2", lote: 11, lat: -16.672221, lng: -63.611752, estado: "disponible", sup: 324.72 },
+      { id: "M2-L12", mz: "M-2", lote: 12, lat: -16.672147, lng: -63.611824, estado: "disponible", sup: 319.61 },
+      { id: "M2-L13", mz: "M-2", lote: 13, lat: -16.672064, lng: -63.611905, estado: "disponible", sup: 314.50 },
 
-      { id: "M2-L10", mz: "M-2", lote: 10, lat: -16.672950, lng: -63.612800, estado: "disponible", sup: 290.71 },
-      { id: "M2-L11", mz: "M-2", lote: 11, lat: -16.672975, lng: -63.612580, estado: "disponible", sup: 324.72 },
-      { id: "M2-L12", mz: "M-2", lote: 12, lat: -16.673000, lng: -63.612360, estado: "disponible", sup: 319.61 },
-      { id: "M2-L13", mz: "M-2", lote: 13, lat: -16.673025, lng: -63.612140, estado: "disponible", sup: 314.50 },
-
-      // MANZANA M-3 (7 Lotes - Fila Inferior)
-      { id: "M3-L1", mz: "M-3", lote: 1,  lat: -16.673400, lng: -63.612800, estado: "ocupado",    sup: 360.00 },
-      { id: "M3-L2", mz: "M-3", lote: 2,  lat: -16.673420, lng: -63.612580, estado: "disponible", sup: 362.64 },
-      { id: "M3-L3", mz: "M-3", lote: 3,  lat: -16.673440, lng: -63.612360, estado: "disponible", sup: 362.64 },
-      { id: "M3-L4", mz: "M-3", lote: 4,  lat: -16.673460, lng: -63.612140, estado: "disponible", sup: 362.64 },
-      { id: "M3-L5", mz: "M-3", lote: 5,  lat: -16.673480, lng: -63.611920, estado: "disponible", sup: 365.31 },
-      { id: "M3-L6", mz: "M-3", lote: 6,  lat: -16.673500, lng: -63.611700, estado: "disponible", sup: 360.00 },
-      { id: "M3-L7", mz: "M-3", lote: 7,  lat: -16.673520, lng: -63.611480, estado: "disponible", sup: 360.00 }
+      // Manzana M-3 (5 Lotes)
+      { id: "M3-L1", mz: "M-3", lote: 1, lat: -16.672514, lng: -63.612538, estado: "ocupado",    sup: 350.00 },
+      { id: "M3-L2", mz: "M-3", lote: 2, lat: -16.672427, lng: -63.612455, estado: "disponible", sup: 362.64 },
+      { id: "M3-L3", mz: "M-3", lote: 3, lat: -16.672344, lng: -63.612377, estado: "disponible", sup: 374.28 },
+      { id: "M3-L4", mz: "M-3", lote: 4, lat: -16.672262, lng: -63.612302, estado: "disponible", sup: 362.64 },
+      { id: "M3-L5", mz: "M-3", lote: 5, lat: -16.672187, lng: -63.612235, estado: "disponible", sup: 365.31 }
     ];
 
     // ========================================================================
-    // 2. DATASET INICIAL DE LAS 3 ÁREAS VERDES (DRAGGABLE = TRUE)
+    // DATASET OFICIAL DEFINITIVO CALIBRADO (3 ÁREAS VERDES)
     // ========================================================================
-    const AREAS_VERDES_DEFAULT = [
-      { id: "AV-1", nombre: "Área Verde 1", lat: -16.673550, lng: -63.611000 },
-      { id: "AV-2", nombre: "Área Verde 2", lat: -16.672100, lng: -63.610950 },
-      { id: "AV-3", nombre: "Parque / Área Verde Central", lat: -16.672800, lng: -63.611500 }
+    const AREAS_VERDES = [
+      { id: "AV-1", nombre: "Área Verde 1", lat: -16.672815, lng: -63.612231 },
+      { id: "AV-2", nombre: "Área Verde 2", lat: -16.672425, lng: -63.612052 },
+      { id: "AV-3", nombre: "Parque / Área Verde Central", lat: -16.671897, lng: -63.612087 }
     ];
-
-    // Cargar de LocalStorage si el usuario ya movió elementos
-    let lotesCalibrados = JSON.parse(localStorage.getItem('berlin_lotes_all_draggable')) || JSON.parse(JSON.stringify(LOTES_DEFAULT));
-    let areasVerdesCalibradas = JSON.parse(localStorage.getItem('berlin_av_all_draggable')) || JSON.parse(JSON.stringify(AREAS_VERDES_DEFAULT));
 
     function initWebGIS() {
       // 1. Instanciar Mapa Fullscreen
@@ -510,136 +493,135 @@
         maxZoom: 21
       });
 
-      // 4. Montaje Inamovible del Plano Oficial
+      // 4. Montaje Inamovible del Plano Oficial Definitivo
       planoOverlay = L.imageOverlay('img/plano-tecnico-berlin.jpg', planoBounds, {
         opacity: 1.0,
         interactive: false,
         alt: 'Plano Oficial Calibrado Proyecto Berlín'
       });
 
-      // 5. Capas de Marcadores Arrastrables
+      // 5. Capas de Marcadores Fijos
       lotesMarkersGroup = L.layerGroup();
       greenAreasGroup = L.layerGroup();
+      const lotSheet = document.getElementById('lot-sheet');
 
-      renderizarTodosLosElementos();
-
-      // Iniciar en Modo 1: Solo Plano
-      cambiarModo('plano');
-      actualizarCodigoConfiguracion();
-      setupUIControls();
-
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 200);
-    }
-
-    // Renderizar los 29 Lotes y 3 Áreas Verdes TODOS con Draggable = true
-    function renderizarTodosLosElementos() {
-      lotesMarkersGroup.clearLayers();
-      greenAreasGroup.clearLayers();
-
-      // 1. Los 29 Lotes
-      lotesCalibrados.forEach((lote, index) => {
+      // Renderizar 27 Lotes
+      LOTES_CALIBRADOS.forEach(lote => {
         const isDisp = lote.estado === 'disponible';
+        const precioTotal = lote.sup * PRECIO_M2;
 
         const numIcon = L.divIcon({
           className: 'custom-lot-divicon',
           html: `<div class="lot-badge-icon ${isDisp ? 'disponible' : 'ocupado'}">${lote.lote}</div>`,
-          iconSize: [28, 28],
-          iconAnchor: [14, 14]
+          iconSize: [26, 26],
+          iconAnchor: [13, 13]
         });
 
         const marker = L.marker([lote.lat, lote.lng], {
           icon: numIcon,
-          draggable: true,
+          draggable: false,
           zIndexOffset: isDisp ? 600 : 400
         }).addTo(lotesMarkersGroup);
 
-        marker.bindTooltip(`<b>${lote.mz} &bull; Lote ${lote.lote}</b> (${isDisp ? 'Disponible' : 'Ocupado'})<br><span style="color:#64748b;font-size:10px;">Arrastra para calibrar</span>`, {
+        marker.bindTooltip(`
+          <b>Manzana ${lote.mz} &bull; Lote ${lote.lote}</b><br>
+          <span style="color:${isDisp ? '#15803d' : '#ea580c'};font-weight:bold;">
+            ${isDisp ? '★ DISPONIBLE ($7/m²)' : '● VENDIDO / OCUPADO'}
+          </span><br>
+          <span style="color:#475569;">${lote.sup.toFixed(2)} m² • $${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD</span>
+        `, {
           permanent: false,
           direction: 'top',
-          offset: [0, -14]
+          offset: [0, -12]
         });
 
-        function onLotDrag() {
-          const pos = marker.getLatLng();
-          lotesCalibrados[index].lat = parseFloat(pos.lat.toFixed(6));
-          lotesCalibrados[index].lng = parseFloat(pos.lng.toFixed(6));
+        // Evento Click / Tap: Abrir Ficha Técnica
+        marker.on('click', function(e) {
+          L.DomEvent.stopPropagation(e);
 
-          document.getElementById('last-moved-info').innerHTML = `📍 <b>${lote.mz} - Lote ${lote.lote}</b> → <span class="text-emerald-300 font-bold">[${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}]</span>`;
-          guardarEnLocalStorage();
-          actualizarCodigoConfiguracion();
-        }
+          document.getElementById('sheet-manzana').textContent = `MANZANA ${lote.mz}`;
+          document.getElementById('sheet-lote').textContent = `LOTE ${lote.lote < 10 ? '0' + lote.lote : lote.lote}`;
+          document.getElementById('sheet-superficie').textContent = `${lote.sup.toFixed(2)} m²`;
 
-        marker.on('drag', onLotDrag);
-        marker.on('dragend', onLotDrag);
+          const estadoBadge = document.getElementById('sheet-estado');
+          if (isDisp) {
+            estadoBadge.textContent = 'DISPONIBLE';
+            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 border border-emerald-300';
+          } else {
+            estadoBadge.textContent = 'VENDIDO / OCUPADO';
+            estadoBadge.className = 'font-bold px-2.5 py-0.5 rounded-full text-xs bg-orange-100 text-orange-800 border border-orange-300';
+          }
+
+          document.getElementById('sheet-precio-usd').textContent = `$${precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD`;
+          
+          const precioBs = (precioTotal * TIPO_CAMBIO).toLocaleString('es-BO', { minimumFractionDigits: 2 });
+          document.getElementById('sheet-precio-bs').textContent = `~Bs. ${precioBs}`;
+
+          const cuotaDirecta = (precioTotal / 120).toFixed(2);
+          document.getElementById('sheet-cuota').textContent = `Desde $${cuotaDirecta} USD/mes (120 meses)`;
+
+          const msgWhatsApp = `Hola, estoy viendo el plano del Proyecto Berlín y quiero cotizar la Manzana ${lote.mz} Lote ${lote.lote} de ${lote.sup.toFixed(2)}m2`;
+          document.getElementById('sheet-whatsapp-btn').href = `https://wa.me/59170832781?text=${encodeURIComponent(msgWhatsApp)}`;
+
+          lotSheet.classList.remove('hidden-sheet');
+        });
       });
 
-      // 2. Las 3 Áreas Verdes
-      areasVerdesCalibradas.forEach((av, index) => {
+      // Renderizar 3 Áreas Verdes
+      AREAS_VERDES.forEach(av => {
         const avIcon = L.divIcon({
           className: 'custom-av-divicon',
           html: `<div class="green-area-badge"><span>🌳</span><span>${av.nombre}</span></div>`,
-          iconSize: [120, 26],
-          iconAnchor: [60, 13]
+          iconSize: [110, 24],
+          iconAnchor: [55, 12]
         });
 
         const marker = L.marker([av.lat, av.lng], {
           icon: avIcon,
-          draggable: true,
+          draggable: false,
           zIndexOffset: 800
         }).addTo(greenAreasGroup);
 
-        marker.bindTooltip(`<b>${av.nombre}</b><br><span style="color:#64748b;font-size:10px;">Arrastra para calibrar</span>`, {
+        marker.bindTooltip(`<b>${av.nombre}</b><br><span style="color:#047857;font-weight:bold;">Área Verde Protegida</span>`, {
           permanent: false,
           direction: 'top',
-          offset: [0, -14]
+          offset: [0, -12]
         });
+      });
 
-        function onAvDrag() {
-          const pos = marker.getLatLng();
-          areasVerdesCalibradas[index].lat = parseFloat(pos.lat.toFixed(6));
-          areasVerdesCalibradas[index].lng = parseFloat(pos.lng.toFixed(6));
+      // Cerrar Ficha Técnica
+      document.getElementById('btn-close-sheet').addEventListener('click', () => {
+        lotSheet.classList.add('hidden-sheet');
+      });
 
-          document.getElementById('last-moved-info').innerHTML = `🌳 <b>${av.nombre}</b> → <span class="text-teal-300 font-bold">[${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}]</span>`;
-          guardarEnLocalStorage();
-          actualizarCodigoConfiguracion();
+      map.on('click', () => {
+        lotSheet.classList.add('hidden-sheet');
+      });
+
+      // Botón Recentrar al Plano
+      document.getElementById('btn-recenter').addEventListener('click', () => {
+        map.flyToBounds(planoBounds, { duration: 1 });
+      });
+
+      // Toggle Leyenda
+      const toggleLegendBtn = document.getElementById('btn-toggle-legend');
+      const legendContent = document.getElementById('legend-content');
+      toggleLegendBtn.addEventListener('click', () => {
+        if (legendContent.classList.contains('hidden')) {
+          legendContent.classList.remove('hidden');
+          toggleLegendBtn.textContent = '−';
+        } else {
+          legendContent.classList.add('hidden');
+          toggleLegendBtn.textContent = '+';
         }
-
-        marker.on('drag', onAvDrag);
-        marker.on('dragend', onAvDrag);
       });
 
-      if (map && currentModo !== 'satelital') {
-        if (!map.hasLayer(lotesMarkersGroup)) lotesMarkersGroup.addTo(map);
-        if (!map.hasLayer(greenAreasGroup)) greenAreasGroup.addTo(map);
-      }
-    }
+      // Iniciar en Modo 1: Solo Plano
+      cambiarModo('plano');
 
-    function guardarEnLocalStorage() {
-      localStorage.setItem('berlin_lotes_all_draggable', JSON.stringify(lotesCalibrados));
-      localStorage.setItem('berlin_av_all_draggable', JSON.stringify(areasVerdesCalibradas));
-      document.getElementById('badge-saved').classList.remove('hidden');
-    }
-
-    // Actualizar Texto del Código Completo en Vivo con el Formato Solicitado
-    function actualizarCodigoConfiguracion() {
-      const codeBlock = document.getElementById('code-configuracion');
-      if (!codeBlock) return;
-
-      let codigo = "const LOTES_CALIBRADOS = [\n";
-      lotesCalibrados.forEach((l, i) => {
-        const coma = i < lotesCalibrados.length - 1 ? "," : "";
-        codigo += `  { id: "${l.id}", mz: "${l.mz}", lote: ${l.lote}, lat: ${l.lat.toFixed(6)}, lng: ${l.lng.toFixed(6)}, estado: "${l.estado}", sup: ${l.sup.toFixed(2)} }${coma}\n`;
-      });
-      codigo += "];\n\nconst AREAS_VERDES = [\n";
-      areasVerdesCalibradas.forEach((av, i) => {
-        const coma = i < areasVerdesCalibradas.length - 1 ? "," : "";
-        codigo += `  { id: "${av.id}", nombre: "${av.nombre}", lat: ${av.lat.toFixed(6)}, lng: ${av.lng.toFixed(6)} }${coma}\n`;
-      });
-      codigo += "];";
-
-      codeBlock.textContent = codigo;
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 200);
     }
 
     // ========================================================================
@@ -655,7 +637,7 @@
       if (!map) return;
 
       if (modo === 'plano') {
-        // MODO 1: SOLO PLANO
+        // MODO 1: SOLO PLANO (OpenStreetMap + Plano Técnico + Marcadores)
         if (map.hasLayer(satLayer)) map.removeLayer(satLayer);
         if (!map.hasLayer(osmLayer)) osmLayer.addTo(map);
         if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
@@ -664,15 +646,18 @@
         planoOverlay.setOpacity(1.0);
 
       } else if (modo === 'satelital') {
-        // MODO 2: SOLO SATELITAL
+        // MODO 2: SOLO SATELITAL (Foto Satelital Limpia)
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (map.hasLayer(planoOverlay)) map.removeLayer(planoOverlay);
         if (map.hasLayer(lotesMarkersGroup)) map.removeLayer(lotesMarkersGroup);
         if (map.hasLayer(greenAreasGroup)) map.removeLayer(greenAreasGroup);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
 
+        const sheet = document.getElementById('lot-sheet');
+        if (sheet) sheet.classList.add('hidden-sheet');
+
       } else if (modo === 'mixto') {
-        // MODO 3: MIXTO / HÍBRIDO
+        // MODO 3: MIXTO / HÍBRIDO (Satélite + Plano opacidad 0.82 + Marcadores)
         if (map.hasLayer(osmLayer)) map.removeLayer(osmLayer);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
         if (!map.hasLayer(planoOverlay)) planoOverlay.addTo(map);
@@ -683,66 +668,6 @@
 
       map.invalidateSize();
     };
-
-    // Configurar Eventos de la UI
-    function setupUIControls() {
-      // 1. Recentrar
-      document.getElementById('btn-recenter').addEventListener('click', () => {
-        map.flyToBounds(planoBounds, { duration: 1 });
-      });
-
-      // 2. Toggle Panel de Calibración
-      const panel = document.getElementById('panel-calibracion');
-      document.getElementById('btn-toggle-calib-panel').addEventListener('click', () => {
-        panel.classList.toggle('hidden');
-      });
-
-      document.getElementById('btn-close-calib').addEventListener('click', () => {
-        panel.classList.add('hidden');
-      });
-
-      // 3. Copiar Código al Portapapeles
-      const btnCopy = document.getElementById('btn-copy-config');
-      const btnCopyText = document.getElementById('btn-copy-text');
-      btnCopy.addEventListener('click', () => {
-        const codeText = document.getElementById('code-configuracion').textContent;
-        navigator.clipboard.writeText(codeText).then(() => {
-          btnCopyText.textContent = "¡Configuración Copiada! ✅";
-          btnCopy.classList.replace('bg-emerald-600', 'bg-emerald-700');
-          setTimeout(() => {
-            btnCopyText.textContent = "Copiar Configuración Definitiva";
-            btnCopy.classList.replace('bg-emerald-700', 'bg-emerald-600');
-          }, 2500);
-        });
-      });
-
-      // 4. Reiniciar Posiciones
-      document.getElementById('btn-reset-config').addEventListener('click', () => {
-        if (confirm("¿Deseas restablecer todas las posiciones a los valores iniciales dispersos?")) {
-          localStorage.removeItem('berlin_lotes_all_draggable');
-          localStorage.removeItem('berlin_av_all_draggable');
-          lotesCalibrados = JSON.parse(JSON.stringify(LOTES_DEFAULT));
-          areasVerdesCalibradas = JSON.parse(JSON.stringify(AREAS_VERDES_DEFAULT));
-          renderizarTodosLosElementos();
-          actualizarCodigoConfiguracion();
-          document.getElementById('badge-saved').classList.add('hidden');
-          document.getElementById('last-moved-info').textContent = "🔄 Posiciones restablecidas al valor inicial.";
-        }
-      });
-
-      // 5. Toggle Leyenda
-      const toggleLegendBtn = document.getElementById('btn-toggle-legend');
-      const legendContent = document.getElementById('legend-content');
-      toggleLegendBtn.addEventListener('click', () => {
-        if (legendContent.classList.contains('hidden')) {
-          legendContent.classList.remove('hidden');
-          toggleLegendBtn.textContent = '−';
-        } else {
-          legendContent.classList.add('hidden');
-          toggleLegendBtn.textContent = '+';
-        }
-      });
-    }
 
     // Inicialización al cargar el DOM
     if (document.readyState === 'loading') {

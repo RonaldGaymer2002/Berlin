@@ -1,362 +1,84 @@
 /**
  * ============================================================================
  * PROYECTO BERLÍN - HARDEMAN (SANTA CRUZ, BOLIVIA)
- * DATASET OFICIAL DEFINITIVO DE LOTES E INFRAESTRUCTURA
+ * DATASET OFICIAL DEFINITIVO Y CALIBRADO (27 LOTES + 3 ÁREAS VERDES)
  * ============================================================================
  */
 
-// Constantes Generales de Ubicación y Precios (Hardeman, Santa Cruz)
-const BASE_LAT = -16.672448;
-const BASE_LNG = -63.612058;
-const PRECIO_M2 = 7; // Precio Oficial: $7 USD / m²
-const TC_BOLIVIANO = 6.96; // Tipo de cambio oficial referencial (USD a Bs)
-const PHONE_NUMBER = "59170832781"; // Teléfono oficial de contacto y WhatsApp
-const MAPS_LOCATION_URL = "https://maps.app.goo.gl/KaPB19dWuAUJXgaH8"; // Enlace oficial Google Maps exacto (16°40'20.8"S 63°36'43.4"W)
+// Constantes Generales de Precios y Divisas
+export const PRECIO_M2 = 7.0;
+export const TIPO_CAMBIO = 6.96;
+export const TC_BOLIVIANO = 6.96; // Alias para compatibilidad
+export const PHONE_NUMBER = "59170832781";
+export const MAPS_LOCATION_URL = "https://maps.app.goo.gl/KaPB19dWuAUJXgaH8";
 
-/**
- * Dataset Oficial de Lotes por Manzanas (M-1, M-2, M-3)
- * M-1: Lotes 1 al 8 (Ocupados/Vendidos), Lote 9 (Disponible - 437.77 m² - $3,064.39 USD)
- * M-2: Lotes 1, 2, 3, 5, 6, 7, 8 (Ocupados/Vendidos)
- *      Disponibles: LT 4 (504.49 m²), LT 9 (961.57 m²), LT 10 (290.71 m²),
- *                   LT 11 (324.72 m²), LT 12 (319.61 m²), LT 13 (314.50 m²)
- * M-3: Lote 1 (Ocupado/Vendido)
- *      Disponibles: LT 2, 3, 4 (362.64 m² c/u - $2,538.48 USD), LT 5 (365.31 m² - $2,557.17 USD)
- */
-const LOTES_DATA = [
-  // ==========================================================================
-  // MANZANA M-1
-  // ==========================================================================
-  {
-    id: "M1-LT01",
-    manzana: "M-1",
-    lote: "LT 01",
-    numero: "01",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0032], [BASE_LAT + 0.0024, BASE_LNG - 0.0026]]
-  },
-  {
-    id: "M1-LT02",
-    manzana: "M-1",
-    lote: "LT 02",
-    numero: "02",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0026], [BASE_LAT + 0.0024, BASE_LNG - 0.0020]]
-  },
-  {
-    id: "M1-LT03",
-    manzana: "M-1",
-    lote: "LT 03",
-    numero: "03",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0020], [BASE_LAT + 0.0024, BASE_LNG - 0.0014]]
-  },
-  {
-    id: "M1-LT04",
-    manzana: "M-1",
-    lote: "LT 04",
-    numero: "04",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0014], [BASE_LAT + 0.0024, BASE_LNG - 0.0008]]
-  },
-  {
-    id: "M1-LT05",
-    manzana: "M-1",
-    lote: "LT 05",
-    numero: "05",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0008], [BASE_LAT + 0.0024, BASE_LNG - 0.0002]]
-  },
-  {
-    id: "M1-LT06",
-    manzana: "M-1",
-    lote: "LT 06",
-    numero: "06",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG - 0.0002], [BASE_LAT + 0.0024, BASE_LNG + 0.0004]]
-  },
-  {
-    id: "M1-LT07",
-    manzana: "M-1",
-    lote: "LT 07",
-    numero: "07",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG + 0.0004], [BASE_LAT + 0.0024, BASE_LNG + 0.0010]]
-  },
-  {
-    id: "M1-LT08",
-    manzana: "M-1",
-    lote: "LT 08",
-    numero: "08",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-1.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG + 0.0010], [BASE_LAT + 0.0024, BASE_LNG + 0.0016]]
-  },
-  {
-    id: "M1-LT09",
-    manzana: "M-1",
-    lote: "LT 09",
-    numero: "09",
-    superficie: 437.77,
-    precioTotal: 3064.39,
-    estado: "disponible",
-    descripcion: "Lote disponible en Manzana M-1. 437.77 m² en cota alta con frente amplio.",
-    bounds: [[BASE_LAT + 0.0018, BASE_LNG + 0.0016], [BASE_LAT + 0.0024, BASE_LNG + 0.0024]]
-  },
-
-  // ==========================================================================
-  // MANZANA M-2
-  // ==========================================================================
-  {
-    id: "M2-LT01",
-    manzana: "M-2",
-    lote: "LT 01",
-    numero: "01",
-    superficie: 320.00,
-    precioTotal: 2240.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG - 0.0032], [BASE_LAT + 0.0014, BASE_LNG - 0.0025]]
-  },
-  {
-    id: "M2-LT02",
-    manzana: "M-2",
-    lote: "LT 02",
-    numero: "02",
-    superficie: 320.00,
-    precioTotal: 2240.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG - 0.0025], [BASE_LAT + 0.0014, BASE_LNG - 0.0018]]
-  },
-  {
-    id: "M2-LT03",
-    manzana: "M-2",
-    lote: "LT 03",
-    numero: "03",
-    superficie: 320.00,
-    precioTotal: 2240.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG - 0.0018], [BASE_LAT + 0.0014, BASE_LNG - 0.0011]]
-  },
-  {
-    id: "M2-LT04",
-    manzana: "M-2",
-    lote: "LT 04",
-    numero: "04",
-    superficie: 504.49,
-    precioTotal: 3531.43,
-    estado: "disponible",
-    descripcion: "Lote disponible amplio de 504.49 m² sobre avenida central de tierra en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG - 0.0011], [BASE_LAT + 0.0014, BASE_LNG - 0.0002]]
-  },
-  {
-    id: "M2-LT05",
-    manzana: "M-2",
-    lote: "LT 05",
-    numero: "05",
-    superficie: 330.00,
-    precioTotal: 2310.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG - 0.0002], [BASE_LAT + 0.0014, BASE_LNG + 0.0005]]
-  },
-  {
-    id: "M2-LT06",
-    manzana: "M-2",
-    lote: "LT 06",
-    numero: "06",
-    superficie: 330.00,
-    precioTotal: 2310.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG + 0.0005], [BASE_LAT + 0.0014, BASE_LNG + 0.0012]]
-  },
-  {
-    id: "M2-LT07",
-    manzana: "M-2",
-    lote: "LT 07",
-    numero: "07",
-    superficie: 330.00,
-    precioTotal: 2310.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG + 0.0012], [BASE_LAT + 0.0014, BASE_LNG + 0.0018]]
-  },
-  {
-    id: "M2-LT08",
-    manzana: "M-2",
-    lote: "LT 08",
-    numero: "08",
-    superficie: 350.00,
-    precioTotal: 2450.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-2.",
-    bounds: [[BASE_LAT + 0.0008, BASE_LNG + 0.0018], [BASE_LAT + 0.0014, BASE_LNG + 0.0024]]
-  },
-  {
-    id: "M2-LT09",
-    manzana: "M-2",
-    lote: "LT 09",
-    numero: "09",
-    superficie: 961.57,
-    precioTotal: 6730.99,
-    estado: "disponible",
-    descripcion: "Macro Lote disponible de 961.57 m² en Manzana M-2. Ideal para quinta, galpón comercial o negocio.",
-    bounds: [[BASE_LAT + 0.0001, BASE_LNG + 0.0010], [BASE_LAT + 0.0007, BASE_LNG + 0.0024]]
-  },
-  {
-    id: "M2-LT10",
-    manzana: "M-2",
-    lote: "LT 10",
-    numero: "10",
-    superficie: 290.71,
-    precioTotal: 2034.97,
-    estado: "disponible",
-    descripcion: "Lote disponible de 290.71 m² en Manzana M-2. Excelente precio de lanzamiento a $2,034.97 USD.",
-    bounds: [[BASE_LAT + 0.0001, BASE_LNG + 0.0004], [BASE_LAT + 0.0007, BASE_LNG + 0.0010]]
-  },
-  {
-    id: "M2-LT11",
-    manzana: "M-2",
-    lote: "LT 11",
-    numero: "11",
-    superficie: 324.72,
-    precioTotal: 2273.04,
-    estado: "disponible",
-    descripcion: "Lote disponible de 324.72 m² en Manzana M-2 sobre calle interna con cota alta.",
-    bounds: [[BASE_LAT + 0.0001, BASE_LNG - 0.0003], [BASE_LAT + 0.0007, BASE_LNG + 0.0004]]
-  },
-  {
-    id: "M2-LT12",
-    manzana: "M-2",
-    lote: "LT 12",
-    numero: "12",
-    superficie: 319.61,
-    precioTotal: 2237.27,
-    estado: "disponible",
-    descripcion: "Lote disponible de 319.61 m² en Manzana M-2. Cero riesgo de anegamiento.",
-    bounds: [[BASE_LAT + 0.0001, BASE_LNG - 0.0010], [BASE_LAT + 0.0007, BASE_LNG - 0.0003]]
-  },
-  {
-    id: "M2-LT13",
-    manzana: "M-2",
-    lote: "LT 13",
-    numero: "13",
-    superficie: 314.50,
-    precioTotal: 2201.50,
-    estado: "disponible",
-    descripcion: "Lote disponible de 314.50 m² en Manzana M-2. Listo para cerramiento y posesión inmediata.",
-    bounds: [[BASE_LAT + 0.0001, BASE_LNG - 0.0017], [BASE_LAT + 0.0007, BASE_LNG - 0.0010]]
-  },
-
-  // ==========================================================================
-  // MANZANA M-3
-  // ==========================================================================
-  {
-    id: "M3-LT01",
-    manzana: "M-3",
-    lote: "LT 01",
-    numero: "01",
-    superficie: 360.00,
-    precioTotal: 2520.00,
-    estado: "ocupado",
-    descripcion: "Lote ocupado / vendido en Manzana M-3.",
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG - 0.0032], [BASE_LAT - 0.0004, BASE_LNG - 0.0022]]
-  },
-  {
-    id: "M3-LT02",
-    manzana: "M-3",
-    lote: "LT 02",
-    numero: "02",
-    superficie: 362.64,
-    precioTotal: 2538.48,
-    estado: "disponible",
-    descripcion: "Lote disponible de 362.64 m² en Manzana M-3. Excelente topografía nivelada.",
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG - 0.0022], [BASE_LAT - 0.0004, BASE_LNG - 0.0012]]
-  },
-  {
-    id: "M3-LT03",
-    manzana: "M-3",
-    lote: "LT 03",
-    numero: "03",
-    superficie: 362.64,
-    precioTotal: 2538.48,
-    estado: "disponible",
-    descripcion: "Lote disponible de 362.64 m² en Manzana M-3. Zona tranquila para vivienda familiar.",
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG - 0.0012], [BASE_LAT - 0.0004, BASE_LNG - 0.0002]]
-  },
-  {
-    id: "M3-LT04",
-    manzana: "M-3",
-    lote: "LT 04",
-    numero: "04",
-    superficie: 362.64,
-    precioTotal: 2538.48,
-    estado: "disponible",
-    descripcion: "Lote disponible de 362.64 m² en Manzana M-3. Suelo fértil y cota alta garantizada.",
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG - 0.0002], [BASE_LAT - 0.0004, BASE_LNG + 0.0008]]
-  },
-  {
-    id: "M3-LT05",
-    manzana: "M-3",
-    lote: "LT 05",
-    numero: "05",
-    superficie: 365.31,
-    precioTotal: 2557.17,
-    estado: "disponible",
-    descripcion: "Lote disponible de 365.31 m² en esquina de Manzana M-3 colindante a áreas verdes.",
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG + 0.0008], [BASE_LAT - 0.0004, BASE_LNG + 0.0018]]
-  }
+// Límites Geográficos Calibrados del Plano Oficial
+export const PLANO_BOUNDS = [
+  [-16.671690, -63.612959], // NW
+  [-16.673889, -63.610748]  // SE
 ];
 
-// Infraestructura y Manzanas
-const INFRASTRUCTURE_CONFIG = {
-  avenidaCentral: {
-    bounds: [[BASE_LAT + 0.0014, BASE_LNG - 0.0034], [BASE_LAT + 0.0018, BASE_LNG + 0.0026]],
-    labelPos: [BASE_LAT + 0.0016, BASE_LNG - 0.0004],
-    labelText: "🛣️ Avenida Central de Tierra"
-  },
-  calleInterna: {
-    bounds: [[BASE_LAT - 0.0004, BASE_LNG - 0.0034], [BASE_LAT + 0.0001, BASE_LNG + 0.0026]],
-    labelPos: [BASE_LAT - 0.00015, BASE_LNG - 0.0004],
-    labelText: "📍 Calle de Acceso Interno"
-  },
-  areaVerde: {
-    bounds: [[BASE_LAT - 0.0011, BASE_LNG + 0.0018], [BASE_LAT - 0.0004, BASE_LNG + 0.0026]],
-    labelPos: [BASE_LAT - 0.00075, BASE_LNG + 0.0022],
-    labelText: "🌳 Área Verde"
-  },
-  carreteraIndicador: {
-    pos: [BASE_LAT + 0.0028, BASE_LNG - 0.0004],
-    text: "🚗 A sólo 400m de Carretera Hardeman - Piraí ➔"
-  },
-  manzanas: [
-    { nombre: "MANZANA M-1", lat: BASE_LAT + 0.0026, lng: BASE_LNG - 0.0004 },
-    { nombre: "MANZANA M-2", lat: BASE_LAT + 0.00155, lng: BASE_LNG - 0.0024 },
-    { nombre: "MANZANA M-3", lat: BASE_LAT - 0.0013, lng: BASE_LNG - 0.0004 }
-  ]
-};
+export const PLANO_CENTER = [-16.672790, -63.611854];
+
+/**
+ * Dataset Oficial Calibrado de los 27 Lotes (M-1: 9, M-2: 13, M-3: 5)
+ */
+export const LOTES_CALIBRADOS = [
+  // ==========================================================================
+  // MANZANA M-1 (9 Lotes)
+  // ==========================================================================
+  { id: "M1-L1", mz: "M-1", lote: 1, lat: -16.673704, lng: -63.611577, estado: "ocupado",    sup: 338.01 },
+  { id: "M1-L2", mz: "M-1", lote: 2, lat: -16.673630, lng: -63.611502, estado: "ocupado",    sup: 307.94 },
+  { id: "M1-L3", mz: "M-1", lote: 3, lat: -16.673564, lng: -63.611422, estado: "ocupado",    sup: 348.79 },
+  { id: "M1-L4", mz: "M-1", lote: 4, lat: -16.673379, lng: -63.611628, estado: "ocupado",    sup: 460.89 },
+  { id: "M1-L5", mz: "M-1", lote: 5, lat: -16.673265, lng: -63.611717, estado: "ocupado",    sup: 437.86 },
+  { id: "M1-L6", mz: "M-1", lote: 6, lat: -16.673155, lng: -63.611797, estado: "ocupado",    sup: 414.83 },
+  { id: "M1-L7", mz: "M-1", lote: 7, lat: -16.673052, lng: -63.611875, estado: "ocupado",    sup: 263.76 },
+  { id: "M1-L8", mz: "M-1", lote: 8, lat: -16.672988, lng: -63.611937, estado: "ocupado",    sup: 350.00 },
+  { id: "M1-L9", mz: "M-1", lote: 9, lat: -16.672905, lng: -63.611999, estado: "disponible", sup: 437.77 },
+
+  // ==========================================================================
+  // MANZANA M-2 (13 Lotes)
+  // ==========================================================================
+  { id: "M2-L1", mz: "M-2", lote: 1,  lat: -16.673376, lng: -63.611269, estado: "ocupado",    sup: 382.98 },
+  { id: "M2-L2", mz: "M-2", lote: 2,  lat: -16.673309, lng: -63.611191, estado: "ocupado",    sup: 293.55 },
+  { id: "M2-L3", mz: "M-2", lote: 3,  lat: -16.673247, lng: -63.611113, estado: "ocupado",    sup: 284.21 },
+  { id: "M2-L4", mz: "M-2", lote: 4,  lat: -16.673065, lng: -63.611317, estado: "disponible", sup: 504.49 },
+  { id: "M2-L5", mz: "M-2", lote: 5,  lat: -16.672959, lng: -63.611400, estado: "ocupado",    sup: 510.44 },
+  { id: "M2-L6", mz: "M-2", lote: 6,  lat: -16.672859, lng: -63.611502, estado: "ocupado",    sup: 516.38 },
+  { id: "M2-L7", mz: "M-2", lote: 7,  lat: -16.672738, lng: -63.611588, estado: "ocupado",    sup: 522.33 },
+  { id: "M2-L8", mz: "M-2", lote: 8,  lat: -16.672646, lng: -63.611671, estado: "ocupado",    sup: 422.83 },
+  { id: "M2-L9", mz: "M-2", lote: 9,  lat: -16.672473, lng: -63.611661, estado: "disponible", sup: 961.57 },
+  { id: "M2-L10", mz: "M-2", lote: 10, lat: -16.672306, lng: -63.611685, estado: "disponible", sup: 290.71 },
+  { id: "M2-L11", mz: "M-2", lote: 11, lat: -16.672221, lng: -63.611752, estado: "disponible", sup: 324.72 },
+  { id: "M2-L12", mz: "M-2", lote: 12, lat: -16.672147, lng: -63.611824, estado: "disponible", sup: 319.61 },
+  { id: "M2-L13", mz: "M-2", lote: 13, lat: -16.672064, lng: -63.611905, estado: "disponible", sup: 314.50 },
+
+  // ==========================================================================
+  // MANZANA M-3 (5 Lotes)
+  // ==========================================================================
+  { id: "M3-L1", mz: "M-3", lote: 1, lat: -16.672514, lng: -63.612538, estado: "ocupado",    sup: 350.00 },
+  { id: "M3-L2", mz: "M-3", lote: 2, lat: -16.672427, lng: -63.612455, estado: "disponible", sup: 362.64 },
+  { id: "M3-L3", mz: "M-3", lote: 3, lat: -16.672344, lng: -63.612377, estado: "disponible", sup: 374.28 },
+  { id: "M3-L4", mz: "M-3", lote: 4, lat: -16.672262, lng: -63.612302, estado: "disponible", sup: 362.64 },
+  { id: "M3-L5", mz: "M-3", lote: 5, lat: -16.672187, lng: -63.612235, estado: "disponible", sup: 365.31 }
+];
+
+/**
+ * Dataset Oficial de las 3 Áreas Verdes Calibradas
+ */
+export const AREAS_VERDES = [
+  { id: "AV-1", nombre: "Área Verde 1", lat: -16.672815, lng: -63.612231 },
+  { id: "AV-2", nombre: "Área Verde 2", lat: -16.672425, lng: -63.612052 },
+  { id: "AV-3", nombre: "Parque / Área Verde Central", lat: -16.671897, lng: -63.612087 }
+];
+
+// Compatibilidad con scripts no modulares en Window
+if (typeof window !== 'undefined') {
+  window.PRECIO_M2 = PRECIO_M2;
+  window.TIPO_CAMBIO = TIPO_CAMBIO;
+  window.TC_BOLIVIANO = TC_BOLIVIANO;
+  window.LOTES_DATA = LOTES_CALIBRADOS;
+  window.LOTES_CALIBRADOS = LOTES_CALIBRADOS;
+  window.AREAS_VERDES = AREAS_VERDES;
+}
