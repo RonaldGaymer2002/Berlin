@@ -1,0 +1,129 @@
+/* ==========================================================================
+   PROYECTO BERLÍN - HARDEMAN
+   Estilos personalizados, animaciones y overrides de Leaflet
+   ========================================================================== */
+
+/* Leaflet Container & Typography */
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  background-color: #0f172a;
+}
+
+/* Custom Lot Number Labels */
+.custom-lot-label {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.custom-lot-label.disponible {
+  background: rgba(6, 78, 59, 0.95);
+  border-color: #34d399;
+  color: #a7f3d0;
+}
+
+/* Manzanas Badges */
+.manzana-label {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1.5px solid #fbbf24;
+  color: #fde68a;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Street & Infrastructure Labels */
+.street-label {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  color: #e2e8f0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Green Areas Label */
+.green-area-label {
+  background: rgba(5, 150, 105, 0.85);
+  border: 1px solid #6ee7b7;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Pulse radar effect for WhatsApp badge */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+/* Bottom Sheet swipe / slide animations */
+#bottom-sheet {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+#bottom-sheet.translate-y-full {
+  transform: translateY(105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#bottom-sheet:not(.translate-y-full) {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Glassmorphism Navigation */
+.glass-nav {
+  background: rgba(6, 78, 59, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Hide scrollbars on horizontal scroll cards */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
