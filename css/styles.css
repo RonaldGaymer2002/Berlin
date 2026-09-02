@@ -510,5 +510,85 @@ h1, h2, h3, h4, h5, h6, .font-display {
   box-shadow: 0 20px 40px -15px rgba(21, 128, 61, 0.15);
 }
 
+/* Widget Flotante Financiero (Sticky FX & Price Badge) */
+.floating-fx-badge {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(22, 163, 74, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 40;
+}
+
+.floating-fx-badge:hover {
+  border-color: rgba(22, 163, 74, 0.5);
+  box-shadow: 0 16px 36px -6px rgba(22, 163, 74, 0.2);
+}
+
+/* Pestañas de Selección de Inventario */
+.inventory-tab-btn {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.inventory-tab-btn:hover:not(.active) {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.inventory-tab-btn.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
+}
+
+/* Tarjetas de Lotes del Inventario Oficial */
+.inventory-lot-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inventory-lot-item:hover {
+  border-color: #86efac;
+  background: #f0fdf4;
+  transform: translateY(-1px);
+}
+
+.inventory-lot-item.active {
+  border-color: #15803d;
+  background: #dcfce7;
+  box-shadow: 0 4px 14px rgba(21, 128, 61, 0.2);
+}
+
+.inventory-lot-item.occupied {
+  opacity: 0.75;
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.inventory-lot-item.occupied:hover {
+  border-color: #fb923c;
+}
+
+
 
 
