@@ -6,10 +6,36 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Inicializar Mapa Leaflet
-  initMap();
+  // 1. Inicialización de Swiper Hero Carousel (Estilo TECHO)
+  if (typeof Swiper !== 'undefined' && document.querySelector('.heroSwiper')) {
+    new Swiper('.heroSwiper', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true,
+      },
+      speed: 800,
+    });
+  }
 
-  // 2. Controladores del Bottom Sheet (Ficha de Lote)
+  // 2. Inicializar Mapa Leaflet
+  if (typeof initMap === 'function') {
+    initMap();
+  }
+
+  // 3. Controladores del Bottom Sheet (Ficha de Lote)
   const btnCloseSheet = document.getElementById('btn-close-sheet');
   const sheetHandle = document.getElementById('bottom-sheet-handle');
   const btnBsSimular = document.getElementById('btn-bs-simular');
@@ -24,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Controladores del Modal Simulador
+  // 4. Controladores del Modal Simulador
   const btnCloseSimulador = document.getElementById('btn-close-simulador');
   const simuladorModal = document.getElementById('simulador-modal');
 
@@ -35,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. Tabs de Modalidad de Pago (Cuotas vs Contado)
+  // 5. Tabs de Modalidad de Pago (Cuotas vs Contado)
   const tabCuotas = document.getElementById('tab-cuotas');
   const tabContado = document.getElementById('tab-contado');
   const cuotasControls = document.getElementById('sim-cuotas-controls');
@@ -61,13 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Slider de Cuota Inicial
+  // 6. Slider de Cuota Inicial
   const sliderInicial = document.getElementById('slider-inicial');
   if (sliderInicial) {
     sliderInicial.addEventListener('input', calculateSimulation);
   }
 
-  // 6. Botones de Plazo (12, 24, 36, 48, 60, 72, 84, 96, 120 meses)
+  // 7. Botones de Plazo (12, 24, 36, 48, 60, 72, 84, 96, 120 meses)
   const plazoButtons = document.querySelectorAll('.btn-plazo');
   plazoButtons.forEach(btn => {
     btn.addEventListener('click', function () {
@@ -80,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. Filtros de Manzanas y Disponibilidad
+  // 8. Filtros de Manzanas y Disponibilidad
   const filterButtons = document.querySelectorAll('.filter-btn');
   filterButtons.forEach(btn => {
     btn.addEventListener('click', function () {
@@ -93,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 8. Selector Rápido de Lotes
+  // 9. Selector Rápido de Lotes
   const selectLoteQuick = document.getElementById('select-lote-quick');
   if (selectLoteQuick) {
     selectLoteQuick.addEventListener('change', function () {
@@ -112,19 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 9. Alternador de Capa Satelital / Vectorial
+  // 10. Alternador de Capa Satelital / Vectorial
   const btnToggleSatellite = document.getElementById('btn-toggle-satellite');
   if (btnToggleSatellite) {
     btnToggleSatellite.addEventListener('click', toggleSatelliteLayer);
   }
 
-  // 10. Botón Centrar Plano
+  // 11. Botón Centrar Plano
   const btnResetMap = document.getElementById('btn-reset-map');
   if (btnResetMap) {
     btnResetMap.addEventListener('click', resetMapView);
   }
 
-  // 11. Leyenda Colapsable en Móvil
+  // 12. Leyenda Colapsable en Móvil
   const toggleLegendBtn = document.getElementById('toggle-legend-btn');
   if (toggleLegendBtn) {
     toggleLegendBtn.addEventListener('click', () => {
