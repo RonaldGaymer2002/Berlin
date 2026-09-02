@@ -589,6 +589,66 @@ h1, h2, h3, h4, h5, h6, .font-display {
   border-color: #fb923c;
 }
 
+/* ========================================================================== */
+/* BLOQUE DE CIERRE DE MARCA / BRAND CLOSING BANNER */
+/* ========================================================================== */
+.brand-closing-banner {
+  background: linear-gradient(135deg, #072a1d 0%, #0f392b 40%, #1b5e20 80%, #052e16 100%);
+  border: 1.5px solid rgba(34, 197, 94, 0.35);
+  border-radius: 28px;
+  box-shadow: 0 25px 50px -12px rgba(7, 42, 29, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-closing-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.btn-closing-primary {
+  background: #22c55e;
+  color: #022c15;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-closing-primary:hover {
+  background: #4ade80;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(34, 197, 94, 0.45);
+}
+
+.btn-closing-outline {
+  border: 2px solid rgba(74, 222, 128, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-closing-outline:hover {
+  border-color: #86efac;
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+
 
 
 
