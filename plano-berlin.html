@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-  <title>Calibrador Oficial (27 Lotes + 3 Áreas Verdes) | Proyecto Berlín</title>
+  <title>Calibrador M-1 (Lotes 8 y 9) | Proyecto Berlín</title>
   <meta name="description"
-    content="Herramienta interactiva de calibración geodésica para posicionar los 27 lotes oficiales y 3 áreas verdes sobre el plano de Proyecto Berlín." />
+    content="Ajuste y calibración manual específica de los Lotes 8 y 9 de la Manzana M-1 con bloqueo del resto de lotes sobre el plano de Proyecto Berlín." />
 
   <!-- Favicon SVG -->
   <link rel="icon"
@@ -140,7 +140,7 @@
     }
 
     /* ====================================================================== */
-    /* MARCADORES ARRASTRABLES (LOTES Y ÁREAS VERDES) */
+    /* ESTILOS DE MARCADORES (BLOQUEADOS VS CALIBRANDO) */
     /* ====================================================================== */
     .lot-badge-icon {
       width: 28px;
@@ -154,17 +154,9 @@
       font-size: 11px;
       color: #ffffff;
       border: 2px solid #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
-      cursor: grab;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
       user-select: none;
-    }
-
-    .lot-badge-icon:active {
-      cursor: grabbing;
-      transform: scale(1.4);
-      box-shadow: 0 0 22px rgba(0, 0, 0, 0.8);
-      z-index: 99999 !important;
+      transition: transform 0.15s ease;
     }
 
     .lot-badge-icon.disponible {
@@ -173,6 +165,25 @@
 
     .lot-badge-icon.ocupado {
       background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+    }
+
+    /* Marcadores Calibrando (Arrastrables con Brillo / Pulso) */
+    .lot-badge-icon.active-calib {
+      cursor: grab;
+      box-shadow: 0 0 0 3.5px #facc15, 0 4px 16px rgba(0, 0, 0, 0.6);
+      animation: pulse-border 1.8s infinite;
+    }
+
+    .lot-badge-icon.active-calib:active {
+      cursor: grabbing;
+      transform: scale(1.4);
+      box-shadow: 0 0 0 4px #eab308, 0 0 25px rgba(234, 179, 8, 0.8);
+      z-index: 99999 !important;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 3.5px #facc15, 0 4px 16px rgba(0, 0, 0, 0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(250, 204, 21, 0.6), 0 4px 20px rgba(0, 0, 0, 0.8); }
     }
 
     /* Badge de Área Verde */
@@ -187,16 +198,9 @@
       border: 1.5px solid white;
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
       white-space: nowrap;
-      cursor: grab;
       display: flex;
       align-items: center;
       gap: 4px;
-      transition: transform 0.15s ease;
-    }
-
-    .green-area-badge:active {
-      cursor: grabbing;
-      transform: scale(1.2);
     }
 
     /* Panel de Calibración */
@@ -283,8 +287,8 @@
     <!-- Botón Toggle Panel de Calibración -->
     <button id="btn-toggle-calib-panel"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-emerald-700 hover:text-emerald-800 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Herramienta de Calibración (27 Lotes + 3 Áreas Verdes)">
-      <span class="text-base">🛠️</span>
+      title="Herramienta de Calibración (M-1: L8 y L9)">
+      <span class="text-base">🎯</span>
     </button>
 
     <!-- Botón Google Maps Oficial -->
@@ -300,23 +304,23 @@
     <button id="btn-recenter"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
       title="Centrar Plano Oficial">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-5 h-5 fill-none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
       </svg>
     </button>
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 5. PANEL FLOTANTE DE EXTRACCIÓN EN VIVO (27 LOTES + 3 ÁREAS VERDES) -->
+  <!-- 5. PANEL FLOTANTE DE REGISTRO EN VIVO (TOTAL 29 LOTES) -->
   <!-- ====================================================================== -->
   <div id="panel-calibracion"
-    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[540px] p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
+    class="floating-ui calib-panel absolute bottom-4 right-4 left-4 sm:left-auto sm:w-[550px] p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
     
     <div class="flex items-center justify-between pb-3 border-b border-slate-700/80 mb-3">
       <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
         <h3 class="font-display font-extrabold text-sm sm:text-base text-white tracking-wide">
-          🛠️ Calibrador de Lotes (27 Lotes + 3 Áreas Verdes)
+          🎯 Calibrador M-1 (Lotes 8 y 9)
         </h3>
       </div>
       <button id="btn-close-calib" class="text-slate-400 hover:text-white font-bold text-sm px-1.5 py-0.5 rounded-lg hover:bg-slate-800">
@@ -324,17 +328,19 @@
       </button>
     </div>
 
-    <!-- Contador y Guía Rápida -->
+    <!-- Indicador de Estado -->
     <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60 mb-3 space-y-1.5">
       <div class="flex items-center justify-between text-xs font-bold">
-        <span class="text-emerald-400">Lotes posicionados: 27/27</span>
-        <span class="text-teal-300">Áreas Verdes: 3/3</span>
+        <span class="text-emerald-400">Total Lotes: 29/29</span>
+        <span class="text-amber-300 font-mono bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800">
+          Arrastrando: M1-L8 y M1-L9
+        </span>
       </div>
       <p class="text-[11px] text-slate-300 leading-relaxed font-medium">
-        Arrastra cada número (<span class="text-emerald-400 font-bold">🟢 Disponible</span> / <span class="text-orange-400 font-bold">🟠 Ocupado</span>) y las etiquetas <span class="text-emerald-300 font-bold">🌳 Áreas Verdes</span> al centro de su parcela sobre el plano.
+        🔒 Los lotes anteriores y las 3 áreas verdes están <b>bloqueados</b>. Solo los números <b class="text-amber-300">8</b> y <b class="text-amber-300">9</b> tienen borde amarillo y son arrastrables.
       </p>
-      <div id="last-moved-info" class="text-[11px] font-mono text-amber-300 pt-0.5">
-        💡 Mueve cualquier marcador para actualizar el código.
+      <div id="last-moved-info" class="text-[11px] font-mono text-emerald-400 pt-0.5">
+        💡 Arrastra el Lote 8 y Lote 9 a sus casillas en la Manzana M-1.
       </div>
     </div>
 
@@ -342,10 +348,10 @@
     <div class="space-y-1.5 mb-3">
       <div class="flex items-center justify-between">
         <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-          Código JavaScript Generado en Vivo:
+          Configuración Completa (29 Lotes + 3 Áreas Verdes):
         </span>
         <span id="badge-saved" class="hidden text-[10px] font-extrabold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
-          Guardado en navegador ✅
+          Guardado ✅
         </span>
       </div>
       <pre id="code-configuracion" class="bg-slate-950 p-3 rounded-xl text-[10.5px] font-mono text-emerald-400 max-h-52 overflow-y-auto border border-slate-800 select-all leading-relaxed"></pre>
@@ -361,7 +367,7 @@
 
       <button id="btn-reset-config"
         class="py-3 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-colors"
-        title="Restablecer posiciones iniciales">
+        title="Restablecer posición inicial de L8 y L9">
         🔄 Reiniciar
       </button>
     </div>
@@ -384,16 +390,16 @@
     
     <div id="legend-content" class="space-y-2 font-medium text-xs">
       <div class="flex items-center gap-2">
-        <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">7</span>
+        <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">9</span>
         <span class="text-slate-700 font-semibold">Lote Disponible ($7/m²)</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="w-5 h-5 rounded-full bg-orange-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">1</span>
+        <span class="w-5 h-5 rounded-full bg-orange-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">8</span>
         <span class="text-slate-700 font-semibold">Lote Vendido / Ocupado</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="px-1.5 py-0.5 rounded bg-emerald-700 text-white font-bold text-[9px] shrink-0">🌳 AV</span>
-        <span class="text-slate-700 font-semibold">Área Verde / Parque</span>
+        <span class="w-5 h-5 rounded-full bg-amber-500 border-2 border-white text-slate-950 font-black text-[10px] flex items-center justify-center shrink-0">🎯</span>
+        <span class="text-slate-700 font-semibold">Lote en Calibración (Arrastrable)</span>
       </div>
     </div>
   </div>
@@ -402,7 +408,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
   <!-- ====================================================================== -->
-  <!-- 7. SCRIPT CON LOS 27 LOTES Y 3 ÁREAS VERDES ARRASTRABLES -->
+  <!-- 7. SCRIPT CON 29 LOTES (BLOQUEADOS + M1-L8 Y M1-L9 ARRASTRABLES) -->
   <!-- ====================================================================== -->
   <script>
     // Variables Globales
@@ -424,56 +430,73 @@
     const DEFAULT_ZOOM = 18;
 
     // ========================================================================
-    // 1. DATASET DE LOS 27 LOTES OFICIALES (M-1: 7, M-2: 13, M-3: 7)
+    // 1. DATASET COMPLETO DE LOS 29 LOTES OFICIALES
     // ========================================================================
     const LOTES_DEFAULT = [
-      // MANZANA M-1 (7 Lotes)
-      { id: "M1-L1", mz: "M-1", lote: 1, lat: -16.672080, lng: -63.612780, estado: "ocupado",    sup: 338.01 },
-      { id: "M1-L2", mz: "M-1", lote: 2, lat: -16.672080, lng: -63.612560, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L3", mz: "M-1", lote: 3, lat: -16.672080, lng: -63.612340, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L4", mz: "M-1", lote: 4, lat: -16.672080, lng: -63.612120, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L5", mz: "M-1", lote: 5, lat: -16.672080, lng: -63.611900, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L6", mz: "M-1", lote: 6, lat: -16.672080, lng: -63.611680, estado: "ocupado",    sup: 350.00 },
-      { id: "M1-L7", mz: "M-1", lote: 7, lat: -16.672080, lng: -63.611460, estado: "disponible", sup: 437.77 },
+      // MANZANA M-1 (9 Lotes: 1 al 7 fijos, 8 y 9 arrastrables)
+      { id: "M1-L1", mz: "M-1", lote: 1, lat: -16.672080, lng: -63.612780, estado: "ocupado",    sup: 338.01, draggable: false },
+      { id: "M1-L2", mz: "M-1", lote: 2, lat: -16.672080, lng: -63.612560, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M1-L3", mz: "M-1", lote: 3, lat: -16.672080, lng: -63.612340, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M1-L4", mz: "M-1", lote: 4, lat: -16.672080, lng: -63.612120, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M1-L5", mz: "M-1", lote: 5, lat: -16.672080, lng: -63.611900, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M1-L6", mz: "M-1", lote: 6, lat: -16.672080, lng: -63.611680, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M1-L7", mz: "M-1", lote: 7, lat: -16.672080, lng: -63.611460, estado: "ocupado",    sup: 350.00, draggable: false },
+      
+      // 👉 LOTES 8 Y 9 ACTIVOS PARA ARRASTRE
+      { id: "M1-L8", mz: "M-1", lote: 8, lat: -16.672150, lng: -63.611300, estado: "ocupado",    sup: 350.00, draggable: true },
+      { id: "M1-L9", mz: "M-1", lote: 9, lat: -16.672150, lng: -63.611050, estado: "disponible", sup: 437.77, draggable: true },
 
-      // MANZANA M-2 (13 Lotes)
-      { id: "M2-L1", mz: "M-2", lote: 1,  lat: -16.672580, lng: -63.612780, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L2", mz: "M-2", lote: 2,  lat: -16.672580, lng: -63.612560, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L3", mz: "M-2", lote: 3,  lat: -16.672580, lng: -63.612340, estado: "ocupado",    sup: 320.00 },
-      { id: "M2-L4", mz: "M-2", lote: 4,  lat: -16.672580, lng: -63.612120, estado: "disponible", sup: 504.49 },
-      { id: "M2-L5", mz: "M-2", lote: 5,  lat: -16.672580, lng: -63.611900, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L6", mz: "M-2", lote: 6,  lat: -16.672580, lng: -63.611680, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L7", mz: "M-2", lote: 7,  lat: -16.672580, lng: -63.611460, estado: "ocupado",    sup: 330.00 },
-      { id: "M2-L8", mz: "M-2", lote: 8,  lat: -16.672580, lng: -63.611240, estado: "ocupado",    sup: 350.00 },
-      { id: "M2-L9", mz: "M-2", lote: 9,  lat: -16.672580, lng: -63.610980, estado: "disponible", sup: 961.57 },
+      // MANZANA M-2 (13 Lotes - Bloqueados)
+      { id: "M2-L1", mz: "M-2", lote: 1,  lat: -16.672580, lng: -63.612780, estado: "ocupado",    sup: 320.00, draggable: false },
+      { id: "M2-L2", mz: "M-2", lote: 2,  lat: -16.672580, lng: -63.612560, estado: "ocupado",    sup: 320.00, draggable: false },
+      { id: "M2-L3", mz: "M-2", lote: 3,  lat: -16.672580, lng: -63.612340, estado: "ocupado",    sup: 320.00, draggable: false },
+      { id: "M2-L4", mz: "M-2", lote: 4,  lat: -16.672580, lng: -63.612120, estado: "disponible", sup: 504.49, draggable: false },
+      { id: "M2-L5", mz: "M-2", lote: 5,  lat: -16.672580, lng: -63.611900, estado: "ocupado",    sup: 330.00, draggable: false },
+      { id: "M2-L6", mz: "M-2", lote: 6,  lat: -16.672580, lng: -63.611680, estado: "ocupado",    sup: 330.00, draggable: false },
+      { id: "M2-L7", mz: "M-2", lote: 7,  lat: -16.672580, lng: -63.611460, estado: "ocupado",    sup: 330.00, draggable: false },
+      { id: "M2-L8", mz: "M-2", lote: 8,  lat: -16.672580, lng: -63.611240, estado: "ocupado",    sup: 350.00, draggable: false },
+      { id: "M2-L9", mz: "M-2", lote: 9,  lat: -16.672580, lng: -63.610980, estado: "disponible", sup: 961.57, draggable: false },
 
-      { id: "M2-L10", mz: "M-2", lote: 10, lat: -16.672950, lng: -63.612780, estado: "disponible", sup: 290.71 },
-      { id: "M2-L11", mz: "M-2", lote: 11, lat: -16.672950, lng: -63.612560, estado: "disponible", sup: 324.72 },
-      { id: "M2-L12", mz: "M-2", lote: 12, lat: -16.672950, lng: -63.612340, estado: "disponible", sup: 319.61 },
-      { id: "M2-L13", mz: "M-2", lote: 13, lat: -16.672950, lng: -63.612120, estado: "disponible", sup: 314.50 },
+      { id: "M2-L10", mz: "M-2", lote: 10, lat: -16.672950, lng: -63.612780, estado: "disponible", sup: 290.71, draggable: false },
+      { id: "M2-L11", mz: "M-2", lote: 11, lat: -16.672950, lng: -63.612560, estado: "disponible", sup: 324.72, draggable: false },
+      { id: "M2-L12", mz: "M-2", lote: 12, lat: -16.672950, lng: -63.612340, estado: "disponible", sup: 319.61, draggable: false },
+      { id: "M2-L13", mz: "M-2", lote: 13, lat: -16.672950, lng: -63.612120, estado: "disponible", sup: 314.50, draggable: false },
 
-      // MANZANA M-3 (7 Lotes)
-      { id: "M3-L1", mz: "M-3", lote: 1,  lat: -16.673450, lng: -63.612780, estado: "ocupado",    sup: 360.00 },
-      { id: "M3-L2", mz: "M-3", lote: 2,  lat: -16.673450, lng: -63.612560, estado: "disponible", sup: 362.64 },
-      { id: "M3-L3", mz: "M-3", lote: 3,  lat: -16.673450, lng: -63.612340, estado: "disponible", sup: 362.64 },
-      { id: "M3-L4", mz: "M-3", lote: 4,  lat: -16.673450, lng: -63.612120, estado: "disponible", sup: 362.64 },
-      { id: "M3-L5", mz: "M-3", lote: 5,  lat: -16.673450, lng: -63.611900, estado: "disponible", sup: 365.31 },
-      { id: "M3-L6", mz: "M-3", lote: 6,  lat: -16.673450, lng: -63.611680, estado: "disponible", sup: 360.00 },
-      { id: "M3-L7", mz: "M-3", lote: 7,  lat: -16.673450, lng: -63.611460, estado: "disponible", sup: 360.00 }
+      // MANZANA M-3 (7 Lotes - Bloqueados)
+      { id: "M3-L1", mz: "M-3", lote: 1,  lat: -16.673450, lng: -63.612780, estado: "ocupado",    sup: 360.00, draggable: false },
+      { id: "M3-L2", mz: "M-3", lote: 2,  lat: -16.673450, lng: -63.612560, estado: "disponible", sup: 362.64, draggable: false },
+      { id: "M3-L3", mz: "M-3", lote: 3,  lat: -16.673450, lng: -63.612340, estado: "disponible", sup: 362.64, draggable: false },
+      { id: "M3-L4", mz: "M-3", lote: 4,  lat: -16.673450, lng: -63.612120, estado: "disponible", sup: 362.64, draggable: false },
+      { id: "M3-L5", mz: "M-3", lote: 5,  lat: -16.673450, lng: -63.611900, estado: "disponible", sup: 365.31, draggable: false },
+      { id: "M3-L6", mz: "M-3", lote: 6,  lat: -16.673450, lng: -63.611680, estado: "disponible", sup: 360.00, draggable: false },
+      { id: "M3-L7", mz: "M-3", lote: 7,  lat: -16.673450, lng: -63.611460, estado: "disponible", sup: 360.00, draggable: false }
     ];
 
     // ========================================================================
-    // 2. DATASET DE LAS 3 ÁREAS VERDES OFICIALES
+    // 2. DATASET DE LAS 3 ÁREAS VERDES (BLOQUEADAS)
     // ========================================================================
     const AREAS_VERDES_DEFAULT = [
-      { id: "AV-1", nombre: "Área Verde 1", lat: -16.673550, lng: -63.611000 },
-      { id: "AV-2", nombre: "Área Verde 2", lat: -16.672100, lng: -63.610950 },
-      { id: "AV-3", nombre: "Parque / Área Verde Central", lat: -16.672750, lng: -63.611500 }
+      { id: "AV-1", nombre: "Área Verde 1", lat: -16.673550, lng: -63.611000, draggable: false },
+      { id: "AV-2", nombre: "Área Verde 2", lat: -16.672100, lng: -63.610950, draggable: false },
+      { id: "AV-3", nombre: "Parque / Área Verde Central", lat: -16.672750, lng: -63.611500, draggable: false }
     ];
 
-    // Carga de memoria LocalStorage si existe calibración previa
-    let lotesCalibrados = JSON.parse(localStorage.getItem('berlin_lotes_27')) || JSON.parse(JSON.stringify(LOTES_DEFAULT));
-    let areasVerdesCalibradas = JSON.parse(localStorage.getItem('berlin_av_3')) || JSON.parse(JSON.stringify(AREAS_VERDES_DEFAULT));
+    // Carga de memoria LocalStorage si existen posiciones previas
+    let lotesCalibrados = JSON.parse(localStorage.getItem('berlin_lotes_29_calib')) || JSON.parse(JSON.stringify(LOTES_DEFAULT));
+    let areasVerdesCalibradas = JSON.parse(localStorage.getItem('berlin_av_3_calib')) || JSON.parse(JSON.stringify(AREAS_VERDES_DEFAULT));
+
+    // Forzar el estado draggable específico: L8 y L9 true, resto false
+    lotesCalibrados.forEach(l => {
+      if (l.id === "M1-L8" || l.id === "M1-L9") {
+        l.draggable = true;
+      } else {
+        l.draggable = false;
+      }
+    });
+
+    areasVerdesCalibradas.forEach(av => {
+      av.draggable = false;
+    });
 
     function initWebGIS() {
       // 1. Instanciar Mapa Fullscreen
@@ -512,11 +535,11 @@
         alt: 'Plano Oficial Calibrado Proyecto Berlín'
       });
 
-      // 5. Capas de Marcadores Arrastrables
+      // 5. Capas de Marcadores
       lotesMarkersGroup = L.layerGroup();
       greenAreasGroup = L.layerGroup();
 
-      renderizarElementosArrastrables();
+      renderizarElementos();
 
       // Iniciar en Modo 1: Solo Plano
       cambiarModo('plano');
@@ -528,50 +551,60 @@
       }, 200);
     }
 
-    // Renderizar Lotes y Áreas Verdes con Draggable Activado
-    function renderizarElementosArrastrables() {
+    // Renderizar Lotes y Áreas Verdes
+    function renderizarElementos() {
       lotesMarkersGroup.clearLayers();
       greenAreasGroup.clearLayers();
 
-      // Renderizar los 27 Lotes
+      // Renderizar los 29 Lotes
       lotesCalibrados.forEach((lote, index) => {
         const isDisp = lote.estado === 'disponible';
+        const isDraggable = lote.draggable === true;
 
         const numIcon = L.divIcon({
           className: 'custom-lot-divicon',
-          html: `<div class="lot-badge-icon ${isDisp ? 'disponible' : 'ocupado'}">${lote.lote}</div>`,
+          html: `<div class="lot-badge-icon ${isDisp ? 'disponible' : 'ocupado'} ${isDraggable ? 'active-calib' : ''}">${lote.lote}</div>`,
           iconSize: [28, 28],
           iconAnchor: [14, 14]
         });
 
         const marker = L.marker([lote.lat, lote.lng], {
           icon: numIcon,
-          draggable: true,
-          zIndexOffset: isDisp ? 600 : 400
+          draggable: isDraggable,
+          zIndexOffset: isDraggable ? 1000 : (isDisp ? 600 : 400)
         }).addTo(lotesMarkersGroup);
 
-        marker.bindTooltip(`<b>${lote.mz} &bull; Lote ${lote.lote}</b> (${isDisp ? 'Disponible' : 'Ocupado'})<br><span style="color:#64748b;font-size:10px;">Arrastra para calibrar</span>`, {
-          permanent: false,
-          direction: 'top',
-          offset: [0, -14]
-        });
+        if (isDraggable) {
+          marker.bindTooltip(`<b>🎯 ${lote.mz} &bull; Lote ${lote.lote} (Calibrando)</b><br><span style="color:#facc15;font-weight:bold;">Arrastra para posicionar</span>`, {
+            permanent: false,
+            direction: 'top',
+            offset: [0, -14]
+          });
 
-        function onLotDrag() {
-          const pos = marker.getLatLng();
-          lotesCalibrados[index].lat = parseFloat(pos.lat.toFixed(6));
-          lotesCalibrados[index].lng = parseFloat(pos.lng.toFixed(6));
+          function onLotDrag() {
+            const pos = marker.getLatLng();
+            lotesCalibrados[index].lat = parseFloat(pos.lat.toFixed(6));
+            lotesCalibrados[index].lng = parseFloat(pos.lng.toFixed(6));
 
-          document.getElementById('last-moved-info').innerHTML = `📍 <b>${lote.mz} - Lote ${lote.lote}</b> → <span class="text-emerald-300">[${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}]</span>`;
-          guardarEnLocalStorage();
-          actualizarCodigoConfiguracion();
+            document.getElementById('last-moved-info').innerHTML = `📍 <b>${lote.mz} - Lote ${lote.lote}</b> → <span class="text-amber-300 font-bold">[${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}]</span>`;
+            guardarEnLocalStorage();
+            actualizarCodigoConfiguracion();
+          }
+
+          marker.on('drag', onLotDrag);
+          marker.on('dragend', onLotDrag);
+
+        } else {
+          marker.bindTooltip(`<b>${lote.mz} &bull; Lote ${lote.lote}</b> (${isDisp ? 'Disponible' : 'Ocupado'})<br><span style="color:#94a3b8;font-size:10px;">🔒 Posición fija</span>`, {
+            permanent: false,
+            direction: 'top',
+            offset: [0, -14]
+          });
         }
-
-        marker.on('drag', onLotDrag);
-        marker.on('dragend', onLotDrag);
       });
 
-      // Renderizar las 3 Áreas Verdes
-      areasVerdesCalibradas.forEach((av, index) => {
+      // Renderizar las 3 Áreas Verdes (Bloqueadas)
+      areasVerdesCalibradas.forEach((av) => {
         const avIcon = L.divIcon({
           className: 'custom-av-divicon',
           html: `<div class="green-area-badge"><span>🌳</span><span>${av.nombre}</span></div>`,
@@ -581,28 +614,15 @@
 
         const marker = L.marker([av.lat, av.lng], {
           icon: avIcon,
-          draggable: true,
+          draggable: false,
           zIndexOffset: 800
         }).addTo(greenAreasGroup);
 
-        marker.bindTooltip(`<b>${av.nombre}</b><br><span style="color:#64748b;font-size:10px;">Arrastra para calibrar</span>`, {
+        marker.bindTooltip(`<b>${av.nombre}</b><br><span style="color:#94a3b8;font-size:10px;">🔒 Posición fija</span>`, {
           permanent: false,
           direction: 'top',
           offset: [0, -14]
         });
-
-        function onAvDrag() {
-          const pos = marker.getLatLng();
-          areasVerdesCalibradas[index].lat = parseFloat(pos.lat.toFixed(6));
-          areasVerdesCalibradas[index].lng = parseFloat(pos.lng.toFixed(6));
-
-          document.getElementById('last-moved-info').innerHTML = `🌳 <b>${av.nombre}</b> → <span class="text-teal-300">[${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}]</span>`;
-          guardarEnLocalStorage();
-          actualizarCodigoConfiguracion();
-        }
-
-        marker.on('drag', onAvDrag);
-        marker.on('dragend', onAvDrag);
       });
 
       if (map && currentModo !== 'satelital') {
@@ -612,8 +632,8 @@
     }
 
     function guardarEnLocalStorage() {
-      localStorage.setItem('berlin_lotes_27', JSON.stringify(lotesCalibrados));
-      localStorage.setItem('berlin_av_3', JSON.stringify(areasVerdesCalibradas));
+      localStorage.setItem('berlin_lotes_29_calib', JSON.stringify(lotesCalibrados));
+      localStorage.setItem('berlin_av_3_calib', JSON.stringify(areasVerdesCalibradas));
       document.getElementById('badge-saved').classList.remove('hidden');
     }
 
@@ -711,17 +731,15 @@
         });
       });
 
-      // 4. Reiniciar Posiciones Iniciales
+      // 4. Reiniciar Posiciones de L8 y L9
       document.getElementById('btn-reset-config').addEventListener('click', () => {
-        if (confirm("¿Deseas restablecer todas las posiciones de lotes y áreas verdes a sus valores iniciales?")) {
-          localStorage.removeItem('berlin_lotes_27');
-          localStorage.removeItem('berlin_av_3');
+        if (confirm("¿Deseas reiniciar la posición de los Lotes 8 y 9?")) {
+          localStorage.removeItem('berlin_lotes_29_calib');
           lotesCalibrados = JSON.parse(JSON.stringify(LOTES_DEFAULT));
-          areasVerdesCalibradas = JSON.parse(JSON.stringify(AREAS_VERDES_DEFAULT));
-          renderizarElementosArrastrables();
+          renderizarElementos();
           actualizarCodigoConfiguracion();
           document.getElementById('badge-saved').classList.add('hidden');
-          document.getElementById('last-moved-info').textContent = "🔄 Posiciones restablecidas.";
+          document.getElementById('last-moved-info').textContent = "🔄 Posiciones de L8 y L9 reiniciadas.";
         }
       });
 
