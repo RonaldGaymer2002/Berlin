@@ -30,12 +30,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Inicializar Mapa Leaflet
+  // 2. Acordeón Interactivo Exclusivo (Estilo TECHO)
+  const accordionItems = document.querySelectorAll('.techo-accordion-item');
+  if (accordionItems.length > 0) {
+    accordionItems.forEach(item => {
+      const header = item.querySelector('.techo-accordion-header');
+      if (!header) return;
+
+      header.addEventListener('click', () => {
+        const isCurrentlyActive = item.classList.contains('active');
+
+        // Cerrar todos los ítems (comportamiento exclusivo)
+        accordionItems.forEach(otherItem => {
+          otherItem.classList.remove('active');
+          const otherSymbol = otherItem.querySelector('.toggle-symbol');
+          if (otherSymbol) otherSymbol.textContent = '+';
+        });
+
+        // Si no estaba activo, abrir este ítem
+        if (!isCurrentlyActive) {
+          item.classList.add('active');
+          const symbol = item.querySelector('.toggle-symbol');
+          if (symbol) symbol.textContent = '✕';
+        }
+      });
+    });
+  }
+
+  // 3. Inicializar Mapa Leaflet
   if (typeof initMap === 'function') {
     initMap();
   }
 
-  // 3. Controladores del Bottom Sheet (Ficha de Lote)
+  // 4. Controladores del Bottom Sheet (Ficha de Lote)
   const btnCloseSheet = document.getElementById('btn-close-sheet');
   const sheetHandle = document.getElementById('bottom-sheet-handle');
   const btnBsSimular = document.getElementById('btn-bs-simular');
@@ -50,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. Controladores del Modal Simulador
+  // 5. Controladores del Modal Simulador
   const btnCloseSimulador = document.getElementById('btn-close-simulador');
   const simuladorModal = document.getElementById('simulador-modal');
 
@@ -61,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Tabs de Modalidad de Pago (Cuotas vs Contado)
+  // 6. Tabs de Modalidad de Pago (Cuotas vs Contado)
   const tabCuotas = document.getElementById('tab-cuotas');
   const tabContado = document.getElementById('tab-contado');
   const cuotasControls = document.getElementById('sim-cuotas-controls');
@@ -87,13 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Slider de Cuota Inicial
+  // 7. Slider de Cuota Inicial
   const sliderInicial = document.getElementById('slider-inicial');
   if (sliderInicial) {
     sliderInicial.addEventListener('input', calculateSimulation);
   }
 
-  // 7. Botones de Plazo (12, 24, 36, 48, 60, 72, 84, 96, 120 meses)
+  // 8. Botones de Plazo (12, 24, 36, 48, 60, 72, 84, 96, 120 meses)
   const plazoButtons = document.querySelectorAll('.btn-plazo');
   plazoButtons.forEach(btn => {
     btn.addEventListener('click', function () {
@@ -106,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 8. Filtros de Manzanas y Disponibilidad
+  // 9. Filtros de Manzanas y Disponibilidad
   const filterButtons = document.querySelectorAll('.filter-btn');
   filterButtons.forEach(btn => {
     btn.addEventListener('click', function () {
@@ -119,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 9. Selector Rápido de Lotes
+  // 10. Selector Rápido de Lotes
   const selectLoteQuick = document.getElementById('select-lote-quick');
   if (selectLoteQuick) {
     selectLoteQuick.addEventListener('change', function () {
@@ -138,19 +165,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 10. Alternador de Capa Satelital / Vectorial
+  // 11. Alternador de Capa Satelital / Vectorial
   const btnToggleSatellite = document.getElementById('btn-toggle-satellite');
   if (btnToggleSatellite) {
     btnToggleSatellite.addEventListener('click', toggleSatelliteLayer);
   }
 
-  // 11. Botón Centrar Plano
+  // 12. Botón Centrar Plano
   const btnResetMap = document.getElementById('btn-reset-map');
   if (btnResetMap) {
     btnResetMap.addEventListener('click', resetMapView);
   }
 
-  // 12. Leyenda Colapsable en Móvil
+  // 13. Leyenda Colapsable en Móvil
   const toggleLegendBtn = document.getElementById('toggle-legend-btn');
   if (toggleLegendBtn) {
     toggleLegendBtn.addEventListener('click', () => {

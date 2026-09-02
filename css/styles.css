@@ -303,3 +303,70 @@
   border-radius: 9999px !important;
   box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
 }
+
+/* ==========================================================================
+   SECCIÓN INSTITUCIONAL & ACORDEÓN (ESTILO TECHO)
+   ========================================================================== */
+.techo-check-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  background-color: #16a34a;
+  box-shadow: 0 2px 5px rgba(22, 163, 74, 0.3);
+}
+
+.techo-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 1.5px solid #ea580c;
+  color: #ea580c;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  transition: all 0.25s ease;
+  background-color: #ffffff;
+}
+
+.techo-accordion-item.active .techo-toggle-btn {
+  background-color: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+}
+
+.techo-accordion-item {
+  border-color: #e2e8f0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.techo-accordion-item.active {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.08);
+}
+
+.techo-accordion-body {
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, padding 0.35s ease;
+  overflow: hidden;
+}
+
+.techo-accordion-item:not(.active) .techo-accordion-body {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+}
+
+.techo-accordion-item.active .techo-accordion-body {
+  max-height: 350px;
+  opacity: 1;
+  padding-top: 0.75rem;
+  padding-bottom: 1.25rem;
+  border-top: 1px solid #f1f5f9;
+}
