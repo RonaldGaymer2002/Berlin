@@ -76,46 +76,65 @@
 
         <!-- Menú a la derecha (Desktop) -->
         <nav class="hidden md:flex items-center gap-7 font-display">
-          <a href="index.html#inicio" class="nav-link">Inicio</a>
-          <a href="quienes-somos.html" class="nav-link">Quiénes Somos</a>
+          <a href="index.html#inicio" class="nav-link" data-i18n="nav.inicio">Inicio</a>
+          <a href="quienes-somos.html" class="nav-link" data-i18n="nav.quienes_somos">Quiénes Somos</a>
           <a href="proyectos.html" class="nav-link-highlight active">
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
-            <span>Proyectos</span>
+            <span data-i18n="nav.proyectos">Proyectos</span>
           </a>
-          <a href="planes.html" class="nav-link">Planes</a>
-          <a href="index.html#contacto" class="nav-link">Contacto</a>
+          <a href="planes.html" class="nav-link" data-i18n="nav.planes">Planes</a>
+          <a href="index.html#contacto" class="nav-link" data-i18n="nav.contacto">Contacto</a>
         </nav>
 
-        <!-- Botón Directo WhatsApp Header -->
-        <div class="hidden sm:flex items-center">
+        <!-- Controles de Cabecera: WhatsApp + Selector de Idioma + Botón de Tema -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Botón Directo WhatsApp Header -->
           <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20conocer%20los%20proyectos%20de%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*."
             target="_blank" rel="noopener noreferrer"
-            class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-sm shadow-md transition-all active:scale-95">
+            class="hidden sm:flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z"/>
             </svg>
-            <span>WhatsApp (+591 70832781)</span>
+            <span class="hidden lg:inline" data-i18n="nav.whatsapp">WhatsApp (+591 70832781)</span>
+            <span class="lg:hidden">WhatsApp</span>
           </a>
-        </div>
 
-        <!-- Botón Móvil Menú -->
-        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-coral-600 focus:outline-none">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+          <!-- Controles de Tema e Idioma -->
+          <div class="nav-actions">
+            <div class="lang-select-wrapper" title="Seleccionar Idioma">
+              <select class="lang-select-input" aria-label="Seleccionar Idioma">
+                <option value="es">🇪🇸 ES</option>
+                <option value="en">🇺🇸 EN</option>
+                <option value="qu">🇧🇴 QU</option>
+                <option value="gn">🇧🇴 GN</option>
+                <option value="ay">🇧🇴 AY</option>
+              </select>
+            </div>
+
+            <button class="theme-toggle-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
+              🌙
+            </button>
+          </div>
+
+          <!-- Botón Móvil Menú -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-coral-600 focus:outline-none" aria-label="Abrir Menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
 
       </div>
 
       <!-- Menú Desplegable Móvil -->
       <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-slate-100 font-display space-y-2">
-        <a href="index.html#inicio" class="block py-2 text-slate-700 font-bold hover:text-coral-600">INICIO</a>
-        <a href="quienes-somos.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600">QUIÉNES SOMOS</a>
-        <a href="proyectos.html" class="block py-2 text-emerald-700 font-extrabold">PROYECTOS</a>
-        <a href="planes.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600">PLANES</a>
-        <a href="index.html#contacto" class="block py-2 text-slate-700 font-bold hover:text-coral-600">CONTACTO</a>
+        <a href="index.html#inicio" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.inicio">INICIO</a>
+        <a href="quienes-somos.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.quienes_somos">QUIÉNES SOMOS</a>
+        <a href="proyectos.html" class="block py-2 text-emerald-700 font-extrabold" data-i18n="nav.proyectos">PROYECTOS</a>
+        <a href="planes.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.planes">PLANES</a>
+        <a href="index.html#contacto" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.contacto">CONTACTO</a>
         <a href="https://wa.me/59170832781" target="_blank" rel="noopener noreferrer"
           class="inline-block mt-2 w-full text-center py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-sm">
           💬 WhatsApp Directo
@@ -372,6 +391,10 @@
       </a>
     </div>
   </div>
+
+  <!-- Motor Multilingüe (i18n) y Gestor de Tema -->
+  <script src="js/i18n.js" type="module"></script>
+  <script src="js/i18n.js"></script>
 
   <!-- Controlador Principal -->
   <script src="js/main.js"></script>

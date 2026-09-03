@@ -282,7 +282,23 @@
   <!-- ====================================================================== -->
   <!-- 4. BOTONES FLOTANTES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
   <!-- ====================================================================== -->
-  <div class="floating-ui absolute top-4 right-4 flex flex-col gap-2">
+  <div class="floating-ui absolute top-4 right-4 flex items-center gap-2">
+    <!-- Selector de Idioma -->
+    <div class="lang-select-wrapper" title="Seleccionar Idioma">
+      <select class="lang-select-input shadow-xl" aria-label="Seleccionar Idioma">
+        <option value="es">🇪🇸 ES</option>
+        <option value="en">🇺🇸 EN</option>
+        <option value="qu">🇧🇴 QU</option>
+        <option value="gn">🇧🇴 GN</option>
+        <option value="ay">🇧🇴 AY</option>
+      </select>
+    </div>
+
+    <!-- Botón Toggle de Tema (Dark / Light) -->
+    <button class="theme-toggle-btn shadow-xl" aria-label="Cambiar Tema" title="Cambiar Tema">
+      🌙
+    </button>
+
     <!-- Botón Google Maps Oficial -->
     <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
       class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-red-600 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
@@ -684,6 +700,10 @@
       if (map) map.invalidateSize();
     });
   </script>
+
+  <!-- Motor Multilingüe (i18n) y Gestor de Tema -->
+  <script src="js/i18n.js" type="module"></script>
+  <script src="js/i18n.js"></script>
 
 </body>
 
