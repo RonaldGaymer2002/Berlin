@@ -1065,3 +1065,26 @@ h1, h2, h3, h4, h5, h6, .font-display {
     padding: 4px 10px;
   }
 }
+
+/* ==========================================================================
+   6. LAYOUT PLANES & INDICADORES STICKY (SIN TAPAR EL FOOTER)
+   ========================================================================== */
+.planes-layout {
+  align-items: start;
+  position: relative;
+}
+
+.indicadores-widget {
+  position: sticky;
+  top: 100px;
+  z-index: 20;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1023px) {
+  .indicadores-widget {
+    position: static;
+    top: auto;
+    z-index: 1;
+  }
+}
