@@ -147,6 +147,30 @@ h1, h2, h3, h4, h5, h6, .font-display {
   display: block;
 }
 
+/* Diapositiva 1: Banner Oficial con Fondo Blanco Puro Continuo */
+.hero-slide.slide-banner {
+  background-color: #ffffff !important;
+}
+
+.hero-slide.slide-banner img {
+  max-height: 90%;
+  max-width: 95%;
+  object-fit: contain;
+  margin: auto;
+}
+
+/* Diapositivas 2 a 6: Fotos Reales del Terreno */
+.hero-slide.slide-photo {
+  background-color: #0b1d14 !important;
+}
+
+.hero-slide.slide-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* Controles de Navegación Minimalistas */
 .hero-arrow-btn {
   width: 44px !important;
