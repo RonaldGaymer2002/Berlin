@@ -48,7 +48,7 @@
       "footer.oficina_desc": "A 400m de la Carretera Hardeman - Piraí • Santa Cruz, Bolivia",
       "footer.telefono": "TELÉFONO",
       "footer.email": "EMAIL",
-      "footer.derechos": "Diseñado para Proyecto Berlín | © Todos los derechos reservados.",
+      "footer.derechos": "Diseñado y desarrollado por Ronald Augusto Rodriguez Serrano | Proyecto Berlín © 2026 • Todos los derechos reservados.",
       
       // Página de Contacto
       "contact.subtitulo": "ATENCIÓN AL CLIENTE",
