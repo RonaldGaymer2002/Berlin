@@ -5,7 +5,27 @@
  * ============================================================================
  */
 
+// 0. Forzar scroll al inicio (top: 0) al cargar o recargar la página
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+if (window.location.hash) {
+  window.scrollTo(0, 0);
+  try {
+    history.replaceState(null, null, window.location.pathname + window.location.search);
+  } catch (e) {}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Limpiar cualquier hash residual y asegurar vista superior en el carrusel
+  if (window.location.hash) {
+    window.scrollTo(0, 0);
+    try {
+      history.replaceState(null, null, window.location.pathname + window.location.search);
+    } catch (e) {}
+  }
+
   // 1. Menú Móvil Responsive (Toggle)
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
