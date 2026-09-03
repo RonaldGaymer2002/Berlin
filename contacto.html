@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto | Proyecto Berlín - Terrenos en Hardeman</title>
+  <meta name="description"
+    content="Ponte en contacto con Proyecto Berlín. Oficina comercial en Santa Cruz de la Sierra y atención directa para terrenos en Hardeman a sólo $7 USD/m²." />
+  <link rel="canonical" href="https://proyecto-berlin.bo/contacto.html" />
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
+            },
+            coral: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Outfit"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Estilos Globales Personalizados -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased font-sans transition-colors duration-300">
+
+  <!-- ====================================================================== -->
+  <!-- 1. NAVBAR OFICIAL -->
+  <!-- ====================================================================== -->
+  <header class="site-header sticky top-0 z-40 w-full transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo Oficial a la izquierda -->
+        <a href="index.html" class="logo-link flex items-center group">
+          <img src="img/BERLÍN BANNER 3.png" 
+               alt="Proyecto Berlín - Hardeman" 
+               class="logo-img" />
+        </a>
+
+        <!-- Menú Desktop -->
+        <nav class="hidden md:flex items-center gap-7 font-display">
+          <a href="index.html" class="nav-link" data-i18n="nav.inicio">Inicio</a>
+          <a href="quienes-somos.html" class="nav-link" data-i18n="nav.quienes_somos">Quiénes Somos</a>
+          <a href="proyectos.html" class="nav-link-highlight">
+            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <span data-i18n="nav.proyectos">Proyectos</span>
+          </a>
+          <a href="planes.html" class="nav-link" data-i18n="nav.planes">Planes</a>
+          <a href="contacto.html" class="nav-link active text-coral-600 font-extrabold border-b-2 border-coral-600 pb-1" data-i18n="nav.contacto">Contacto</a>
+        </nav>
+
+        <!-- Controles de Cabecera: WhatsApp + Selector de Idioma + Botón de Tema -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Botón Directo WhatsApp Header -->
+          <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20conocer%20los%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20al%20precio%20de%20*$7%20USD/m%C2%B2*."
+            target="_blank" rel="noopener noreferrer"
+            class="hidden sm:flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z" />
+            </svg>
+            <span class="hidden lg:inline" data-i18n="nav.whatsapp">WhatsApp (+591 70832781)</span>
+            <span class="lg:hidden">WhatsApp</span>
+          </a>
+
+          <!-- Controles de Tema e Idioma -->
+          <div class="nav-actions">
+            <div class="lang-select-wrapper" title="Seleccionar Idioma">
+              <select class="lang-select-input" aria-label="Seleccionar Idioma">
+                <option value="es">🇪🇸 ES</option>
+                <option value="en">🇺🇸 EN</option>
+                <option value="qu">🇧🇴 QU</option>
+                <option value="gn">🇧🇴 GN</option>
+                <option value="ay">🇧🇴 AY</option>
+              </select>
+            </div>
+
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
+              🌙
+            </button>
+          </div>
+
+          <!-- Botón Móvil Menú -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-coral-600 focus:outline-none" aria-label="Abrir Menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Menú Desplegable Móvil -->
+      <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-slate-100 font-display space-y-2">
+        <a href="index.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.inicio">INICIO</a>
+        <a href="quienes-somos.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.quienes_somos">QUIÉNES SOMOS</a>
+        <a href="proyectos.html" class="block py-2 text-emerald-700 font-extrabold" data-i18n="nav.proyectos">PROYECTOS</a>
+        <a href="planes.html" class="block py-2 text-slate-700 font-bold hover:text-coral-600" data-i18n="nav.planes">PLANES</a>
+        <a href="contacto.html" class="block py-2 text-coral-600 font-extrabold" data-i18n="nav.contacto">CONTACTO</a>
+        <a href="https://wa.me/59170832781" target="_blank" rel="noopener noreferrer"
+          class="inline-block mt-2 w-full text-center py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-sm">
+          💬 WhatsApp Directo
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ====================================================================== -->
+  <!-- 2. SECCIÓN PRINCIPAL: TARJETA DIVIDIDA DE CONTACTO (SPLIT CARD) -->
+  <!-- ====================================================================== -->
+  <main class="py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-8">
+
+      <!-- Encabezado de Página -->
+      <div class="text-center space-y-2">
+        <span class="inline-block text-xs md:text-sm font-display font-extrabold tracking-widest text-emerald-600 uppercase"
+              data-i18n="contact.subtitulo">
+          ATENCIÓN AL CLIENTE
+        </span>
+        <h1 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight"
+            data-i18n="contact.titulo">
+          Contáctanos
+        </h1>
+      </div>
+
+      <!-- Tarjeta Dividida (Split Card) -->
+      <div class="contact-split-card bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden grid grid-cols-1 md:grid-cols-12 transition-all">
+
+        <!-- Columna Izquierda: Información de Atención y Contacto -->
+        <div class="md:col-span-7 p-6 sm:p-10 flex flex-col justify-between space-y-8">
+          
+          <div class="space-y-6">
+            <!-- Badge Superior -->
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-display font-extrabold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    data-i18n="contact.badge">
+                🏢 OFICINA COMERCIAL / ATENCIÓN
+              </span>
+            </div>
+
+            <!-- Título y Párrafo -->
+            <div class="space-y-3">
+              <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900 leading-tight"
+                  data-i18n="contact.oficina_titulo">
+                Proyecto Berlín - Santa Cruz
+              </h2>
+              <p class="text-slate-600 text-sm sm:text-base leading-relaxed"
+                 data-i18n="contact.parrafo">
+                Escríbenos directamente o visítanos en nuestro punto de atención para recibir el mejor asesoramiento inmobiliario en terrenos sobre cota alta.
+              </p>
+            </div>
+
+            <!-- Lista de Puntos de Contacto -->
+            <div class="space-y-4 pt-2 border-t border-slate-100">
+              
+              <!-- Ítem 1: WhatsApp / Teléfono -->
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100/70 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <span class="block text-xs font-display font-bold text-slate-400 uppercase tracking-wider"
+                        data-i18n="contact.whatsapp_label">
+                    WHATSAPP OFICIAL
+                  </span>
+                  <a href="https://wa.me/59170832781" target="_blank" rel="noopener noreferrer"
+                     class="text-base font-bold text-slate-900 hover:text-emerald-600 transition-colors">
+                    (+591) 70832781
+                  </a>
+                </div>
+              </div>
+
+              <!-- Ítem 2: Ubicación -->
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100/70 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <span class="block text-xs font-display font-bold text-slate-400 uppercase tracking-wider"
+                        data-i18n="contact.ubicacion_label">
+                    UBICACIÓN
+                  </span>
+                  <p class="text-sm font-semibold text-slate-800"
+                     data-i18n="contact.ubicacion_val">
+                    Calle Paititi #104, Santa Cruz de la Sierra, Bolivia
+                  </p>
+                </div>
+              </div>
+
+              <!-- Ítem 3: Horario -->
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100/70 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <span class="block text-xs font-display font-bold text-slate-400 uppercase tracking-wider"
+                        data-i18n="contact.horario_label">
+                    HORARIO DE ATENCIÓN
+                  </span>
+                  <p class="text-sm font-semibold text-slate-800"
+                     data-i18n="contact.horario_val">
+                    Lunes a Sábado: 08:30 - 18:30
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Botón de Acción Verde Principal -->
+          <div class="pt-4">
+            <a href="https://wa.me/59170832781?text=Hola%2C%20solicito%20informaci%C3%B3n%20y%20asesoramiento%20sobre%20los%20lotes%20del%20Proyecto%20Berl%C3%ADn"
+               target="_blank" rel="noopener noreferrer"
+               class="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-sm sm:text-base shadow-lg shadow-emerald-700/20 transition-all hover:scale-[1.02] active:scale-95">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.123-.538-1.845-.773-3.003-2.651-3.095-2.776-.092-.124-.748-.997-.748-1.901 0-.905.474-1.348.643-1.533.169-.185.372-.232.496-.232.124 0 .248.001.355.006.113.006.264-.043.413.315.155.372.53 1.29.576 1.383.046.093.078.202.016.326-.062.125-.094.202-.186.311-.093.109-.196.243-.28.326-.093.093-.19.196-.082.383.109.186.483.797 1.036 1.291.71.634 1.309.831 1.495.924.186.093.295.078.404-.047.108-.124.465-.543.59-.73.123-.186.247-.155.414-.093.167.062 1.06.5 1.243.59.183.091.306.136.35.213.045.077.045.447-.099.852z"/>
+              </svg>
+              <span data-i18n="contact.btn_whatsapp">ESCRÍBENOS POR WHATSAPP</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Tarjeta Oscura de Ubicación / Google Maps -->
+        <div class="md:col-span-5 bg-gradient-to-br from-slate-900 via-slate-950 to-[#0b1d14] text-white p-8 sm:p-10 flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden border-t md:border-t-0 md:border-l border-slate-800">
+          
+          <!-- Efecto de Fondo Sutil -->
+          <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none"></div>
+          <div class="absolute -left-16 -bottom-16 w-48 h-48 rounded-full bg-amber-500/10 blur-2xl pointer-events-none"></div>
+
+          <!-- Icono de Mapa Decorativo -->
+          <div class="w-20 h-20 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-emerald-400 shadow-2xl">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+          </div>
+
+          <!-- Texto de Ubicación Central -->
+          <div class="space-y-2 relative z-10">
+            <h3 class="font-display font-extrabold text-2xl text-white tracking-tight">
+              Oficina Central
+            </h3>
+            <p class="text-slate-300 text-sm max-w-xs mx-auto leading-relaxed">
+              Calle Paititi #104 • Santa Cruz, Bolivia
+            </p>
+          </div>
+
+          <!-- Botón Contorneado: Ver en Google Maps -->
+          <div class="pt-2 relative z-10 w-full max-w-xs">
+            <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8"
+               target="_blank" rel="noopener noreferrer"
+               class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white text-white hover:text-slate-900 border border-white/30 font-display font-bold text-xs sm:text-sm tracking-wide transition-all hover:scale-105 active:scale-95 shadow-lg backdrop-blur-sm">
+              <svg class="w-4 h-4 text-red-500 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span data-i18n="contact.btn_maps">VER EN GOOGLE MAPS</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ====================================================================== -->
+  <!-- 3. FOOTER UNIFICADO -->
+  <!-- ====================================================================== -->
+  <footer class="bg-[#12281e] text-white pt-16 pb-12 border-t border-emerald-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14">
+
+        <!-- Columna 1: Marca y Propósito -->
+        <div class="md:col-span-4 space-y-4">
+          <a href="index.html" class="inline-block">
+            <img src="img/BERLÍN BANNER 3.png" alt="Proyecto Berlín" class="h-10 w-auto object-contain brightness-0 invert" />
+          </a>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Terrenos 100% sobre cota alta en Hardeman (Santa Cruz, Bolivia). Inversión segura y financiamiento directo
+            sin intermediarios a sólo 400m de la carretera.
+          </p>
+        </div>
+
+        <!-- Columna 2: Enlaces Rápidos -->
+        <div class="md:col-span-4 space-y-3 font-display">
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider text-amber-400">NAVEGACIÓN</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="index.html" class="hover:text-amber-400 transition-colors" data-i18n="nav.inicio">Inicio</a></li>
+            <li><a href="quienes-somos.html" class="hover:text-amber-400 transition-colors" data-i18n="nav.quienes_somos">Quiénes Somos</a></li>
+            <li><a href="proyectos.html" class="hover:text-amber-400 transition-colors" data-i18n="nav.proyectos">Proyectos</a></li>
+            <li><a href="planes.html" class="hover:text-amber-400 transition-colors" data-i18n="nav.planes">Planes de Financiamiento</a></li>
+            <li><a href="contacto.html" class="text-amber-400 font-bold" data-i18n="nav.contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Información de Contacto -->
+        <div class="md:col-span-4 space-y-3">
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider text-amber-400 font-display">ATENCIÓN DIRECTA</h4>
+          <div class="space-y-2 text-sm text-slate-300">
+            <p><strong>Ubicación:</strong> Calle Paititi #104, Santa Cruz de la Sierra, Bolivia</p>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/59170832781" class="hover:text-amber-400 transition-colors">(+591) 70832781</a></p>
+            <p><strong>Horario:</strong> Lunes a Sábado: 08:30 - 18:30</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-emerald-900/60 text-center text-xs text-slate-400">
+        <p data-i18n="footer.derechos">Diseñado para Proyecto Berlín | © Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================== -->
+  <!-- 4. BOTÓN FLOTANTE DE WHATSAPP (CON RADAR PULSE) -->
+  <!-- ====================================================================== -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <div class="relative group">
+      <div class="absolute -inset-2 bg-emerald-500 rounded-full opacity-75 pulse-ring pointer-events-none"></div>
+      <a href="https://wa.me/59170832781?text=Hola,%20me%20interesa%20informaci%C3%B3n%20sobre%20los%20lotes%20en%20*Proyecto%20Berl%C3%ADn%20(Hardeman)*%20a%20*$7%20USD/m%C2%B2*."
+        target="_blank" rel="noopener noreferrer"
+        class="relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xl shadow-emerald-950/40 transform hover:scale-110 active:scale-95 transition-all"
+        title="Chatear por WhatsApp">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Motor Multilingüe (i18n) y Gestor de Tema -->
+  <script src="js/i18n.js"></script>
+
+  <!-- Controlador Principal -->
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>

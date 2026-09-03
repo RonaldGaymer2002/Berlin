@@ -50,6 +50,20 @@
       "footer.email": "EMAIL",
       "footer.derechos": "Diseñado para Proyecto Berlín | © Todos los derechos reservados.",
       
+      // Página de Contacto
+      "contact.subtitulo": "ATENCIÓN AL CLIENTE",
+      "contact.titulo": "Contáctanos",
+      "contact.badge": "OFICINA COMERCIAL / ATENCIÓN",
+      "contact.oficina_titulo": "Proyecto Berlín - Santa Cruz",
+      "contact.parrafo": "Escríbenos directamente o visítanos en nuestro punto de atención para recibir el mejor asesoramiento inmobiliario en terrenos sobre cota alta.",
+      "contact.whatsapp_label": "WHATSAPP OFICIAL",
+      "contact.ubicacion_label": "UBICACIÓN",
+      "contact.ubicacion_val": "Calle Paititi #104, Santa Cruz de la Sierra, Bolivia",
+      "contact.horario_label": "HORARIO DE ATENCIÓN",
+      "contact.horario_val": "Lunes a Sábado: 08:30 - 18:30",
+      "contact.btn_whatsapp": "ESCRÍBENOS POR WHATSAPP",
+      "contact.btn_maps": "VER EN GOOGLE MAPS",
+
       // Controles
       "theme.light": "Modo Claro",
       "theme.dark": "Modo Oscuro",
@@ -95,6 +109,20 @@
       "footer.telefono": "PHONE",
       "footer.email": "EMAIL",
       "footer.derechos": "Designed for Proyecto Berlín | © All rights reserved.",
+
+      // Contact Page
+      "contact.subtitulo": "CUSTOMER SERVICE",
+      "contact.titulo": "Contact Us",
+      "contact.badge": "COMMERCIAL OFFICE / SUPPORT",
+      "contact.oficina_titulo": "Proyecto Berlín - Santa Cruz",
+      "contact.parrafo": "Message us directly or visit our office to receive the best real estate guidance on high-ground flood-free land.",
+      "contact.whatsapp_label": "OFFICIAL WHATSAPP",
+      "contact.ubicacion_label": "LOCATION",
+      "contact.ubicacion_val": "Calle Paititi #104, Santa Cruz de la Sierra, Bolivia",
+      "contact.horario_label": "BUSINESS HOURS",
+      "contact.horario_val": "Monday to Saturday: 08:30 - 18:30",
+      "contact.btn_whatsapp": "MESSAGE US ON WHATSAPP",
+      "contact.btn_maps": "VIEW ON GOOGLE MAPS",
 
       // Controls
       "theme.light": "Light Mode",
@@ -142,6 +170,20 @@
       "footer.email": "CHASKI",
       "footer.derechos": "Proyecto Berlín-paq rurasqa | © Tukuy hayñikuna waqaychasqa.",
 
+      // Contact Page
+      "contact.subtitulo": "RUNA TINKIY",
+      "contact.titulo": "Tinkiykuwayku",
+      "contact.badge": "QATU WASI / ATENCIÓN",
+      "contact.oficina_titulo": "Proyecto Berlín - Santa Cruz",
+      "contact.parrafo": "WhatsApppi qillqaykuwayku utaq wasiykuman hamuy allin yachayta chaskinaykipaq.",
+      "contact.whatsapp_label": "KIKIN WHATSAPP",
+      "contact.ubicacion_label": "MAYPI KASHAN",
+      "contact.ubicacion_val": "Calle Paititi #104, Santa Cruz de la Sierra, Bolivia",
+      "contact.horario_label": "LLANK'AY PACHA",
+      "contact.horario_val": "Lunesmanta Sabadokama: 08:30 - 18:30",
+      "contact.btn_whatsapp": "WHATSAPP-WAN RIMAY",
+      "contact.btn_maps": "GOOGLE MAPSPI RIKUY",
+
       // Controls
       "theme.light": "K'anchay Tema",
       "theme.dark": "Laqha Tema",
@@ -188,6 +230,20 @@
       "footer.email": "ÑE'ẼVEVE",
       "footer.derechos": "Proyecto Berlín mba'erã | © Mayma derécho oñeñongatu.",
 
+      // Contact Page
+      "contact.subtitulo": "TEKO ÑANGAREKO",
+      "contact.titulo": "Eñe'ẽ Orendive",
+      "contact.badge": "MBA'APOHÁPE / ATENCIÓN",
+      "contact.oficina_titulo": "Proyecto Berlín - Santa Cruz",
+      "contact.parrafo": "Ehai oréve WhatsApp rupi térã eju ore rendápe rehecha hag̃ua yvy porãite.",
+      "contact.whatsapp_label": "WHATSAPP TEETE",
+      "contact.ubicacion_label": "MOO GUASUPA",
+      "contact.ubicacion_val": "Calle Paititi #104, Santa Cruz de la Sierra, Bolivia",
+      "contact.horario_label": "ARA JEIKE",
+      "contact.horario_val": "Lunes guive Sábado peve: 08:30 - 18:30",
+      "contact.btn_whatsapp": "EHAI WHATSAPP RUPI",
+      "contact.btn_maps": "EHECHA GOOGLE MAPS-PE",
+
       // Controls
       "theme.light": "Tesape Tema",
       "theme.dark": "Pytũ Tema",
@@ -233,6 +289,20 @@
       "footer.telefono": "JAWSAÑA",
       "footer.email": "CHASKI",
       "footer.derechos": "Proyecto Berlín lurata | © Taqi derechunaka imatawa.",
+
+      // Contact Page
+      "contact.subtitulo": "JAWSAWI UTJIRI",
+      "contact.titulo": "Nanakar Jikisisiñataki",
+      "contact.badge": "ALJAWI WASI / ATENCIÓN",
+      "contact.oficina_titulo": "Proyecto Berlín - Santa Cruz",
+      "contact.parrafo": "WhatsApp tuqi qillqt'apxita jani ukax utasar jutapxam suma uraqinaka uñjañataki.",
+      "contact.whatsapp_label": "KIKIN WHATSAPP",
+      "contact.ubicacion_label": "KAWKHANKISA",
+      "contact.ubicacion_val": "Calle Paititi #104, Santa Cruz de la Sierra, Bolivia",
+      "contact.horario_label": "LURAWI PACHA",
+      "contact.horario_val": "Lunesita Sabadokama: 08:30 - 18:30",
+      "contact.btn_whatsapp": "WHATSAPP-RU QILLQAÑA",
+      "contact.btn_maps": "GOOGLE MAPS-NA UÑJAÑA",
 
       // Controls
       "theme.light": "Qhana Tema",
