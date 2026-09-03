@@ -37,9 +37,10 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+html.dark-theme,
 body.dark-theme {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
 }
 
 .dark-theme .site-header {
@@ -48,11 +49,17 @@ body.dark-theme {
 }
 
 .dark-theme .nav-link {
-  color: var(--text-secondary);
+  color: var(--text-secondary) !important;
 }
 
 .dark-theme .nav-link:hover {
-  color: #fb923c;
+  color: #fb923c !important;
+}
+
+.dark-theme .nav-link-highlight {
+  background-color: rgba(22, 163, 74, 0.2) !important;
+  color: #4ade80 !important;
+  border-color: #22c55e !important;
 }
 
 .dark-theme .bg-white {
@@ -60,33 +67,56 @@ body.dark-theme {
 }
 
 .dark-theme .bg-slate-50,
-.dark-theme .bg-slate-100 {
+.dark-theme .bg-slate-100,
+.dark-theme .bg-gray-50 {
   background-color: var(--bg-secondary) !important;
 }
 
+.dark-theme .text-slate-950,
 .dark-theme .text-slate-900,
-.dark-theme .text-slate-800 {
+.dark-theme .text-slate-800,
+.dark-theme .text-gray-900,
+.dark-theme .text-gray-800 {
   color: var(--text-primary) !important;
 }
 
 .dark-theme .text-slate-700,
-.dark-theme .text-slate-600 {
+.dark-theme .text-slate-600,
+.dark-theme .text-gray-700,
+.dark-theme .text-gray-600 {
   color: var(--text-secondary) !important;
 }
 
 .dark-theme .text-slate-500,
-.dark-theme .text-slate-400 {
+.dark-theme .text-slate-400,
+.dark-theme .text-gray-500,
+.dark-theme .text-gray-400 {
   color: var(--text-muted) !important;
 }
 
 .dark-theme .border-slate-100,
-.dark-theme .border-slate-200 {
+.dark-theme .border-slate-200,
+.dark-theme .border-slate-300,
+.dark-theme .border-gray-200 {
   border-color: var(--border-color) !important;
 }
 
-.dark-theme footer {
-  background-color: #0b0f19 !important;
-  border-top-color: #1e293b !important;
+.dark-theme .techo-accordion-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark-theme .techo-accordion-header {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .techo-accordion-content {
+  color: var(--text-secondary) !important;
+}
+
+.dark-theme .project-card {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
 }
 
 .dark-theme .floating-fx-badge,
@@ -96,6 +126,19 @@ body.dark-theme {
   background: rgba(30, 41, 59, 0.95) !important;
   color: #f8fafc !important;
   border-color: #334155 !important;
+}
+
+.dark-theme footer {
+  background-color: #0b0f19 !important;
+  border-top-color: #1e293b !important;
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
 }
 
 /* ==========================================================================
