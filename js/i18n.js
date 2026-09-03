@@ -330,7 +330,7 @@
       }
     });
 
-    document.querySelectorAll('.lang-select-input').forEach(sel => {
+    document.querySelectorAll('.lang-select-input, #map-lang-select, .lang-select-compact').forEach(sel => {
       sel.value = lang;
     });
 
@@ -394,7 +394,7 @@
     });
 
     // Listener para Selects de Idioma
-    document.querySelectorAll('.lang-select-input').forEach(sel => {
+    document.querySelectorAll('.lang-select-input, #map-lang-select, .lang-select-compact').forEach(sel => {
       sel.onchange = function(e) {
         setLanguage(e.target.value);
       };

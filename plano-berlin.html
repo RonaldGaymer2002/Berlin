@@ -244,79 +244,68 @@
   <div id="map"></div>
 
   <!-- ====================================================================== -->
-  <!-- 2. SELECTOR FLOTANTE DE 3 MODOS (SUPERIOR CENTRADO) -->
+  <!-- 2. HEADER DEL MAPA RESPONSIVO (2 NIVELES) -->
   <!-- ====================================================================== -->
-  <div class="floating-ui absolute top-4 left-1/2 -translate-x-1/2 mode-selector">
-    <button id="btn-plano" class="btn-modo active" onclick="cambiarModo('plano')" title="Ver plano técnico oficial">
-      <span>📐</span>
-      <span>Solo Plano</span>
-    </button>
-    <button id="btn-satelital" class="btn-modo" onclick="cambiarModo('satelital')" title="Ver foto satelital real">
-      <span>🛰️</span>
-      <span>Satelital</span>
-    </button>
-    <button id="btn-mixto" class="btn-modo" onclick="cambiarModo('mixto')" title="Ver plano sobrepuesto con transparencia">
-      <span>🗺️</span>
-      <span>Mixto</span>
-    </button>
-  </div>
+  <header class="map-header">
+    <!-- Nivel 1: Navegación y utilidades -->
+    <div class="map-top-bar">
+      <div class="flex items-center gap-2">
+        <a href="proyectos.html" class="btn-map-back" title="Volver a Proyectos">
+          <span class="icon">←</span> <span class="btn-text">Volver</span>
+        </a>
+        <a href="index.html" class="map-logo-link hidden sm:flex items-center" title="Ir al Inicio">
+          <img src="img/BERLÍN%20BANNER%203.png" alt="Proyecto Berlín" class="map-header-logo" />
+        </a>
+      </div>
+      
+      <div class="map-top-actions">
+        <!-- Selector de idioma -->
+        <div class="lang-select-wrapper" title="Seleccionar Idioma">
+          <select id="map-lang-select" class="lang-select-compact lang-select-input shadow-md" aria-label="Seleccionar Idioma">
+            <option value="es">🇪🇸 ES</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="qu">🇧🇴 QU</option>
+            <option value="gn">🇧🇴 GN</option>
+            <option value="ay">🇧🇴 AY</option>
+          </select>
+        </div>
+        
+        <!-- Botón tema -->
+        <button id="theme-toggle" class="btn-icon-map theme-toggle-btn shadow-md" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
 
-  <!-- ====================================================================== -->
-  <!-- 3. BOTÓN VOLVER A PROYECTOS & LOGO (SUPERIOR IZQUIERDA) -->
-  <!-- ====================================================================== -->
-  <div class="floating-ui absolute top-4 left-4 flex items-center gap-2.5">
-    <a href="proyectos.html"
-      class="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-white/95 hover:bg-white text-slate-800 font-display font-extrabold text-xs sm:text-sm border border-slate-200 shadow-xl transition-all hover:scale-105 active:scale-95">
-      <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-      </svg>
-      <span class="hidden sm:inline">Volver a Proyectos</span>
-      <span class="sm:hidden">Volver</span>
-    </a>
+        <!-- Botón Google Maps Oficial -->
+        <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
+          class="btn-icon-map shadow-md" title="Ver en Google Maps" aria-label="Ver en Google Maps">
+          <svg class="w-4 h-4 fill-current text-red-500" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+        </a>
 
-    <a href="index.html" class="hidden md:flex items-center px-3 py-1.5 rounded-2xl bg-white/95 hover:bg-white border border-slate-200 shadow-xl transition-all hover:scale-105 active:scale-95" title="Ir al Inicio">
-      <img src="img/BERLÍN BANNER 3.png" alt="Proyecto Berlín - Hardeman" class="h-8 w-auto object-contain" />
-    </a>
-  </div>
-
-  <!-- ====================================================================== -->
-  <!-- 4. BOTONES FLOTANTES DE ACCIÓN RÁPIDA (SUPERIOR DERECHA) -->
-  <!-- ====================================================================== -->
-  <div class="floating-ui absolute top-4 right-4 flex items-center gap-2">
-    <!-- Selector de Idioma -->
-    <div class="lang-select-wrapper" title="Seleccionar Idioma">
-      <select class="lang-select-input shadow-xl" aria-label="Seleccionar Idioma">
-        <option value="es">🇪🇸 ES</option>
-        <option value="en">🇺🇸 EN</option>
-        <option value="qu">🇧🇴 QU</option>
-        <option value="gn">🇧🇴 GN</option>
-        <option value="ay">🇧🇴 AY</option>
-      </select>
+        <!-- Botón Centrar Plano -->
+        <button id="btn-recenter" class="btn-icon-map shadow-md" title="Centrar Plano" aria-label="Centrar Plano">
+          <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+          </svg>
+        </button>
+        
+        <!-- Botón pantalla completa -->
+        <button id="btn-fullscreen" class="btn-icon-map shadow-md" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
+      </div>
     </div>
 
-    <!-- Botón Toggle de Tema (Dark / Light) -->
-    <button id="theme-toggle" class="theme-toggle-btn shadow-xl" aria-label="Cambiar Tema" title="Cambiar Tema">
-      🌙
-    </button>
-
-    <!-- Botón Google Maps Oficial -->
-    <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
-      class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-red-600 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Ver Ubicación en Google Maps">
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-      </svg>
-    </a>
-
-    <!-- Botón Centrar Plano -->
-    <button id="btn-recenter"
-      class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-white text-slate-700 hover:text-emerald-700 shadow-xl border border-slate-200 flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      title="Centrar Plano Oficial">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
-      </svg>
-    </button>
-  </div>
+    <!-- Nivel 2: Selector de capas de mapa (Segmented Control) -->
+    <div class="map-layer-selector">
+      <button id="btn-plano" class="layer-btn btn-modo active" data-layer="plano" onclick="cambiarModo('plano')">
+        <span>📐</span> <span>Solo Plano</span>
+      </button>
+      <button id="btn-satelital" class="layer-btn btn-modo" data-layer="satelital" onclick="cambiarModo('satelital')">
+        <span>🛰️</span> <span>Satelital</span>
+      </button>
+      <button id="btn-mixto" class="layer-btn btn-modo" data-layer="mixto" onclick="cambiarModo('mixto')">
+        <span>🗺️</span> <span>Mixto</span>
+      </button>
+    </div>
+  </header>
 
   <!-- ====================================================================== -->
   <!-- 5. FICHA TÉCNICA / BOTTOM SHEET DEL LOTE SELECCIONADO -->
@@ -623,6 +612,18 @@
         map.flyToBounds(planoBounds, { duration: 1 });
       });
 
+      // Botón Pantalla Completa
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      if (btnFullscreen) {
+        btnFullscreen.addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+          }
+        });
+      }
+
       // Toggle Leyenda
       const toggleLegendBtn = document.getElementById('btn-toggle-legend');
       const legendContent = document.getElementById('legend-content');
@@ -650,7 +651,7 @@
     window.cambiarModo = function(modo) {
       currentModo = modo;
 
-      document.querySelectorAll('.btn-modo').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.btn-modo, .layer-btn').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById(`btn-${modo}`);
       if (activeBtn) activeBtn.classList.add('active');
 

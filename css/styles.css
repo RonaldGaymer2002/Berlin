@@ -1088,3 +1088,254 @@ h1, h2, h3, h4, h5, h6, .font-display {
     z-index: 1;
   }
 }
+
+/* ==========================================================================
+   7. MAP HEADER RESPONSIVO EN 2 NIVELES (plano-berlin.html)
+   ========================================================================== */
+.map-header {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.map-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: auto;
+  width: 100%;
+}
+
+.btn-map-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #0f172a;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-map-back:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  color: #15803d;
+}
+
+.map-logo-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  height: 38px;
+}
+
+.map-header-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.map-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.btn-icon-map {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #334155;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.btn-icon-map:hover {
+  background: #ffffff;
+  color: #0f172a;
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.lang-select-compact {
+  height: 38px;
+  padding: 0 8px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #0f172a;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lang-select-compact:focus {
+  border-color: #15803d;
+}
+
+/* Nivel 2: Selector de Capas Segmented Control */
+.map-layer-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  pointer-events: auto;
+  align-self: center;
+  max-width: fit-content;
+}
+
+.layer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #475569;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.layer-btn:hover:not(.active) {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.layer-btn.active {
+  background-color: #15803d;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.35);
+}
+
+/* Modo Oscuro para el Header del Mapa */
+.dark-theme .btn-map-back,
+.dark-theme .map-logo-link,
+.dark-theme .btn-icon-map,
+.dark-theme .lang-select-compact,
+.dark-theme .map-layer-selector {
+  background: rgba(15, 23, 42, 0.92) !important;
+  border-color: rgba(51, 65, 85, 0.8) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark-theme .btn-map-back:hover,
+.dark-theme .btn-icon-map:hover {
+  background: rgba(30, 41, 59, 0.96) !important;
+  color: #4ade80 !important;
+}
+
+.dark-theme .layer-btn {
+  color: #cbd5e1;
+}
+
+.dark-theme .layer-btn:hover:not(.active) {
+  background-color: rgba(51, 65, 85, 0.6);
+  color: #ffffff;
+}
+
+.dark-theme .layer-btn.active {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+/* Responsividad Móvil */
+@media (max-width: 640px) {
+  .map-header {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 8px;
+  }
+
+  .btn-map-back {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    gap: 4px;
+    border-radius: 12px;
+  }
+
+  .btn-icon-map {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+
+  .lang-select-compact {
+    height: 34px;
+    padding: 0 6px;
+    font-size: 0.72rem;
+    border-radius: 12px;
+  }
+
+  .map-layer-selector {
+    width: 100%;
+    max-width: 100%;
+    justify-content: stretch;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .layer-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 6px 4px;
+    font-size: 0.7rem;
+    gap: 3px;
+  }
+}
