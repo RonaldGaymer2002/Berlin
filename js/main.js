@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Inicialización de Swiper Hero Carousel (Visual sin Textos - 4s)
+  // 2. Inicialización de Swiper Hero Carousel (Visual sin Textos - 2s)
   if (typeof Swiper !== 'undefined' && document.querySelector('.heroSwiper')) {
     new Swiper('.heroSwiper', {
       loop: true,
       autoplay: {
-        delay: 4000,
+        delay: 2000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       },
