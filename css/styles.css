@@ -614,6 +614,35 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 /* ==========================================================================
+   LOGO OFICIAL EN FOOTER
+   ========================================================================== */
+.footer-brand {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-brand:hover {
+  transform: scale(1.03);
+}
+
+.footer-logo {
+  height: 80px;
+  width: auto;
+  max-width: 270px;
+  object-fit: contain;
+  display: block;
+  border-radius: 14px;
+  background-color: #ffffff;
+  padding: 6px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: all 0.25s ease;
+}
+
+.footer-brand:hover .footer-logo {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* ==========================================================================
    5. BOTÓN FLOTANTE DE WHATSAPP (CON RADAR PULSE)
    ========================================================================== */
 @keyframes pulse-ring {
