@@ -624,9 +624,9 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .site-header .logo-img,
 .logo-link .logo-img,
 .logo-img {
-  height: 46px;
+  height: 70px;
   width: auto;
-  max-width: 220px;
+  max-width: 230px;
   object-fit: contain;
   display: block;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
