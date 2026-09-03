@@ -414,6 +414,14 @@
       max-width: 240px;
       z-index: 1200;
       color: #0f172a;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Ocultar suavemente la leyenda cuando se abre la tarjeta modal de detalle */
+    .plano-legend-card.oculta-por-modal {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(15px) !important;
     }
 
     .legend-header {
@@ -827,25 +835,7 @@
         // Click en Marcador: Abrir Bottom Sheet
         marker.on('click', (e) => {
           L.DomEvent.stopPropagation(e);
-
-          document.getElementById('sheet-manzana').textContent = `MANZANA ${lote.mz}`;
-          document.getElementById('sheet-lote').textContent = `LOTE ${String(lote.lote).padStart(2, '0')}`;
-          
-          const estadoEl = document.getElementById('sheet-estado');
-          estadoEl.textContent = isDisp ? 'DISPONIBLE' : 'VENDIDO / OCUPADO';
-          estadoEl.className = `sheet-val badge-status ${isDisp ? 'badge-disp' : 'badge-ocup'}`;
-
-          document.getElementById('sheet-superficie').textContent = `${lote.sup.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`;
-          document.getElementById('sheet-precio-usd').textContent = `$${precioTotalUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
-          document.getElementById('sheet-precio-bs').textContent = `~Bs. ${precioTotalBs.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-          document.getElementById('sheet-cuota').textContent = `Desde $${cuota120.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/mes`;
-
-          const msgWhatsapp = encodeURIComponent(
-            `Hola, estoy en el *Plano Interactivo de Proyecto Berlín* y deseo información para reservar el *Lote ${lote.lote}* de la *Manzana ${lote.mz}* (${lote.sup} m² a $7 USD/m²).`
-          );
-          document.getElementById('sheet-whatsapp-btn').href = `https://wa.me/59170832781?text=${msgWhatsapp}`;
-
-          lotSheet.classList.remove('hidden-sheet');
+          mostrarDetalleLote(lote);
         });
 
         // Tooltip hover
@@ -880,14 +870,10 @@
       // Cerrar Ficha Técnica
       const btnCloseSheet = document.getElementById('btn-close-sheet');
       if (btnCloseSheet) {
-        btnCloseSheet.addEventListener('click', () => {
-          lotSheet.classList.add('hidden-sheet');
-        });
+        btnCloseSheet.addEventListener('click', cerrarDetalleLote);
       }
 
-      map.on('click', () => {
-        lotSheet.classList.add('hidden-sheet');
-      });
+      map.on('click', cerrarDetalleLote);
 
       // Botón Recentrar al Plano
       const btnRecenter = document.getElementById('btn-recenter');
@@ -930,6 +916,58 @@
     }
 
     // ========================================================================
+    // GESTIÓN DE FICHA TÉCNICA Y LEYENDA INTELIGENTE
+    // ========================================================================
+    window.mostrarDetalleLote = function(lote) {
+      const isDisp = lote.estado === 'disponible';
+      const precioTotalUSD = lote.sup * PRECIO_M2;
+      const precioTotalBs = precioTotalUSD * TIPO_CAMBIO;
+      const cuota120 = precioTotalUSD / 120;
+
+      document.getElementById('sheet-manzana').textContent = `MANZANA ${lote.mz}`;
+      document.getElementById('sheet-lote').textContent = `LOTE ${String(lote.lote).padStart(2, '0')}`;
+      
+      const estadoEl = document.getElementById('sheet-estado');
+      estadoEl.textContent = isDisp ? 'DISPONIBLE' : 'VENDIDO / OCUPADO';
+      estadoEl.className = `sheet-val badge-status ${isDisp ? 'badge-disp' : 'badge-ocup'}`;
+
+      document.getElementById('sheet-superficie').textContent = `${lote.sup.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`;
+      document.getElementById('sheet-precio-usd').textContent = `$${precioTotalUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+      document.getElementById('sheet-precio-bs').textContent = `~Bs. ${precioTotalBs.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('sheet-cuota').textContent = `Desde $${cuota120.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/mes`;
+
+      const msgWhatsapp = encodeURIComponent(
+        `Hola, estoy en el *Plano Interactivo de Proyecto Berlín* y deseo información para reservar el *Lote ${lote.lote}* de la *Manzana ${lote.mz}* (${lote.sup} m² a $7 USD/m²).`
+      );
+      document.getElementById('sheet-whatsapp-btn').href = `https://wa.me/59170832781?text=${msgWhatsapp}`;
+
+      // Mostrar tarjeta de detalle
+      const lotSheet = document.getElementById('lot-sheet');
+      if (lotSheet) {
+        lotSheet.classList.remove('hidden-sheet');
+      }
+
+      // Ocultar la leyenda para evitar superposiciones en móvil y pantallas pequeñas
+      const leyendaBox = document.getElementById('plano-legend');
+      if (leyendaBox) {
+        leyendaBox.classList.add('oculta-por-modal');
+      }
+    };
+
+    window.cerrarDetalleLote = function() {
+      const lotSheet = document.getElementById('lot-sheet');
+      if (lotSheet) {
+        lotSheet.classList.add('hidden-sheet');
+      }
+
+      // Reaparecer la leyenda suavemente
+      const leyendaBox = document.getElementById('plano-legend');
+      if (leyendaBox) {
+        leyendaBox.classList.remove('oculta-por-modal');
+      }
+    };
+
+    // ========================================================================
     // CONTROL DE LOS 3 MODOS
     // ========================================================================
     window.cambiarModo = function(modo) {
@@ -958,8 +996,7 @@
         if (map.hasLayer(greenAreasGroup)) greenAreasGroup.addTo(map);
         if (!map.hasLayer(satLayer)) satLayer.addTo(map);
 
-        const sheet = document.getElementById('lot-sheet');
-        if (sheet) sheet.classList.add('hidden-sheet');
+        cerrarDetalleLote();
 
       } else if (modo === 'mixto') {
         // MODO 3: MIXTO / HÍBRIDO (Satélite + Plano opacidad 0.82 + Marcadores)
