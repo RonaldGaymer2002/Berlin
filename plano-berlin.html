@@ -49,7 +49,8 @@
         }
       }
     }
-  </script>
+  <!-- Estilos Personalizados Modulares -->
+  <link rel="stylesheet" href="css/styles.css" />
 
   <style>
     * {
@@ -84,25 +85,71 @@
       z-index: 1100;
     }
 
-    /* Selector de Modos */
-    .mode-selector {
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 9999px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+    /* ====================================================================== */
+    /* ENCABEZADO DE CONTROLES DEL MAPA (100% VISIBLE Y RESPONSIVO) */
+    /* ====================================================================== */
+    .map-controls-header {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      z-index: 2000 !important;
+      pointer-events: auto;
+      display: block;
     }
 
-    .btn-modo {
+    .map-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-volver-mapa {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 16px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #0f172a;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-volver-mapa:hover {
+      background: #ffffff;
+      color: #15803d;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .layer-switch-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 9999px;
+      padding: 4px;
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+      gap: 4px;
+    }
+
+    .layer-tab {
+      padding: 7px 18px;
       border-radius: 9999px;
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
@@ -111,31 +158,135 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
       white-space: nowrap;
+      user-select: none;
     }
 
-    .btn-modo:hover:not(.active) {
+    .layer-tab:hover:not(.active) {
       background-color: #f1f5f9;
       color: #0f172a;
-      transform: translateY(-1px);
     }
 
-    .btn-modo.active {
+    .layer-tab.active {
       background-color: #15803d;
       color: #ffffff !important;
       box-shadow: 0 4px 14px rgba(21, 128, 61, 0.4);
     }
 
-    @media (max-width: 640px) {
-      .mode-selector {
-        padding: 3px;
-        gap: 2px;
+    .map-quick-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-pill {
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: #0f172a;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .theme-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .theme-pill:hover {
+      background: #ffffff;
+      transform: scale(1.05);
+    }
+
+    /* Modo Oscuro */
+    .dark-theme .btn-volver-mapa,
+    .dark-theme .layer-switch-pill,
+    .dark-theme .lang-pill,
+    .dark-theme .theme-pill {
+      background: rgba(15, 23, 42, 0.94) !important;
+      border-color: rgba(51, 65, 85, 0.8) !important;
+      color: #f8fafc !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    .dark-theme .layer-tab {
+      color: #cbd5e1;
+    }
+
+    .dark-theme .layer-tab:hover:not(.active) {
+      background: rgba(51, 65, 85, 0.6);
+      color: #ffffff;
+    }
+
+    .dark-theme .layer-tab.active {
+      background: #16a34a !important;
+      color: #ffffff !important;
+    }
+
+    /* Responsividad Móvil */
+    @media (max-width: 768px) {
+      .map-controls-header {
+        top: 10px;
+        left: 10px;
+        right: 10px;
       }
-      .btn-modo {
-        padding: 6px 10px;
+
+      .map-controls-row {
+        gap: 8px;
+      }
+
+      .layer-switch-pill {
+        order: 3;
+        width: 100%;
+        justify-content: stretch;
+        padding: 3px;
+      }
+
+      .layer-tab {
+        flex: 1;
+        text-align: center;
+        padding: 7px 4px;
+        font-size: 0.75rem;
+      }
+
+      .btn-volver-mapa {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+      }
+
+      .lang-pill {
+        height: 34px;
+        padding: 0 6px;
         font-size: 0.72rem;
-        gap: 4px;
+      }
+
+      .theme-pill {
+        width: 34px;
+        height: 34px;
+        font-size: 13px;
       }
     }
 
@@ -244,68 +395,37 @@
   <div id="map"></div>
 
   <!-- ====================================================================== -->
-  <!-- 2. HEADER DEL MAPA RESPONSIVO (2 NIVELES) -->
+  <!-- 2. ENCABEZADO INTERACTIVO DEL MAPA (map-controls-header) -->
   <!-- ====================================================================== -->
-  <header class="map-header">
-    <!-- Nivel 1: Navegación y utilidades -->
-    <div class="map-top-bar">
-      <div class="flex items-center gap-2">
-        <a href="proyectos.html" class="btn-map-back" title="Volver a Proyectos">
-          <span class="icon">←</span> <span class="btn-text">Volver</span>
-        </a>
-        <a href="index.html" class="map-logo-link hidden sm:flex items-center" title="Ir al Inicio">
-          <img src="img/BERLÍN%20BANNER%203.png" alt="Proyecto Berlín" class="map-header-logo" />
-        </a>
+  <div class="map-controls-header">
+    <div class="map-controls-row">
+      <!-- Botón Volver -->
+      <a href="index.html" class="btn-volver-mapa">
+        ← Volver
+      </a>
+
+      <!-- Conmutador de los 3 Modos -->
+      <div class="layer-switch-pill" id="layerSwitcher">
+        <button type="button" class="layer-tab active" data-mode="plano" onclick="cambiarModo('plano')">Solo Plano</button>
+        <button type="button" class="layer-tab" data-mode="satelital" onclick="cambiarModo('satelital')">Satelital</button>
+        <button type="button" class="layer-tab" data-mode="mixto" onclick="cambiarModo('mixto')">Mixto</button>
       </div>
-      
-      <div class="map-top-actions">
-        <!-- Selector de idioma -->
-        <div class="lang-select-wrapper" title="Seleccionar Idioma">
-          <select id="map-lang-select" class="lang-select-compact lang-select-input shadow-md" aria-label="Seleccionar Idioma">
-            <option value="es">🇪🇸 ES</option>
-            <option value="en">🇺🇸 EN</option>
-            <option value="qu">🇧🇴 QU</option>
-            <option value="gn">🇧🇴 GN</option>
-            <option value="ay">🇧🇴 AY</option>
-          </select>
-        </div>
-        
-        <!-- Botón tema -->
-        <button id="theme-toggle" class="btn-icon-map theme-toggle-btn shadow-md" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
 
-        <!-- Botón Google Maps Oficial -->
-        <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer"
-          class="btn-icon-map shadow-md" title="Ver en Google Maps" aria-label="Ver en Google Maps">
-          <svg class="w-4 h-4 fill-current text-red-500" viewBox="0 0 24 24">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-          </svg>
-        </a>
-
-        <!-- Botón Centrar Plano -->
-        <button id="btn-recenter" class="btn-icon-map shadow-md" title="Centrar Plano" aria-label="Centrar Plano">
-          <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
-          </svg>
-        </button>
-        
-        <!-- Botón pantalla completa -->
-        <button id="btn-fullscreen" class="btn-icon-map shadow-md" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
+      <!-- Utilidades rápidas -->
+      <div class="map-quick-actions">
+        <select id="map-lang-select" class="lang-pill lang-select-input" aria-label="Seleccionar Idioma">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+          <option value="qu">QU</option>
+          <option value="gn">GN</option>
+          <option value="ay">AY</option>
+        </select>
+        <button type="button" id="theme-toggle" class="theme-pill theme-toggle-btn" title="Cambiar Tema" aria-label="Cambiar Tema">🌙</button>
+        <button type="button" id="btn-recenter" class="theme-pill" title="Centrar Plano" aria-label="Centrar Plano">🎯</button>
+        <a href="https://maps.app.goo.gl/KaPB19dWuAUJXgaH8" target="_blank" rel="noopener noreferrer" class="theme-pill" title="Ver en Google Maps" aria-label="Ver en Google Maps">📍</a>
       </div>
     </div>
-
-    <!-- Nivel 2: Selector de capas de mapa (Segmented Control) -->
-    <div class="map-layer-selector">
-      <button id="btn-plano" class="layer-btn btn-modo active" data-layer="plano" onclick="cambiarModo('plano')">
-        <span>📐</span> <span>Solo Plano</span>
-      </button>
-      <button id="btn-satelital" class="layer-btn btn-modo" data-layer="satelital" onclick="cambiarModo('satelital')">
-        <span>🛰️</span> <span>Satelital</span>
-      </button>
-      <button id="btn-mixto" class="layer-btn btn-modo" data-layer="mixto" onclick="cambiarModo('mixto')">
-        <span>🗺️</span> <span>Mixto</span>
-      </button>
-    </div>
-  </header>
+  </div>
 
   <!-- ====================================================================== -->
   <!-- 5. FICHA TÉCNICA / BOTTOM SHEET DEL LOTE SELECCIONADO -->
@@ -637,6 +757,15 @@
         }
       });
 
+      // Listeners para las pestañas de conmutador de capas
+      document.querySelectorAll('.layer-tab').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+          e.preventDefault();
+          const mode = this.getAttribute('data-mode');
+          if (mode) cambiarModo(mode);
+        });
+      });
+
       // Iniciar en Modo 1: Solo Plano
       cambiarModo('plano');
 
@@ -651,8 +780,10 @@
     window.cambiarModo = function(modo) {
       currentModo = modo;
 
-      document.querySelectorAll('.btn-modo, .layer-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-${modo}`);
+      document.querySelectorAll('.layer-tab, .btn-modo, .layer-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.layer-tab[data-mode="${modo}"]`) ||
+                        document.querySelector(`[data-mode="${modo}"]`) ||
+                        document.getElementById(`btn-${modo}`);
       if (activeBtn) activeBtn.classList.add('active');
 
       if (!map) return;
