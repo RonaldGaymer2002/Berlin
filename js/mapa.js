@@ -301,7 +301,7 @@ function updateBottomSheet(lote) {
 
   // Generar enlace prellenado a WhatsApp
   if (waBtn) {
-    const waMsg = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)*.%0A📍 Manzana: ${lote.manzana}, Lote: ${lote.lote}%0A📐 Superficie: ${lote.superficie.toFixed(2)} m²%0A💵 Precio Total ($7/m²): $${lote.precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0AConsulto por disponibilidad y plan de financiamiento.`;
+    const waMsg = `Hola, me interesa el lote en *Proyecto Berlín (Hardeman)*.%0A📍 Manzana: ${lote.manzana}, Lote: ${lote.lote}%0A📐 Superficie: ${lote.superficie.toFixed(2)} m²%0A💵 Precio Total ($8/m²): $${lote.precioTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD%0AConsulto por disponibilidad y plan de financiamiento.`;
     waBtn.href = `https://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${waMsg}`;
   }
 }

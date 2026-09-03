@@ -8,7 +8,7 @@
 
 - **📍 Ubicación Estratégica**: A sólo 400 metros de la Carretera Hardeman - Piraí (a 180 km de Santa Cruz de la Sierra).
 - **🛡️ 100% Zona Alta Garantizada**: Terrenos elevados libres de anegamientos y temporadas de lluvia en el Norte Integrado.
-- **🏷️ Precio Oficial**: **$7 USD / m²**.
+- **🏷️ Precio Oficial**: **$8.00 USD / m²**.
 - **🗺️ Visor WebGIS Interactivo (Leaflet)**:
   - Mapeo de las Manzanas **M-1**, **M-2** y **M-3** con el inventario oficial de 27 lotes.
   - Representación de la **Avenida Central de Tierra** y **Áreas Verdes**.

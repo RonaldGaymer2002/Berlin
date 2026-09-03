@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Plano Oficial Definitivo | Proyecto Berlín - Hardeman, Santa Cruz</title>
   <meta name="description"
-    content="Visor interactivo oficial de lotes de Proyecto Berlín en Hardeman. Consulta técnica en tiempo real, disponibilidad de lotes a $7 USD/m² y reserva directa por WhatsApp." />
+    content="Visor interactivo oficial de lotes de Proyecto Berlín en Hardeman. Consulta técnica en tiempo real, disponibilidad de lotes a $8 USD/m² y reserva directa por WhatsApp." />
 
   <!-- Favicon SVG -->
   <link rel="icon"
@@ -659,16 +659,16 @@
         <span id="sheet-superficie" class="sheet-val">437.77 m²</span>
       </div>
       <div class="sheet-row">
-        <span class="sheet-label">Precio Oficial ($7/m²):</span>
-        <span id="sheet-precio-usd" class="sheet-val price">$3,064.39 USD</span>
+        <span class="sheet-label">Precio Oficial ($8/m²):</span>
+        <span id="sheet-precio-usd" class="sheet-val price">$3,502.16 USD</span>
       </div>
       <div class="sheet-row">
         <span class="sheet-label">Equivalente en Bs:</span>
-        <span id="sheet-precio-bs" class="sheet-val" style="color: #64748b;">~Bs. 21,328.15</span>
+        <span id="sheet-precio-bs" class="sheet-val" style="color: #64748b;">~Bs. 24,375.03</span>
       </div>
       <div class="sheet-row" style="padding-top: 4px; border-top: 1px dashed #e2e8f0;">
         <span class="sheet-label">Cuota Directa (120m):</span>
-        <span id="sheet-cuota" class="sheet-val cuota">Desde $25.54 USD/mes</span>
+        <span id="sheet-cuota" class="sheet-val cuota">Desde $29.18 USD/mes</span>
       </div>
     </div>
 
@@ -691,7 +691,7 @@
     <div id="legend-content" class="legend-items">
       <div class="legend-row">
         <span class="lot-badge-icon disponible" style="width: 20px; height: 20px; font-size: 9px; cursor: default;">9</span>
-        <span>Lote Disponible ($7/m²)</span>
+        <span>Lote Disponible ($8/m²)</span>
       </div>
       <div class="legend-row">
         <span class="lot-badge-icon ocupado" style="width: 20px; height: 20px; font-size: 9px; cursor: default;">1</span>
@@ -725,8 +725,10 @@
 
     const CENTER_COORDS = [-16.672790, -63.611854];
     const DEFAULT_ZOOM = 18;
-    const PRECIO_M2 = 7.0;
+    const PRECIO_M2 = 8.00;
+    const PRECIO_M2_USD = 8.00;
     const TIPO_CAMBIO = 6.96;
+    const TIPO_CAMBIO_BS = 6.96;
 
     // ========================================================================
     // DATASET OFICIAL DEFINITIVO (27 LOTES CALIBRADOS)
@@ -846,7 +848,7 @@
 
         // Tooltip hover
         marker.bindTooltip(
-          `<b>Mz. ${lote.mz} - Lote ${lote.lote}</b><br>${lote.sup} m² &bull; <span style="color:${isDisp ? '#16a34a' : '#ea580c'};font-weight:bold;">${isDisp ? 'Disponible ($7/m²)' : 'Ocupado'}</span>`,
+          `<b>Mz. ${lote.mz} - Lote ${lote.lote}</b><br>${lote.sup} m² &bull; <span style="color:${isDisp ? '#16a34a' : '#ea580c'};font-weight:bold;">${isDisp ? 'Disponible ($8/m²)' : 'Ocupado'}</span>`,
           { permanent: false, direction: 'top', offset: [0, -14] }
         );
       });
@@ -943,7 +945,7 @@
       document.getElementById('sheet-cuota').textContent = `Desde $${cuota120.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/mes`;
 
       const msgWhatsapp = encodeURIComponent(
-        `Hola, estoy en el *Plano Interactivo de Proyecto Berlín* y deseo información para reservar el *Lote ${lote.lote}* de la *Manzana ${lote.mz}* (${lote.sup} m² a $7 USD/m²).`
+        `Hola, estoy en el *Plano Interactivo de Proyecto Berlín* y deseo información para reservar el *Lote ${lote.lote}* de la *Manzana ${lote.mz}* (${lote.sup} m² a $8 USD/m²).`
       );
       document.getElementById('sheet-whatsapp-btn').href = `https://wa.me/59170832781?text=${msgWhatsapp}`;
 

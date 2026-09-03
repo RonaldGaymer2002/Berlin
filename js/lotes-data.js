@@ -6,8 +6,10 @@
  */
 
 // Constantes Generales de Precios y Divisas
-export const PRECIO_M2 = 7.0;
+export const PRECIO_M2 = 8.00;
+export const PRECIO_M2_USD = 8.00;
 export const TIPO_CAMBIO = 6.96;
+export const TIPO_CAMBIO_BS = 6.96;
 export const TC_BOLIVIANO = 6.96; // Alias para compatibilidad
 export const PHONE_NUMBER = "59170832781";
 export const MAPS_LOCATION_URL = "https://maps.app.goo.gl/KaPB19dWuAUJXgaH8";
