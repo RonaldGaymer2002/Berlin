@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Inicialización de Swiper Hero Carousel (Estilo TECHO)
+  // 2. Inicialización de Swiper Hero Carousel (Visual sin Textos)
   if (typeof Swiper !== 'undefined' && document.querySelector('.heroSwiper')) {
     new Swiper('.heroSwiper', {
       loop: true,
       autoplay: {
-        delay: 5000,
+        delay: 4500,
         disableOnInteraction: false,
+        pauseOnMouseEnter: true,
       },
       pagination: {
         el: '.swiper-pagination',
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fadeEffect: {
         crossFade: true,
       },
-      speed: 800,
+      speed: 600,
     });
   }
 
