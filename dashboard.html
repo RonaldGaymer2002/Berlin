@@ -648,71 +648,74 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- 8. SCRIPTS DEL DASHBOARD (CHART.JS + LÓGICA DE GESTIÓN) -->
+  <!-- 8. SCRIPTS DEL DASHBOARD (CHART.JS + LÓGICA DE GESTIÓN ROBUSTA) -->
   <!-- ====================================================================== -->
-  <script type="module">
-    import { LOTES_CALIBRADOS, AREAS_VERDES } from './js/lotes-data.js';
+  <script>
+    // 1. DATASET OFICIAL DEFINITIVO Y CALIBRADO (27 LOTES)
+    const OFFICIAL_LOTES_DATA = [
+      // Manzana M-1 (9 Lotes: 8 Vendidos / 1 Disponible)
+      { id: "M1-L1", mz: "M-1", lote: 1, estado: "ocupado", sup: 338.01 },
+      { id: "M1-L2", mz: "M-1", lote: 2, estado: "ocupado", sup: 307.94 },
+      { id: "M1-L3", mz: "M-1", lote: 3, estado: "ocupado", sup: 348.79 },
+      { id: "M1-L4", mz: "M-1", lote: 4, estado: "ocupado", sup: 460.89 },
+      { id: "M1-L5", mz: "M-1", lote: 5, estado: "ocupado", sup: 437.86 },
+      { id: "M1-L6", mz: "M-1", lote: 6, estado: "ocupado", sup: 414.83 },
+      { id: "M1-L7", mz: "M-1", lote: 7, estado: "ocupado", sup: 263.76 },
+      { id: "M1-L8", mz: "M-1", lote: 8, estado: "ocupado", sup: 350.00 },
+      { id: "M1-L9", mz: "M-1", lote: 9, estado: "disponible", sup: 437.77 },
 
-    // 1. Estado Global de Datos y Configuración
+      // Manzana M-2 (13 Lotes: 9 Vendidos / 4 Disponibles)
+      { id: "M2-L1", mz: "M-2", lote: 1, estado: "ocupado", sup: 382.98 },
+      { id: "M2-L2", mz: "M-2", lote: 2, estado: "ocupado", sup: 293.55 },
+      { id: "M2-L3", mz: "M-2", lote: 3, estado: "ocupado", sup: 284.21 },
+      { id: "M2-L4", mz: "M-2", lote: 4, estado: "disponible", sup: 504.49 },
+      { id: "M2-L5", mz: "M-2", lote: 5, estado: "ocupado", sup: 510.44 },
+      { id: "M2-L6", mz: "M-2", lote: 6, estado: "ocupado", sup: 516.38 },
+      { id: "M2-L7", mz: "M-2", lote: 7, estado: "ocupado", sup: 522.33 },
+      { id: "M2-L8", mz: "M-2", lote: 8, estado: "ocupado", sup: 422.83 },
+      { id: "M2-L9", mz: "M-2", lote: 9, estado: "ocupado", sup: 961.57 },
+      { id: "M2-L10", mz: "M-2", lote: 10, estado: "ocupado", sup: 290.71 },
+      { id: "M2-L11", mz: "M-2", lote: 11, estado: "disponible", sup: 324.72 },
+      { id: "M2-L12", mz: "M-2", lote: 12, estado: "disponible", sup: 319.61 },
+      { id: "M2-L13", mz: "M-2", lote: 13, estado: "disponible", sup: 314.50 },
+
+      // Manzana M-3 (5 Lotes: 2 Vendidos / 3 Disponibles)
+      { id: "M3-L1", mz: "M-3", lote: 1, estado: "ocupado", sup: 350.00 },
+      { id: "M3-L2", mz: "M-3", lote: 2, estado: "ocupado", sup: 362.64 },
+      { id: "M3-L3", mz: "M-3", lote: 3, estado: "disponible", sup: 374.28 },
+      { id: "M3-L4", mz: "M-3", lote: 4, estado: "disponible", sup: 362.64 },
+      { id: "M3-L5", mz: "M-3", lote: 5, estado: "disponible", sup: 365.31 }
+    ];
+
+    // 2. Estado Global de Datos y Configuración
     let precioM2 = parseFloat(localStorage.getItem('berlin_precio_m2')) || 8.00;
     let tipoCambio = parseFloat(localStorage.getItem('berlin_tc_bs')) || 6.96;
     let currentFilter = 'all';
 
-    // Dataset en LocalStorage con el estado inicial exacto requerido (19 Vendidos / 8 Disponibles)
-    // En LOTES_CALIBRADOS oficial: M1 tiene 8 ocupados + 1 disp; M2 tiene 7 ocupados + 6 disp; M3 tiene 1 ocupado + 4 disp.
-    // Para tener 19 vendidos y 8 disponibles por defecto (o sincronizar con ediciones):
     function getStoredLotes() {
       const stored = localStorage.getItem('berlin_lotes_db');
       if (stored) {
         try {
-          return JSON.parse(stored);
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length === 27) {
+            return parsed;
+          }
         } catch (e) {
           console.error("Error al parsear lotes de localStorage", e);
         }
       }
-      // Si no existe, crear copia con 19 Vendidos / 8 Disponibles iniciales
-      const initial = JSON.parse(JSON.stringify(LOTES_CALIBRADOS));
-      // Aseguramos exactamente 19 ocupados / 8 disponibles si es primera carga
-      // M-1: L1-L8 ocupado, L9 disp (8 ocupados)
-      // M-2: L1-L3, L5-L8, L9, L10 ocupados (9 ocupados), L4, L11-L13 disp (4 disp)
-      // M-3: L1, L2 ocupados (2 ocupados), L3-L5 disp (3 disp) => 8 + 9 + 2 = 19 ocupados, 1 + 4 + 3 = 8 disponibles.
-      initial.forEach(l => {
-        if (["M1-L1","M1-L2","M1-L3","M1-L4","M1-L5","M1-L6","M1-L7","M1-L8",
-             "M2-L1","M2-L2","M2-L3","M2-L5","M2-L6","M2-L7","M2-L8","M2-L9","M2-L10",
-             "M3-L1","M3-L2"].includes(l.id)) {
-          l.estado = "ocupado";
-        } else {
-          l.estado = "disponible";
-        }
-      });
+      const initial = JSON.parse(JSON.stringify(OFFICIAL_LOTES_DATA));
       localStorage.setItem('berlin_lotes_db', JSON.stringify(initial));
       return initial;
     }
 
     let lotesData = getStoredLotes();
 
-    // 2. Instancias de Chart.js
+    // 3. Instancias de Chart.js
     let doughnutChart = null;
     let barChart = null;
 
-    // 3. Inicialización General
-    window.addEventListener('DOMContentLoaded', () => {
-      // Inputs comerciales
-      document.getElementById('input-precio-m2').value = precioM2.toFixed(2);
-      document.getElementById('input-tipo-cambio').value = tipoCambio.toFixed(2);
-
-      // Iniciar reloj
-      startClock();
-
-      // Renderizar tabla y gráficos
-      renderDashboard();
-
-      // Tema
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      applyTheme(savedTheme);
-    });
-
-    // 4. Reloj en vivo
+    // 4. Reloj en vivo (GMT-4 Bolivia)
     function startClock() {
       function update() {
         const now = new Date();
@@ -739,7 +742,6 @@
       }
       localStorage.setItem('theme', theme);
 
-      // Actualizar colores en los gráficos si ya existen
       if (doughnutChart && barChart) {
         updateChartTheme();
       }
@@ -760,8 +762,10 @@
     };
 
     // 7. Notificación Toast
-    window.showToast = function(msg, icon = '✅') {
+    window.showToast = function(msg, icon) {
+      icon = icon || '✅';
       const toast = document.getElementById('dash-toast');
+      if (!toast) return;
       document.getElementById('toast-icon').textContent = icon;
       document.getElementById('toast-message').textContent = msg;
 
@@ -775,18 +779,17 @@
     };
 
     // 8. Renderizar Todo el Dashboard
-    function renderDashboard() {
+    window.renderDashboard = function() {
       renderKPICards();
       renderCharts();
       renderTable();
-    }
+    };
 
     // 9. Renderizar Métricas KPI
     function renderKPICards() {
       const totalLotes = lotesData.length;
       const vendidos = lotesData.filter(l => l.estado === 'ocupado').length;
       const disponibles = lotesData.filter(l => l.estado === 'disponible').length;
-      const reservados = lotesData.filter(l => l.estado === 'reservado').length;
 
       const m2Total = lotesData.reduce((acc, l) => acc + l.sup, 0);
       const m2Vendido = lotesData.filter(l => l.estado === 'ocupado').reduce((acc, l) => acc + l.sup, 0);
@@ -796,26 +799,43 @@
       const bsTotal = usdTotal * tipoCambio;
       const usdVendido = m2Vendido * precioM2;
 
-      // Actualizar DOM
-      document.getElementById('kpi-vendidos').textContent = vendidos;
-      document.getElementById('kpi-disponibles').textContent = disponibles;
-      document.getElementById('kpi-pct-vendidos').textContent = `${((vendidos/totalLotes)*100).toFixed(1)}% Comercializado (${vendidos} lotes)`;
-      document.getElementById('kpi-pct-disponibles').textContent = `${((disponibles/totalLotes)*100).toFixed(1)}% Disponible para venta (${disponibles} lotes)`;
+      const kpiVendidosEl = document.getElementById('kpi-vendidos');
+      const kpiDispEl = document.getElementById('kpi-disponibles');
+      if (kpiVendidosEl) kpiVendidosEl.textContent = vendidos;
+      if (kpiDispEl) kpiDispEl.textContent = disponibles;
 
-      document.getElementById('kpi-progress-vendidos').style.width = `${(vendidos/totalLotes)*100}%`;
-      document.getElementById('kpi-progress-disponibles').style.width = `${(disponibles/totalLotes)*100}%`;
+      const pctVenEl = document.getElementById('kpi-pct-vendidos');
+      const pctDispEl = document.getElementById('kpi-pct-disponibles');
+      if (pctVenEl) pctVenEl.textContent = `${((vendidos/totalLotes)*100).toFixed(1)}% Comercializado (${vendidos} lotes)`;
+      if (pctDispEl) pctDispEl.textContent = `${((disponibles/totalLotes)*100).toFixed(1)}% Disponible para venta (${disponibles} lotes)`;
 
-      document.getElementById('kpi-m2-total').textContent = m2Total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      document.getElementById('kpi-m2-vendido-sub').textContent = `~${m2Vendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² comercializados`;
-      document.getElementById('kpi-m2-disp-sub').textContent = `~${m2Disp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² en stock disponible`;
+      const progVenEl = document.getElementById('kpi-progress-vendidos');
+      const progDispEl = document.getElementById('kpi-progress-disponibles');
+      if (progVenEl) progVenEl.style.width = `${(vendidos/totalLotes)*100}%`;
+      if (progDispEl) progDispEl.style.width = `${(disponibles/totalLotes)*100}%`;
 
-      document.getElementById('kpi-usd-total').textContent = `$${usdTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('kpi-bs-total').textContent = `Bs. ${bsTotal.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (TC ${tipoCambio.toFixed(2)})`;
-      document.getElementById('kpi-usd-vendido-sub').innerHTML = `Recaudado estimado: <span class="font-bold text-emerald-600 dark:text-emerald-400">$${usdVendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD</span>`;
+      const m2TotEl = document.getElementById('kpi-m2-total');
+      const m2VenSubEl = document.getElementById('kpi-m2-vendido-sub');
+      const m2DispSubEl = document.getElementById('kpi-m2-disp-sub');
+      if (m2TotEl) m2TotEl.textContent = m2Total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (m2VenSubEl) m2VenSubEl.textContent = `~${m2Vendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² comercializados`;
+      if (m2DispSubEl) m2DispSubEl.textContent = `~${m2Disp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² en stock disponible`;
+
+      const usdTotEl = document.getElementById('kpi-usd-total');
+      const bsTotEl = document.getElementById('kpi-bs-total');
+      const usdVendidoSubEl = document.getElementById('kpi-usd-vendido-sub');
+      if (usdTotEl) usdTotEl.textContent = `$${usdTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (bsTotEl) bsTotEl.textContent = `Bs. ${bsTotal.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (TC ${tipoCambio.toFixed(2)})`;
+      if (usdVendidoSubEl) usdVendidoSubEl.innerHTML = `Recaudado estimado: <span class="font-bold text-emerald-600 dark:text-emerald-400">$${usdVendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD</span>`;
     }
 
     // 10. GRÁFICOS CHART.JS
     function renderCharts() {
+      if (typeof Chart === 'undefined') {
+        console.warn("Chart.js aún no está cargado. Reintentando...");
+        setTimeout(renderCharts, 200);
+        return;
+      }
       renderDoughnutChart();
       renderBarChart();
     }
@@ -842,7 +862,9 @@
 
     // Gráfico 1: Dona (Distribución de Estado de Lotes)
     function renderDoughnutChart() {
-      const ctx = document.getElementById('chartLotesDoughnut').getContext('2d');
+      const canvas = document.getElementById('chartLotesDoughnut');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       const isDark = document.body.classList.contains('dark-theme');
 
       const vendidos = lotesData.filter(l => l.estado === 'ocupado').length;
@@ -907,10 +929,11 @@
 
     // Gráfico 2: Barras (m² Total vs Comercializado por Manzanas)
     function renderBarChart() {
-      const ctx = document.getElementById('chartManzanasBar').getContext('2d');
+      const canvas = document.getElementById('chartManzanasBar');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       const isDark = document.body.classList.contains('dark-theme');
 
-      // Calcular m² por manzana
       const manzanas = ['M-1', 'M-2', 'M-3'];
       const m2Totales = [];
       const m2Vendidos = [];
@@ -933,21 +956,21 @@
           {
             label: 'Metraje Total (m²)',
             data: m2Totales,
-            backgroundColor: '#6366f1', // Indigo
+            backgroundColor: '#6366f1',
             borderRadius: 6,
             maxBarThickness: 32
           },
           {
             label: 'Metros Comercializados (m²)',
             data: m2Vendidos,
-            backgroundColor: '#10b981', // Emerald
+            backgroundColor: '#10b981',
             borderRadius: 6,
             maxBarThickness: 32
           },
           {
             label: 'Metros Disponibles (m²)',
             data: m2Disponibles,
-            backgroundColor: '#f59e0b', // Amber
+            backgroundColor: '#f59e0b',
             borderRadius: 6,
             maxBarThickness: 32
           }
@@ -1013,17 +1036,16 @@
     // 11. Renderizado de la Tabla de Lotes
     function renderTable() {
       const tbody = document.getElementById('lotes-table-body');
+      if (!tbody) return;
       const searchVal = document.getElementById('search-lotes-input')?.value.toLowerCase().trim() || '';
       
       let filtered = lotesData.filter(l => {
-        // Filtro por tab
         if (currentFilter === 'M-1' && l.mz !== 'M-1') return false;
         if (currentFilter === 'M-2' && l.mz !== 'M-2') return false;
         if (currentFilter === 'M-3' && l.mz !== 'M-3') return false;
         if (currentFilter === 'disponible' && l.estado !== 'disponible') return false;
         if (currentFilter === 'ocupado' && l.estado !== 'ocupado') return false;
 
-        // Filtro por texto
         if (searchVal) {
           const matchId = l.id.toLowerCase().includes(searchVal);
           const matchMz = l.mz.toLowerCase().includes(searchVal);
@@ -1056,7 +1078,7 @@
       filtered.forEach(l => {
         const precioUsd = l.sup * precioM2;
         const precioBs = precioUsd * tipoCambio;
-        const cuota120 = (precioUsd * 0.8) / 120; // 80% financiado en 120 meses
+        const cuota120 = (precioUsd * 0.8) / 120;
 
         sumM2 += l.sup;
         sumUsd += precioUsd;
@@ -1093,7 +1115,7 @@
                 🗺️
               </a>
               <a 
-                href="https://wa.me/59170832781?text=Hola%20Proyecto%20Berl%C3%ADn%2C%20informaci%C3%B3n%20administrativa%20del%20lote%20${l.id}%20(${l.sup}%20m2)"
+                href="https://wa.me/59170832781?text=Hola%20Proyecto%20Berl%C3%ADn%2C%20informaci%C3%B3n%20del%20lote%20${l.id}%20(${l.sup}%20m2)"
                 target="_blank"
                 class="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-600 text-xs transition-colors"
                 title="Notificar por WhatsApp"
@@ -1106,10 +1128,12 @@
         tbody.appendChild(tr);
       });
 
-      // Actualizar subtotales
-      document.getElementById('table-count-visible').textContent = filtered.length;
-      document.getElementById('table-sum-m2').textContent = `${sumM2.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`;
-      document.getElementById('table-sum-usd').textContent = `$${sumUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+      const countVisEl = document.getElementById('table-count-visible');
+      const sumM2El = document.getElementById('table-sum-m2');
+      const sumUsdEl = document.getElementById('table-sum-usd');
+      if (countVisEl) countVisEl.textContent = filtered.length;
+      if (sumM2El) sumM2El.textContent = `${sumM2.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`;
+      if (sumUsdEl) sumUsdEl.textContent = `$${sumUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
     }
 
     // 12. Cambio de Estado de un Lote en Tiempo Real
@@ -1118,9 +1142,7 @@
       if (lote) {
         lote.estado = newStatus;
         localStorage.setItem('berlin_lotes_db', JSON.stringify(lotesData));
-        
-        // Re-renderizar KPI, gráficos y tabla
-        renderDashboard();
+        window.renderDashboard();
         window.showToast(`Lote ${loteId} actualizado a: ${newStatus.toUpperCase()}`);
       }
     };
@@ -1157,7 +1179,7 @@
       localStorage.setItem('berlin_precio_m2', precioM2);
       localStorage.setItem('berlin_tc_bs', tipoCambio);
 
-      renderDashboard();
+      window.renderDashboard();
       window.showToast(`Parámetros actualizados: $${precioM2.toFixed(2)} USD/m² | TC Bs. ${tipoCambio.toFixed(2)}`);
     };
 
@@ -1174,7 +1196,7 @@
         document.getElementById('input-tipo-cambio').value = '6.96';
 
         lotesData = getStoredLotes();
-        renderDashboard();
+        window.renderDashboard();
         window.showToast("Datos restablecidos a valores de fábrica", "🔄");
       }
     };
@@ -1199,7 +1221,28 @@
       document.body.removeChild(link);
       window.showToast("Archivo CSV exportado exitosamente", "📥");
     };
+
+    // 17. INICIALIZACIÓN INMEDIATA Y DETERMINISTA
+    function initDashboard() {
+      const pm2Input = document.getElementById('input-precio-m2');
+      const tcInput = document.getElementById('input-tipo-cambio');
+      if (pm2Input) pm2Input.value = precioM2.toFixed(2);
+      if (tcInput) tcInput.value = tipoCambio.toFixed(2);
+
+      startClock();
+      window.renderDashboard();
+
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      window.applyTheme(savedTheme);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDashboard);
+    } else {
+      initDashboard();
+    }
   </script>
+
 
 </body>
 </html>
