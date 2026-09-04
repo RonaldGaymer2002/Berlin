@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Control Administrativo | Proyecto Berlín</title>
+  <meta name="description" content="Dashboard administrativo interactivo de Proyecto Berlín - Estadísticas, gestión de lotes y analíticas comerciales." />
+  <link rel="icon" type="image/png" href="img/BERL%C3%8DN%20BANNER%20OFICIAL.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-theme {
+      background-color: #0b0f19;
+      color: #f8fafc;
+    }
+
+    .dash-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      transition: all 0.25s ease;
+    }
+
+    .dark-theme .dash-card {
+      background: #111827;
+      border-color: #1f2937;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    .dash-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dark-theme .dash-table th {
+      background: #1e293b;
+      color: #94a3b8;
+      border-bottom-color: #334155;
+    }
+
+    .dash-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
+    }
+
+    .dark-theme .dash-table td {
+      border-bottom-color: #1e293b;
+      color: #cbd5e1;
+    }
+
+    .dash-table tr:hover td {
+      background-color: rgba(16, 185, 129, 0.03);
+    }
+
+    .dark-theme .dash-table tr:hover td {
+      background-color: rgba(16, 185, 129, 0.06);
+    }
+
+    .badge-status-select {
+      border-radius: 9999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+      border-width: 1.5px;
+    }
+
+    .badge-status-select.vendido {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+    .dark-theme .badge-status-select.vendido {
+      background: rgba(153, 27, 27, 0.25);
+      color: #fca5a5;
+      border-color: #991b1b;
+    }
+
+    .badge-status-select.disponible {
+      background: #dcfce7;
+      color: #166534;
+      border-color: #86efac;
+    }
+    .dark-theme .badge-status-select.disponible {
+      background: rgba(22, 101, 52, 0.25);
+      color: #86efac;
+      border-color: #166534;
+    }
+
+    .badge-status-select.reservado {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fcd34d;
+    }
+    .dark-theme .badge-status-select.reservado {
+      background: rgba(146, 64, 14, 0.25);
+      color: #fcd34d;
+      border-color: #92400e;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, .no-print { display: none !important; }
+      .dash-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+
+  <!-- Auth Guard Script: Previene flash si no está autenticado -->
+  <script>
+    (function() {
+      const isAuth = localStorage.getItem('berlin_admin_auth') === 'true' || sessionStorage.getItem('berlin_admin_auth') === 'true';
+      if (!isAuth) {
+        window.location.href = 'login.html';
+      }
+    })();
+  </script>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+
+  <!-- ====================================================================== -->
+  <!-- 1. HEADER / BARRA DE NAVEGACIÓN SUPERIOR DEL DASHBOARD -->
+  <!-- ====================================================================== -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Brand & Titulo -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <img src="img/BERL%C3%8DN%20BANNER%20OFICIAL.png" alt="Proyecto Berlín" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105" />
+          </a>
+          <div class="hidden md:block pl-3 border-l border-slate-200 dark:border-slate-700">
+            <span class="block text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Portal de Administración</span>
+            <span class="text-sm font-extrabold text-slate-800 dark:text-white font-outfit">Hardeman, Santa Cruz</span>
+          </div>
+        </div>
+
+        <!-- Links Rápidos a Secciones Públicas -->
+        <nav class="hidden lg:flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">🌐 Inicio</a>
+          <a href="plano-berlin.html" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+            <span>🗺️ Plano Interactivo</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          <a href="planes.html" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">📊 Simulador Planes</a>
+          <a href="contacto.html" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">📞 Contacto</a>
+        </nav>
+
+        <!-- Utilidades, Perfil y Logout -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Reloj en Vivo -->
+          <div class="hidden sm:flex flex-col text-right font-mono text-[11px] text-slate-500 dark:text-slate-400">
+            <span id="live-time" class="font-bold text-slate-700 dark:text-slate-200">--:--:--</span>
+            <span>BOT (GMT-4)</span>
+          </div>
+
+          <!-- Botón Tema Oscuro/Claro -->
+          <button type="button" id="theme-toggle" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 flex items-center justify-center text-sm font-bold shadow-sm hover:scale-105 transition-all" title="Cambiar Tema">
+            🌙
+          </button>
+
+          <!-- Badge Usuario Admin -->
+          <div class="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-700">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xs shadow-md shadow-emerald-600/30">
+              AD
+            </div>
+            <div class="hidden sm:block text-left">
+              <span class="block text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">Admin</span>
+              <span class="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">En Línea</span>
+            </div>
+          </div>
+
+          <!-- Botón Cerrar Sesión -->
+          <button 
+            type="button" 
+            onclick="handleLogout()" 
+            class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 text-xs font-bold border border-red-200 dark:border-red-900/50 flex items-center gap-1.5 transition-colors"
+            title="Cerrar Sesión"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span class="hidden sm:inline">Salir</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================================================================== -->
+  <!-- 2. CONTENIDO PRINCIPAL DEL DASHBOARD -->
+  <!-- ====================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+    <!-- CABECERA DEL DASHBOARD Y ACCIONES GLOBALES -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h1 class="font-outfit text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+          Panel de Control y Analítica
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+          Resumen general del inventario, ventas y parametrización de Proyecto Berlín (27 Lotes + 3 Áreas Verdes).
+        </p>
+      </div>
+
+      <!-- Barra de Botones de Acción -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <button 
+          type="button" 
+          onclick="exportToCSV()" 
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-all"
+        >
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Exportar CSV</span>
+        </button>
+
+        <button 
+          type="button" 
+          onclick="window.print()" 
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-all"
+        >
+          <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <span>Imprimir / PDF</span>
+        </button>
+
+        <button 
+          type="button" 
+          onclick="resetToDefaultData()" 
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-300 text-xs font-bold transition-all"
+          title="Restablecer a valores de fábrica"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span>Restablecer</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- 3. TARJETAS KPI RESUMEN DE VENTAS Y METRAJE -->
+    <!-- ====================================================================== -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- KPI 1: Lotes Vendidos -->
+      <div class="dash-card p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lotes Vendidos</span>
+          <span class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="flex items-baseline gap-2">
+            <span id="kpi-vendidos" class="font-outfit text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400">19</span>
+            <span class="text-xs font-bold text-slate-400">/ 27 lotes</span>
+          </div>
+          <div class="mt-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div id="kpi-progress-vendidos" class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: 70.37%"></div>
+          </div>
+          <p id="kpi-pct-vendidos" class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1.5">70.4% Comercializado</p>
+        </div>
+      </div>
+
+      <!-- KPI 2: Lotes Disponibles -->
+      <div class="dash-card p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lotes Disponibles</span>
+          <span class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="flex items-baseline gap-2">
+            <span id="kpi-disponibles" class="font-outfit text-3xl sm:text-4xl font-black text-amber-600 dark:text-amber-400">8</span>
+            <span class="text-xs font-bold text-slate-400">/ 27 lotes</span>
+          </div>
+          <div class="mt-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div id="kpi-progress-disponibles" class="bg-amber-500 h-2 rounded-full transition-all duration-500" style="width: 29.63%"></div>
+          </div>
+          <p id="kpi-pct-disponibles" class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1.5">29.6% Disponible para venta</p>
+        </div>
+      </div>
+
+      <!-- KPI 3: Metraje Total y Vendido -->
+      <div class="dash-card p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Superficie Total (m²)</span>
+          <span class="p-2 rounded-xl bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="flex items-baseline gap-1">
+            <span id="kpi-m2-total" class="font-outfit text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">10,632.30</span>
+            <span class="text-xs font-bold text-slate-400">m²</span>
+          </div>
+          <p id="kpi-m2-vendido-sub" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">
+            ~6,012.95 m² comercializados
+          </p>
+          <p id="kpi-m2-disp-sub" class="text-[11px] text-slate-400 mt-0.5">
+            ~4,619.35 m² en stock disponible
+          </p>
+        </div>
+      </div>
+
+      <!-- KPI 4: Recaudación y Valoración Total -->
+      <div class="dash-card p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Valoración Total ($8/m²)</span>
+          <span class="p-2 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="flex items-baseline gap-1">
+            <span id="kpi-usd-total" class="font-outfit text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">$85,058.40</span>
+            <span class="text-xs font-bold text-slate-400">USD</span>
+          </div>
+          <p id="kpi-bs-total" class="text-xs font-bold text-purple-600 dark:text-purple-400 mt-1">
+            Bs. 592,006.46 (TC 6.96)
+          </p>
+          <p id="kpi-usd-vendido-sub" class="text-[11px] text-slate-400 mt-0.5">
+            Recaudado estimado: <span class="font-bold text-emerald-600 dark:text-emerald-400">$48,103.60 USD</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- 4. SECCIÓN DE GRÁFICOS ESTADÍSTICOS CHART.JS (OBLIGATORIO) -->
+    <!-- ====================================================================== -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- GRÁFICO 1 (DONA): Distribución de Estado de Lotes -->
+      <div class="lg:col-span-5 dash-card p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="font-outfit text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <span>🍩 Distribución de Lotes</span>
+            </h2>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+              30 Espacios Totales
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
+            Proporción de 19 Lotes Vendidos, 8 Disponibles y 3 Áreas Verdes comunitarias.
+          </p>
+        </div>
+
+        <div class="relative w-full aspect-square max-h-[300px] mx-auto my-auto flex items-center justify-center">
+          <canvas id="chartLotesDoughnut"></canvas>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 pt-4 mt-2 border-t border-slate-100 dark:border-slate-800 text-center">
+          <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30">
+            <span class="block text-xs font-bold text-emerald-700 dark:text-emerald-400">19 Vendidos</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400">63.3% Total</span>
+          </div>
+          <div class="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/30">
+            <span class="block text-xs font-bold text-amber-700 dark:text-amber-400">8 Disponibles</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400">26.7% Total</span>
+          </div>
+          <div class="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/30">
+            <span class="block text-xs font-bold text-teal-700 dark:text-teal-400">3 Áreas Verdes</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400">10.0% Total</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRÁFICO 2 (BARRAS): Metraje m² Total vs Comercializado por Manzanas -->
+      <div class="lg:col-span-7 dash-card p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="font-outfit text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <span>📊 Superficie (m²) por Manzanas (M-1, M-2 y M-3)</span>
+            </h2>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300">
+              Total vs. Comercializado
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
+            Comparativa de metros cuadrados totales, comercializados y disponibles en cada una de las 3 manzanas.
+          </p>
+        </div>
+
+        <div class="relative w-full h-[290px]">
+          <canvas id="chartManzanasBar"></canvas>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 pt-4 mt-2 border-t border-slate-100 dark:border-slate-800 text-center text-xs">
+          <div>
+            <span class="block font-bold text-slate-800 dark:text-slate-200">Manzana M-1</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400">9 Lotes | ~3,359.85 m²</span>
+          </div>
+          <div>
+            <span class="block font-bold text-slate-800 dark:text-slate-200">Manzana M-2</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400">13 Lotes | ~5,457.58 m²</span>
+          </div>
+          <div>
+            <span class="block font-bold text-slate-800 dark:text-slate-200">Manzana M-3</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400">5 Lotes | ~1,814.87 m²</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- 5. PANEL DE PARÁMETROS COMERCIALES EN VIVO -->
+    <!-- ====================================================================== -->
+    <div class="dash-card p-5 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div>
+          <h2 class="font-outfit text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <span>⚙️ Parámetros Comerciales y Tarifas Oficiales</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Ajusta la tarifa base por m² y el tipo de cambio oficial para recalcular todos los lotes en tiempo real.
+          </p>
+        </div>
+        <button 
+          type="button" 
+          onclick="applyPriceParameters()" 
+          class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all"
+        >
+          Aplicar y Recalcular Tablas
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+        <!-- Tarifa por m² USD -->
+        <div>
+          <label for="input-precio-m2" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Tarifa Base USD/m²
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-bold">$</span>
+            <input 
+              type="number" 
+              id="input-precio-m2" 
+              value="8.00" 
+              step="0.25" 
+              min="1" 
+              class="w-full pl-8 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+        </div>
+
+        <!-- Tipo de Cambio Bs -->
+        <div>
+          <label for="input-tipo-cambio" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Tipo de Cambio (Bs/USD)
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">Bs</span>
+            <input 
+              type="number" 
+              id="input-tipo-cambio" 
+              value="6.96" 
+              step="0.01" 
+              min="1" 
+              class="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+        </div>
+
+        <!-- Cuota Inicial Mínima Referencial -->
+        <div>
+          <label for="input-cuota-inicial-pct" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Cuota Inicial Mínima (%)
+          </label>
+          <div class="relative">
+            <input 
+              type="number" 
+              id="input-cuota-inicial-pct" 
+              value="20" 
+              step="1" 
+              min="5" 
+              max="100"
+              class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 text-xs font-bold">%</span>
+          </div>
+        </div>
+
+        <!-- Plazo Máximo de Financiamiento -->
+        <div>
+          <label for="input-plazo-meses" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
+            Plazo Crédito Directo
+          </label>
+          <select 
+            id="input-plazo-meses" 
+            class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          >
+            <option value="120" selected>120 Meses (10 Años)</option>
+            <option value="84">84 Meses (7 Años)</option>
+            <option value="60">60 Meses (5 Años)</option>
+            <option value="36">36 Meses (3 Años)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- 6. TABLA INTERACTIVA DE GESTIÓN DE LOS 27 LOTES -->
+    <!-- ====================================================================== -->
+    <div class="dash-card overflow-hidden">
+      
+      <!-- Controles de Filtros y Búsqueda -->
+      <div class="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-outfit text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <span>📋 Inventario Detallado de Lotes (27 Lotes)</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Haz clic en el estado de cualquier lote para cambiar entre <span class="text-emerald-600 font-bold">Disponible</span>, <span class="text-red-600 font-bold">Vendido</span> o <span class="text-amber-600 font-bold">Reservado</span>.
+          </p>
+        </div>
+
+        <!-- Buscador y Filtro por Manzana -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- Input Búsqueda -->
+          <div class="relative min-w-[200px] flex-1 sm:flex-initial">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </span>
+            <input 
+              type="text" 
+              id="search-lotes-input" 
+              placeholder="Buscar lote o manzana..." 
+              oninput="filterLotesTable()"
+              class="w-full pl-9 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+
+          <!-- Filtros de Pestañas Rápidas -->
+          <div class="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold">
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs" data-filter="all" onclick="setTableFilter('all', this)">Todos (27)</button>
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300" data-filter="M-1" onclick="setTableFilter('M-1', this)">M-1 (9)</button>
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300" data-filter="M-2" onclick="setTableFilter('M-2', this)">M-2 (13)</button>
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300" data-filter="M-3" onclick="setTableFilter('M-3', this)">M-3 (5)</button>
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg text-emerald-600 dark:text-emerald-400" data-filter="disponible" onclick="setTableFilter('disponible', this)">Disponibles</button>
+            <button type="button" class="tab-filter-btn px-2.5 py-1 rounded-lg text-red-600 dark:text-red-400" data-filter="ocupado" onclick="setTableFilter('ocupado', this)">Vendidos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla Responsive -->
+      <div class="overflow-x-auto">
+        <table class="dash-table w-full text-left border-collapse">
+          <thead>
+            <tr>
+              <th>ID Lote</th>
+              <th>Manzana</th>
+              <th>Lote N°</th>
+              <th>Superficie (m²)</th>
+              <th>Precio USD ($8/m²)</th>
+              <th>Precio en Bs (6.96)</th>
+              <th>Cuota Ref. (120m)</th>
+              <th>Estado Actual</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="lotes-table-body">
+            <!-- Rellenado dinámicamente con JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer de la Tabla con totales filtrados -->
+      <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-2">
+        <div>
+          Mostrando <span id="table-count-visible" class="font-bold text-slate-800 dark:text-white">27</span> lotes filtrados
+        </div>
+        <div class="flex items-center gap-4 font-mono">
+          <span>Superficie visible: <strong id="table-sum-m2" class="text-slate-800 dark:text-white">10,632.30 m²</strong></span>
+          <span>Valor total: <strong id="table-sum-usd" class="text-emerald-600 dark:text-emerald-400">$85,058.40 USD</strong></span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ====================================================================== -->
+  <!-- 7. NOTIFICACIÓN TOAST FLOTANTE -->
+  <!-- ====================================================================== -->
+  <div id="dash-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+    <span id="toast-icon">✅</span>
+    <span id="toast-message" class="text-xs sm:text-sm font-semibold">Cambios guardados con éxito</span>
+  </div>
+
+  <!-- ====================================================================== -->
+  <!-- 8. SCRIPTS DEL DASHBOARD (CHART.JS + LÓGICA DE GESTIÓN) -->
+  <!-- ====================================================================== -->
+  <script type="module">
+    import { LOTES_CALIBRADOS, AREAS_VERDES } from './js/lotes-data.js';
+
+    // 1. Estado Global de Datos y Configuración
+    let precioM2 = parseFloat(localStorage.getItem('berlin_precio_m2')) || 8.00;
+    let tipoCambio = parseFloat(localStorage.getItem('berlin_tc_bs')) || 6.96;
+    let currentFilter = 'all';
+
+    // Dataset en LocalStorage con el estado inicial exacto requerido (19 Vendidos / 8 Disponibles)
+    // En LOTES_CALIBRADOS oficial: M1 tiene 8 ocupados + 1 disp; M2 tiene 7 ocupados + 6 disp; M3 tiene 1 ocupado + 4 disp.
+    // Para tener 19 vendidos y 8 disponibles por defecto (o sincronizar con ediciones):
+    function getStoredLotes() {
+      const stored = localStorage.getItem('berlin_lotes_db');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {
+          console.error("Error al parsear lotes de localStorage", e);
+        }
+      }
+      // Si no existe, crear copia con 19 Vendidos / 8 Disponibles iniciales
+      const initial = JSON.parse(JSON.stringify(LOTES_CALIBRADOS));
+      // Aseguramos exactamente 19 ocupados / 8 disponibles si es primera carga
+      // M-1: L1-L8 ocupado, L9 disp (8 ocupados)
+      // M-2: L1-L3, L5-L8, L9, L10 ocupados (9 ocupados), L4, L11-L13 disp (4 disp)
+      // M-3: L1, L2 ocupados (2 ocupados), L3-L5 disp (3 disp) => 8 + 9 + 2 = 19 ocupados, 1 + 4 + 3 = 8 disponibles.
+      initial.forEach(l => {
+        if (["M1-L1","M1-L2","M1-L3","M1-L4","M1-L5","M1-L6","M1-L7","M1-L8",
+             "M2-L1","M2-L2","M2-L3","M2-L5","M2-L6","M2-L7","M2-L8","M2-L9","M2-L10",
+             "M3-L1","M3-L2"].includes(l.id)) {
+          l.estado = "ocupado";
+        } else {
+          l.estado = "disponible";
+        }
+      });
+      localStorage.setItem('berlin_lotes_db', JSON.stringify(initial));
+      return initial;
+    }
+
+    let lotesData = getStoredLotes();
+
+    // 2. Instancias de Chart.js
+    let doughnutChart = null;
+    let barChart = null;
+
+    // 3. Inicialización General
+    window.addEventListener('DOMContentLoaded', () => {
+      // Inputs comerciales
+      document.getElementById('input-precio-m2').value = precioM2.toFixed(2);
+      document.getElementById('input-tipo-cambio').value = tipoCambio.toFixed(2);
+
+      // Iniciar reloj
+      startClock();
+
+      // Renderizar tabla y gráficos
+      renderDashboard();
+
+      // Tema
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      applyTheme(savedTheme);
+    });
+
+    // 4. Reloj en vivo
+    function startClock() {
+      function update() {
+        const now = new Date();
+        const el = document.getElementById('live-time');
+        if (el) {
+          el.textContent = now.toLocaleTimeString('es-BO', { hour12: false });
+        }
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    // 5. Manejo del Tema
+    window.applyTheme = function(theme) {
+      const themeBtn = document.getElementById('theme-toggle');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark', 'dark-theme');
+        document.body.classList.add('dark', 'dark-theme');
+        if (themeBtn) themeBtn.textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark', 'dark-theme');
+        document.body.classList.remove('dark', 'dark-theme');
+        if (themeBtn) themeBtn.textContent = '🌙';
+      }
+      localStorage.setItem('theme', theme);
+
+      // Actualizar colores en los gráficos si ya existen
+      if (doughnutChart && barChart) {
+        updateChartTheme();
+      }
+    };
+
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark-theme');
+      window.applyTheme(isDark ? 'light' : 'dark');
+    });
+
+    // 6. Cerrar Sesión
+    window.handleLogout = function() {
+      if (confirm("¿Deseas cerrar la sesión del panel administrativo?")) {
+        localStorage.removeItem('berlin_admin_auth');
+        sessionStorage.removeItem('berlin_admin_auth');
+        window.location.href = 'login.html';
+      }
+    };
+
+    // 7. Notificación Toast
+    window.showToast = function(msg, icon = '✅') {
+      const toast = document.getElementById('dash-toast');
+      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-message').textContent = msg;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    };
+
+    // 8. Renderizar Todo el Dashboard
+    function renderDashboard() {
+      renderKPICards();
+      renderCharts();
+      renderTable();
+    }
+
+    // 9. Renderizar Métricas KPI
+    function renderKPICards() {
+      const totalLotes = lotesData.length;
+      const vendidos = lotesData.filter(l => l.estado === 'ocupado').length;
+      const disponibles = lotesData.filter(l => l.estado === 'disponible').length;
+      const reservados = lotesData.filter(l => l.estado === 'reservado').length;
+
+      const m2Total = lotesData.reduce((acc, l) => acc + l.sup, 0);
+      const m2Vendido = lotesData.filter(l => l.estado === 'ocupado').reduce((acc, l) => acc + l.sup, 0);
+      const m2Disp = lotesData.filter(l => l.estado === 'disponible').reduce((acc, l) => acc + l.sup, 0);
+
+      const usdTotal = m2Total * precioM2;
+      const bsTotal = usdTotal * tipoCambio;
+      const usdVendido = m2Vendido * precioM2;
+
+      // Actualizar DOM
+      document.getElementById('kpi-vendidos').textContent = vendidos;
+      document.getElementById('kpi-disponibles').textContent = disponibles;
+      document.getElementById('kpi-pct-vendidos').textContent = `${((vendidos/totalLotes)*100).toFixed(1)}% Comercializado (${vendidos} lotes)`;
+      document.getElementById('kpi-pct-disponibles').textContent = `${((disponibles/totalLotes)*100).toFixed(1)}% Disponible para venta (${disponibles} lotes)`;
+
+      document.getElementById('kpi-progress-vendidos').style.width = `${(vendidos/totalLotes)*100}%`;
+      document.getElementById('kpi-progress-disponibles').style.width = `${(disponibles/totalLotes)*100}%`;
+
+      document.getElementById('kpi-m2-total').textContent = m2Total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('kpi-m2-vendido-sub').textContent = `~${m2Vendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² comercializados`;
+      document.getElementById('kpi-m2-disp-sub').textContent = `~${m2Disp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m² en stock disponible`;
+
+      document.getElementById('kpi-usd-total').textContent = `$${usdTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('kpi-bs-total').textContent = `Bs. ${bsTotal.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (TC ${tipoCambio.toFixed(2)})`;
+      document.getElementById('kpi-usd-vendido-sub').innerHTML = `Recaudado estimado: <span class="font-bold text-emerald-600 dark:text-emerald-400">$${usdVendido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD</span>`;
+    }
+
+    // 10. GRÁFICOS CHART.JS
+    function renderCharts() {
+      renderDoughnutChart();
+      renderBarChart();
+    }
+
+    function updateChartTheme() {
+      const isDark = document.body.classList.contains('dark-theme');
+      const textColor = isDark ? '#cbd5e1' : '#475569';
+      const gridColor = isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(226, 232, 240, 0.8)';
+
+      if (doughnutChart) {
+        doughnutChart.options.plugins.legend.labels.color = textColor;
+        doughnutChart.update();
+      }
+
+      if (barChart) {
+        barChart.options.plugins.legend.labels.color = textColor;
+        barChart.options.scales.x.ticks.color = textColor;
+        barChart.options.scales.y.ticks.color = textColor;
+        barChart.options.scales.x.grid.color = gridColor;
+        barChart.options.scales.y.grid.color = gridColor;
+        barChart.update();
+      }
+    }
+
+    // Gráfico 1: Dona (Distribución de Estado de Lotes)
+    function renderDoughnutChart() {
+      const ctx = document.getElementById('chartLotesDoughnut').getContext('2d');
+      const isDark = document.body.classList.contains('dark-theme');
+
+      const vendidos = lotesData.filter(l => l.estado === 'ocupado').length;
+      const disponibles = lotesData.filter(l => l.estado === 'disponible').length;
+      const areasVerdes = 3;
+
+      const data = {
+        labels: [`Vendidos (${vendidos})`, `Disponibles (${disponibles})`, `Áreas Verdes (${areasVerdes})`],
+        datasets: [{
+          data: [vendidos, disponibles, areasVerdes],
+          backgroundColor: [
+            '#10b981', // Emerald (Vendidos)
+            '#f59e0b', // Amber (Disponibles)
+            '#06b6d4'  // Cyan (Áreas Verdes)
+          ],
+          borderColor: isDark ? '#111827' : '#ffffff',
+          borderWidth: 3,
+          hoverOffset: 8
+        }]
+      };
+
+      if (doughnutChart) {
+        doughnutChart.data = data;
+        doughnutChart.update();
+        return;
+      }
+
+      doughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '68%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: isDark ? '#cbd5e1' : '#475569',
+                font: { family: 'Outfit', size: 12, weight: 'bold' },
+                padding: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.raw || 0;
+                  const total = vendidos + disponibles + areasVerdes;
+                  const pct = ((val / total) * 100).toFixed(1);
+                  return ` ${context.label}: ${val} unidades (${pct}%)`;
+                }
+              }
+            }
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          }
+        }
+      });
+    }
+
+    // Gráfico 2: Barras (m² Total vs Comercializado por Manzanas)
+    function renderBarChart() {
+      const ctx = document.getElementById('chartManzanasBar').getContext('2d');
+      const isDark = document.body.classList.contains('dark-theme');
+
+      // Calcular m² por manzana
+      const manzanas = ['M-1', 'M-2', 'M-3'];
+      const m2Totales = [];
+      const m2Vendidos = [];
+      const m2Disponibles = [];
+
+      manzanas.forEach(mz => {
+        const lotesMz = lotesData.filter(l => l.mz === mz);
+        const tot = lotesMz.reduce((a, b) => a + b.sup, 0);
+        const ven = lotesMz.filter(l => l.estado === 'ocupado').reduce((a, b) => a + b.sup, 0);
+        const dis = lotesMz.filter(l => l.estado === 'disponible').reduce((a, b) => a + b.sup, 0);
+
+        m2Totales.push(parseFloat(tot.toFixed(2)));
+        m2Vendidos.push(parseFloat(ven.toFixed(2)));
+        m2Disponibles.push(parseFloat(dis.toFixed(2)));
+      });
+
+      const data = {
+        labels: ['Manzana M-1 (9 Lotes)', 'Manzana M-2 (13 Lotes)', 'Manzana M-3 (5 Lotes)'],
+        datasets: [
+          {
+            label: 'Metraje Total (m²)',
+            data: m2Totales,
+            backgroundColor: '#6366f1', // Indigo
+            borderRadius: 6,
+            maxBarThickness: 32
+          },
+          {
+            label: 'Metros Comercializados (m²)',
+            data: m2Vendidos,
+            backgroundColor: '#10b981', // Emerald
+            borderRadius: 6,
+            maxBarThickness: 32
+          },
+          {
+            label: 'Metros Disponibles (m²)',
+            data: m2Disponibles,
+            backgroundColor: '#f59e0b', // Amber
+            borderRadius: 6,
+            maxBarThickness: 32
+          }
+        ]
+      };
+
+      if (barChart) {
+        barChart.data = data;
+        barChart.update();
+        return;
+      }
+
+      barChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              grid: {
+                color: isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(226, 232, 240, 0.6)'
+              },
+              ticks: {
+                color: isDark ? '#cbd5e1' : '#475569',
+                font: { family: 'Outfit', weight: 'bold' }
+              }
+            },
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(226, 232, 240, 0.6)'
+              },
+              ticks: {
+                color: isDark ? '#cbd5e1' : '#475569',
+                callback: function(value) {
+                  return value + ' m²';
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#cbd5e1' : '#475569',
+                font: { family: 'Outfit', size: 11, weight: 'bold' },
+                padding: 12
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return ` ${context.dataset.label}: ${context.raw.toLocaleString('en-US')} m²`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // 11. Renderizado de la Tabla de Lotes
+    function renderTable() {
+      const tbody = document.getElementById('lotes-table-body');
+      const searchVal = document.getElementById('search-lotes-input')?.value.toLowerCase().trim() || '';
+      
+      let filtered = lotesData.filter(l => {
+        // Filtro por tab
+        if (currentFilter === 'M-1' && l.mz !== 'M-1') return false;
+        if (currentFilter === 'M-2' && l.mz !== 'M-2') return false;
+        if (currentFilter === 'M-3' && l.mz !== 'M-3') return false;
+        if (currentFilter === 'disponible' && l.estado !== 'disponible') return false;
+        if (currentFilter === 'ocupado' && l.estado !== 'ocupado') return false;
+
+        // Filtro por texto
+        if (searchVal) {
+          const matchId = l.id.toLowerCase().includes(searchVal);
+          const matchMz = l.mz.toLowerCase().includes(searchVal);
+          const matchLote = `lote ${l.lote}`.toLowerCase().includes(searchVal) || `${l.lote}` === searchVal;
+          const matchEstado = l.estado.toLowerCase().includes(searchVal);
+          return matchId || matchMz || matchLote || matchEstado;
+        }
+        return true;
+      });
+
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="text-center py-8 text-slate-400 font-medium">
+              No se encontraron lotes que coincidan con el criterio de búsqueda.
+            </td>
+          </tr>
+        `;
+        document.getElementById('table-count-visible').textContent = 0;
+        document.getElementById('table-sum-m2').textContent = '0.00 m²';
+        document.getElementById('table-sum-usd').textContent = '$0.00 USD';
+        return;
+      }
+
+      let sumM2 = 0;
+      let sumUsd = 0;
+
+      filtered.forEach(l => {
+        const precioUsd = l.sup * precioM2;
+        const precioBs = precioUsd * tipoCambio;
+        const cuota120 = (precioUsd * 0.8) / 120; // 80% financiado en 120 meses
+
+        sumM2 += l.sup;
+        sumUsd += precioUsd;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="font-mono font-bold text-slate-900 dark:text-white">
+            <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-xs">${l.id}</span>
+          </td>
+          <td class="font-extrabold text-slate-700 dark:text-slate-300">${l.mz}</td>
+          <td class="font-bold text-slate-800 dark:text-slate-200">Lote ${String(l.lote).padStart(2, '0')}</td>
+          <td class="font-mono font-bold text-slate-900 dark:text-white">${l.sup.toFixed(2)} m²</td>
+          <td class="font-mono font-black text-emerald-600 dark:text-emerald-400">$${precioUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td class="font-mono font-bold text-purple-600 dark:text-purple-400">Bs. ${precioBs.toLocaleString('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td class="font-mono text-xs text-orange-600 dark:text-orange-400 font-semibold">$${cuota120.toFixed(2)}/mes</td>
+          <td>
+            <select 
+              class="badge-status-select ${l.estado}" 
+              onchange="changeLotStatus('${l.id}', this.value)"
+            >
+              <option value="disponible" ${l.estado === 'disponible' ? 'selected' : ''}>🟢 Disponible</option>
+              <option value="ocupado" ${l.estado === 'ocupado' ? 'selected' : ''}>🔴 Vendido</option>
+              <option value="reservado" ${l.estado === 'reservado' ? 'selected' : ''}>🟡 Reservado</option>
+            </select>
+          </td>
+          <td class="text-right">
+            <div class="inline-flex items-center gap-1.5">
+              <a 
+                href="plano-berlin.html" 
+                target="_blank"
+                class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs transition-colors"
+                title="Ver en Plano Satelital"
+              >
+                🗺️
+              </a>
+              <a 
+                href="https://wa.me/59170832781?text=Hola%20Proyecto%20Berl%C3%ADn%2C%20informaci%C3%B3n%20administrativa%20del%20lote%20${l.id}%20(${l.sup}%20m2)"
+                target="_blank"
+                class="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-600 text-xs transition-colors"
+                title="Notificar por WhatsApp"
+              >
+                📲
+              </a>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Actualizar subtotales
+      document.getElementById('table-count-visible').textContent = filtered.length;
+      document.getElementById('table-sum-m2').textContent = `${sumM2.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`;
+      document.getElementById('table-sum-usd').textContent = `$${sumUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
+    }
+
+    // 12. Cambio de Estado de un Lote en Tiempo Real
+    window.changeLotStatus = function(loteId, newStatus) {
+      const lote = lotesData.find(l => l.id === loteId);
+      if (lote) {
+        lote.estado = newStatus;
+        localStorage.setItem('berlin_lotes_db', JSON.stringify(lotesData));
+        
+        // Re-renderizar KPI, gráficos y tabla
+        renderDashboard();
+        window.showToast(`Lote ${loteId} actualizado a: ${newStatus.toUpperCase()}`);
+      }
+    };
+
+    // 13. Filtros de la Tabla
+    window.setTableFilter = function(filter, btnEl) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab-filter-btn').forEach(b => {
+        b.classList.remove('bg-white', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white', 'shadow-xs');
+      });
+      if (btnEl) {
+        btnEl.classList.add('bg-white', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white', 'shadow-xs');
+      }
+      renderTable();
+    };
+
+    window.filterLotesTable = function() {
+      renderTable();
+    };
+
+    // 14. Aplicar Parámetros Comerciales (Precio y TC)
+    window.applyPriceParameters = function() {
+      const newPrice = parseFloat(document.getElementById('input-precio-m2').value);
+      const newTc = parseFloat(document.getElementById('input-tipo-cambio').value);
+
+      if (isNaN(newPrice) || newPrice <= 0 || isNaN(newTc) || newTc <= 0) {
+        alert("Por favor ingresa valores numéricos válidos.");
+        return;
+      }
+
+      precioM2 = newPrice;
+      tipoCambio = newTc;
+
+      localStorage.setItem('berlin_precio_m2', precioM2);
+      localStorage.setItem('berlin_tc_bs', tipoCambio);
+
+      renderDashboard();
+      window.showToast(`Parámetros actualizados: $${precioM2.toFixed(2)} USD/m² | TC Bs. ${tipoCambio.toFixed(2)}`);
+    };
+
+    // 15. Restablecer Datos de Fábrica
+    window.resetToDefaultData = function() {
+      if (confirm("¿Estás seguro de restablecer todos los lotes a su estado predeterminado oficial?")) {
+        localStorage.removeItem('berlin_lotes_db');
+        localStorage.removeItem('berlin_precio_m2');
+        localStorage.removeItem('berlin_tc_bs');
+
+        precioM2 = 8.00;
+        tipoCambio = 6.96;
+        document.getElementById('input-precio-m2').value = '8.00';
+        document.getElementById('input-tipo-cambio').value = '6.96';
+
+        lotesData = getStoredLotes();
+        renderDashboard();
+        window.showToast("Datos restablecidos a valores de fábrica", "🔄");
+      }
+    };
+
+    // 16. Exportación a CSV
+    window.exportToCSV = function() {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "ID Lote,Manzana,Numero Lote,Superficie m2,Precio USD,Precio Bs,Estado\n";
+
+      lotesData.forEach(l => {
+        const usd = (l.sup * precioM2).toFixed(2);
+        const bs = (l.sup * precioM2 * tipoCambio).toFixed(2);
+        csvContent += `${l.id},${l.mz},${l.lote},${l.sup},${usd},${bs},${l.estado}\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Proyecto_Berlin_Lotes_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.showToast("Archivo CSV exportado exitosamente", "📥");
+    };
+  </script>
+
+</body>
+</html>

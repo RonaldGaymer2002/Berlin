@@ -18,6 +18,7 @@
       "nav.proyectos": "Proyectos",
       "nav.planes": "Planes",
       "nav.contacto": "Contacto",
+      "nav.login": "Iniciar Sesión",
       "nav.volver": "Volver a Proyectos",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -96,6 +97,7 @@
       "nav.proyectos": "Projects",
       "nav.planes": "Plans",
       "nav.contacto": "Contact",
+      "nav.login": "Log In",
       "nav.volver": "Back to Projects",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -167,6 +169,7 @@
       "nav.proyectos": "Projetos",
       "nav.planes": "Planos",
       "nav.contacto": "Contato",
+      "nav.login": "Entrar",
       "nav.volver": "Voltar aos Projetos",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -238,6 +241,7 @@
       "nav.proyectos": "Projekte",
       "nav.planes": "Finanzierungspläne",
       "nav.contacto": "Kontakt",
+      "nav.login": "Anmelden",
       "nav.volver": "Zurück zu Projekten",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -309,6 +313,7 @@
       "nav.proyectos": "Progetti",
       "nav.planes": "Piani",
       "nav.contacto": "Contatti",
+      "nav.login": "Accedi",
       "nav.volver": "Torna ai Progetti",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -380,6 +385,7 @@
       "nav.proyectos": "项目",
       "nav.planes": "分期方案",
       "nav.contacto": "联系我们",
+      "nav.login": "登录",
       "nav.volver": "返回项目",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -451,6 +457,7 @@
       "nav.proyectos": "プロジェクト",
       "nav.planes": "購入プラン",
       "nav.contacto": "お問い合わせ",
+      "nav.login": "ログイン",
       "nav.volver": "プロジェクト一覧に戻る",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -522,6 +529,7 @@
       "nav.proyectos": "Проекты",
       "nav.planes": "Тарифы",
       "nav.contacto": "Контакты",
+      "nav.login": "Войти",
       "nav.volver": "Назад к проектам",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -593,6 +601,7 @@
       "nav.proyectos": "Ruwakuykuna",
       "nav.planes": "Wakiypakuna",
       "nav.contacto": "Tinkiy",
+      "nav.login": "Yaykuy",
       "nav.volver": "Kutimuy Ruwakuykunaman",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -664,6 +673,7 @@
       "nav.proyectos": "Mba'apo",
       "nav.planes": "Mba'eporã",
       "nav.contacto": "Jehero",
+      "nav.login": "Eike",
       "nav.volver": "Jey Mba'apope",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 
@@ -735,6 +745,7 @@
       "nav.proyectos": "Lurawinaka",
       "nav.planes": "Wakichawinaka",
       "nav.contacto": "Jikisisiña",
+      "nav.login": "Mantaña",
       "nav.volver": "Kutt'aña Lurawinakar",
       "nav.whatsapp": "WhatsApp (+591 70832781)",
 

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - Portal Administrativo | Proyecto Berlín</title>
+  <meta name="description" content="Portal de Acceso Administrativo y Comercial de Proyecto Berlín - Urbanización y Lotes en Hardeman, Santa Cruz." />
+  <link rel="icon" type="image/png" href="img/BERL%C3%8DN%20BANNER%20OFICIAL.png" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    /* Estilos específicos para la vista de Login */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
+                  #f8fafc;
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-theme {
+      background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+                  radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                  #0b0f19;
+      color: #f8fafc;
+    }
+
+    .login-glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.12),
+                  0 0 0 1px rgba(16, 185, 129, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .dark-theme .login-glass-card {
+      background: rgba(15, 23, 42, 0.82);
+      border-color: rgba(51, 65, 85, 0.8);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                  0 0 0 1px rgba(16, 185, 129, 0.15);
+    }
+
+    .input-field {
+      width: 100%;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: #0f172a;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .dark-theme .input-field {
+      background: #1e293b;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+
+    .input-field:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+    }
+
+    .shake-animation {
+      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+  </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- BARRA SUPERIOR DE NAVEGACIÓN Y UTILIDADES -->
+  <header class="w-full py-4 px-6 sm:px-10 flex items-center justify-between z-20">
+    <a href="index.html" class="inline-flex items-center gap-2 text-slate-700 dark:text-slate-200 font-bold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors text-sm sm:text-base">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      <span>Volver al Sitio Web</span>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <!-- Selector de Idiomas -->
+      <select id="lang-select" class="lang-select-compact bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <option value="es">🇪🇸 ES</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="pt">🇧🇷 PT</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="it">🇮🇹 IT</option>
+        <option value="zh">🇨🇳 ZH</option>
+        <option value="ja">🇯🇵 JA</option>
+        <option value="ru">🇷🇺 RU</option>
+        <option value="qu">🇧🇴 QU</option>
+        <option value="gn">🇧🇴 GN</option>
+        <option value="ay">🇧🇴 AY</option>
+      </select>
+
+      <!-- Botón Modo Oscuro/Claro -->
+      <button type="button" id="theme-toggle" class="w-9 h-9 rounded-full bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 flex items-center justify-center text-sm font-bold shadow-sm hover:scale-105 transition-transform" title="Cambiar Tema" aria-label="Cambiar Tema">
+        🌙
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO CENTRAL / TARJETA DE LOGIN -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 z-10">
+    <div id="login-card" class="login-glass-card w-full max-w-md p-8 sm:p-10 rounded-3xl relative overflow-hidden">
+      
+      <!-- Efecto de Luz Superior -->
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-amber-500"></div>
+
+      <!-- Cabecera del Formulario -->
+      <div class="text-center mb-8">
+        <a href="index.html" class="inline-block mb-4 transition-transform hover:scale-105">
+          <img src="img/BERL%C3%8DN%20BANNER%20OFICIAL.png" alt="Proyecto Berlín - Hardeman Santa Cruz" class="h-14 sm:h-16 w-auto mx-auto object-contain" />
+        </a>
+        <h1 class="font-outfit text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Portal Administrativo</h1>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Gestión de lotes, métricas y panel comercial</p>
+      </div>
+
+      <!-- Mensaje de Error / Alerta en pantalla -->
+      <div id="login-alert" class="hidden mb-6 p-4 rounded-xl text-sm font-semibold flex items-center gap-3 transition-all duration-300"></div>
+
+      <!-- Formulario de Autenticación -->
+      <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
+        <!-- Campo Usuario / Email -->
+        <div>
+          <label for="username" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Usuario o Correo</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              required 
+              placeholder="admin o admin@proyectoberlin.bo" 
+              class="input-field pl-11"
+              autocomplete="username"
+              autofocus
+            />
+          </div>
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Contraseña</label>
+            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold cursor-default">Acceso Seguro SSL</span>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              required 
+              placeholder="••••••••" 
+              class="input-field pl-11 pr-11"
+              autocomplete="current-password"
+            />
+            <button 
+              type="button" 
+              id="btn-toggle-pwd" 
+              onclick="togglePasswordVisibility()" 
+              class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+              title="Mostrar / Ocultar Contraseña"
+            >
+              <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recordar sesión -->
+        <div class="flex items-center justify-between text-xs sm:text-sm">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-slate-600 dark:text-slate-300 font-medium">
+            <input type="checkbox" id="remember-me" checked class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-600 dark:bg-slate-700" />
+            <span>Recordar sesión</span>
+          </label>
+          <span class="text-slate-400 text-xs">Rol: Administrador</span>
+        </div>
+
+        <!-- Botón Principal Iniciar Sesión -->
+        <button 
+          type="submit" 
+          id="btn-submit"
+          class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-outfit font-extrabold text-base tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+          </svg>
+          <span>INICIAR SESIÓN</span>
+        </button>
+
+        <!-- Divisor con texto -->
+        <div class="relative flex items-center justify-center my-4">
+          <div class="border-t border-slate-200 dark:border-slate-700 w-full"></div>
+          <span class="bg-white dark:bg-slate-900 px-3 text-[11px] uppercase tracking-wider text-slate-400 font-bold absolute">O opción rápida</span>
+        </div>
+
+        <!-- Botón Rápido Demo -->
+        <button 
+          type="button" 
+          onclick="fillDemoAndLogin()"
+          class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700"
+        >
+          <span>⚡ Acceso Rápido Administrador Demo (`admin` / `admin`)</span>
+        </button>
+      </form>
+
+      <!-- Ayuda y Credenciales de Referencia -->
+      <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
+        <p class="font-medium">Credenciales del sistema:</p>
+        <p class="mt-1 font-mono text-[11px] bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded-lg inline-block border border-slate-200 dark:border-slate-700">
+          Usuario: <strong class="text-emerald-700 dark:text-emerald-400">admin</strong> | Contraseña: <strong class="text-emerald-700 dark:text-emerald-400">admin</strong>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA SIMPLE -->
+  <footer class="py-4 text-center text-xs text-slate-400 dark:text-slate-500 z-10">
+    <p>© 2026 Proyecto Berlín. Santa Cruz - Bolivia. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- SCRIPTS DE AUTENTICACIÓN Y SISTEMA -->
+  <script src="js/i18n.js"></script>
+  <script>
+    // 1. Manejo del Tema Claro / Oscuro
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark', 'dark-theme');
+        document.body.classList.add('dark', 'dark-theme');
+        if (themeToggleBtn) themeToggleBtn.textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark', 'dark-theme');
+        document.body.classList.remove('dark', 'dark-theme');
+        if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
+      }
+      localStorage.setItem('theme', theme);
+    }
+    
+    applyTheme(savedTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-theme');
+        applyTheme(isDark ? 'light' : 'dark');
+      });
+    }
+
+    // 2. Manejo de Idiomas
+    const langSelect = document.getElementById('lang-select');
+    if (langSelect) {
+      const currentLang = localStorage.getItem('selectedLanguage') || 'es';
+      langSelect.value = currentLang;
+      langSelect.addEventListener('change', (e) => {
+        if (typeof window.changeLanguage === 'function') {
+          window.changeLanguage(e.target.value);
+        } else {
+          localStorage.setItem('selectedLanguage', e.target.value);
+        }
+      });
+    }
+
+    // 3. Mostrar / Ocultar Contraseña
+    function togglePasswordVisibility() {
+      const pwdInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eye-icon');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+        `;
+      } else {
+        pwdInput.type = 'password';
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        `;
+      }
+    }
+
+    // 4. Lógica de Autenticación Exacta
+    function handleLogin(event) {
+      if (event) event.preventDefault();
+
+      const userInput = document.getElementById('username').value.trim().toLowerCase();
+      const passInput = document.getElementById('password').value;
+      const alertBox = document.getElementById('login-alert');
+      const loginCard = document.getElementById('login-card');
+      const submitBtn = document.getElementById('btn-submit');
+
+      // Validación de credenciales: admin / admin o admin@proyectoberlin.bo / admin
+      const isValidUser = (userInput === 'admin' || userInput === 'admin@proyectoberlin.bo');
+      const isValidPass = (passInput === 'admin');
+
+      if (isValidUser && isValidPass) {
+        // Guardar sesión
+        const remember = document.getElementById('remember-me').checked;
+        const sessionPayload = {
+          user: 'admin',
+          nombre: 'Administrador Oficial',
+          email: 'admin@proyectoberlin.bo',
+          rol: 'SuperAdmin',
+          loginAt: new Date().toISOString()
+        };
+
+        if (remember) {
+          localStorage.setItem('berlin_admin_auth', 'true');
+          localStorage.setItem('berlin_admin_user', JSON.stringify(sessionPayload));
+        }
+        sessionStorage.setItem('berlin_admin_auth', 'true');
+        sessionStorage.setItem('berlin_admin_user', JSON.stringify(sessionPayload));
+
+        // Mostrar estado de éxito en el botón
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>Accediendo al panel...</span>
+        `;
+
+        // Mostrar alerta solicitada: "¡Bienvenido Administrador!"
+        alert("¡Bienvenido Administrador!");
+        
+        // Redirigir a dashboard.html
+        window.location.href = 'dashboard.html';
+      } else {
+        // Credenciales incorrectas
+        alertBox.className = "mb-6 p-4 rounded-xl text-sm font-semibold flex items-center gap-3 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50 block";
+        alertBox.innerHTML = `
+          <svg class="w-5 h-5 flex-shrink-0 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <div>
+            <p class="font-bold">Credenciales incorrectas</p>
+            <p class="text-xs font-normal mt-0.5">Ingresa usuario <strong>admin</strong> y contraseña <strong>admin</strong>.</p>
+          </div>
+        `;
+
+        // Animación de sacudida
+        loginCard.classList.remove('shake-animation');
+        void loginCard.offsetWidth; // Forzar reflow
+        loginCard.classList.add('shake-animation');
+      }
+    }
+
+    // 5. Función de Relleno Rápido Demo
+    function fillDemoAndLogin() {
+      document.getElementById('username').value = 'admin';
+      document.getElementById('password').value = 'admin';
+      handleLogin();
+    }
+
+    // 6. Si ya está autenticado, permitir acceso directo
+    if (localStorage.getItem('berlin_admin_auth') === 'true' || sessionStorage.getItem('berlin_admin_auth') === 'true') {
+      const alertBox = document.getElementById('login-alert');
+      if (alertBox) {
+        alertBox.className = "mb-6 p-4 rounded-xl text-sm font-semibold flex items-center justify-between gap-3 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 block";
+        alertBox.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span>✅ Tienes una sesión activa</span>
+          </div>
+          <a href="dashboard.html" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors">
+            Ir al Dashboard →
+          </a>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
