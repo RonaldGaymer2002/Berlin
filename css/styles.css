@@ -160,7 +160,7 @@ body.dark-theme {
   overflow: visible;
 }
 
-.logo-img, .navbar-brand img, .logo-container img {
+.logo-img, .nav-logo, .navbar-brand img, .logo-container img {
   height: 64px !important;
   max-height: 68px !important;
   width: auto !important;
@@ -251,7 +251,7 @@ body.dark-theme {
   }
 
   /* Logo mucho más grande y protagónico en celular */
-  .logo-img, .navbar-brand img, .logo-container img {
+  .logo-img, .nav-logo, .navbar-brand img, .logo-container img {
     height: 50px !important;
     max-height: 52px !important;
   }
@@ -289,7 +289,7 @@ body.dark-theme {
 }
 
 @media (max-width: 380px) {
-  .logo-img, .navbar-brand img, .logo-container img {
+  .logo-img, .nav-logo, .navbar-brand img, .logo-container img {
     height: 44px !important;
     max-height: 46px !important;
   }

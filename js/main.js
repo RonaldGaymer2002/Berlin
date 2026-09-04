@@ -14,7 +14,7 @@ if (window.location.hash) {
   window.scrollTo(0, 0);
   try {
     history.replaceState(null, null, window.location.pathname + window.location.search);
-  } catch (e) {}
+  } catch (e) { }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo(0, 0);
     try {
       history.replaceState(null, null, window.location.pathname + window.location.search);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // 1. Menú Móvil Responsive (Toggle)
